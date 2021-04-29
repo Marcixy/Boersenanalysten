@@ -6,9 +6,23 @@
 }
 
 .navigationbar h1 {
-    color: white;
     margin: 0;
     padding: 6px 0 0 20px;
+}
+
+.navigationbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.navigationbar ul li {
+    font-size: 18px;
+    margin-top: 16px; 
+    list-style: none;
+}
+
+.navigationbar ul li:hover {
+    font-size: 19px;
 }
 
 .register-and-login button {

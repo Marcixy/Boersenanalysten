@@ -1,18 +1,31 @@
 // material-ui imports
 import { Button } from '@material-ui/core';
 
+// third-party imports
+import { Link } from 'react-router-dom';
+
 import './Navigationbar.css';
 
 function Navigationbar() {
     return (
         <header className="navigationbar">
-            <h1>Börsenanalysten</h1>
+            <Link to="/">
+                <h1>Börsenanalysten</h1>
+            </Link>
             <nav>
-                <p>Beiträge</p>
+                <ul>
+                    <Link to="/articlelist">
+                        <li>Beiträge</li>
+                    </Link>
+                </ul>
             </nav>
             <div className="register-and-login">
-                <Button variant="contained" color="primary" size="small">Login</Button>
-                <Button variant="contained" color="primary" size="small">Registrieren</Button>
+                <Link to="/login">
+                    <Button variant="contained" color="primary" size="small">Login</Button>
+                </Link>
+                <Link to='/register'>
+                    <Button variant="contained" color="primary" size="small">Registrieren</Button>
+                </Link>
             </div>
         </header>
     )
