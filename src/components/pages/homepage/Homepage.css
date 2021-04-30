@@ -1,0 +1,57 @@
+.overview {
+    background-color: #212121;
+    height: 100vh;
+}
+
+.overview h2 {
+    color: white;
+    font-size: 3.5rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.overview h3 {
+    color: white;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+.features {
+    align-items: center;
+    background-color: #ffffff;
+    display: flex;
+    height: 100vh;
+}
+
+.features h3 {
+    color: black;
+}
+
+.features p {
+    text-align: justify;
+}
+
+.features img {
+    height: 250px;
+    width: 250px;
+}
+
+.feature-1 {
+    flex: 1;
+    margin: 0 50px 0 120px;
+}
+
+.feature-2 {
+    flex: 1;
+    margin: 0 50px 0 50px;
+}
+
+.feature-3 {
+    flex: 1;
+    margin: 0 120px 0 50px;
+}
+
+.finance-community {
+    background-color: #212121;
+    height: 100vh;
+}

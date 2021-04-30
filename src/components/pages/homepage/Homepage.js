@@ -1,7 +1,43 @@
+import './Homepage.css';
+
+// image imports
+import financeCommunityImg from '../../../assets/images/finance-community.svg';
+import questionImg from '../../../assets/images/questions.svg';
+import scoreImg from '../../../assets/images/score.svg';
+
 function Homepage() {
     return (
-        <div>
-            <h2>Homepage</h2>
+        <div className="homepage">
+            <div className="overview">
+                <h2>Börsenanalysten</h2>
+                <h3>Von Investoren für Investoren</h3>
+            </div>
+            <div className="features">
+                <div className="feature-1">
+                    <img src={financeCommunityImg} alt="Finanz Community" />
+                    <h3>Finanz-Community</h3>
+                    <p>Tausche dich mit anderen aus der Finanz-Community aus.</p>
+                </div>
+                <div className="feature-2">
+                    <img src={questionImg} alt="Fragen und Antworten" />
+                    <h3>Fragen & Antworten</h3>
+                    <p>
+                    Du hast Fragen zu Finanzen, Vermögensaufbau, Börse, Aktien, ... .
+                    Dann stelle deine Frage im Forum oder helfe anderen mit deinen Antworten.
+                    </p>
+                </div>
+                <div className="feature-3">
+                    <img src={scoreImg} alt="Punkte sammeln" />
+                    <h3>Punkte sammeln</h3>
+                    <p>
+                    Wenn andere Mitglieder deine Fragen oder Antworten hilfreich finden bekommst du Punkte
+                    du selbst kannst anderen Mitglieder auch Punkte vergeben für gute Beiträge.
+                    </p>
+                </div>
+            </div>
+            <div className="finance-community">
+
+            </div>
         </div>
     )
 }
