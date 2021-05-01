@@ -1,7 +1,8 @@
 // own component imports
-import Navigationbar from './components/navigationbar/Navigationbar';
 import Articlelist from './components/pages/articlelist/Articlelist';
+import Footer from './components/footer/Footer';
 import Homepage from './components/pages/homepage/Homepage';
+import Navigationbar from './components/navigationbar/Navigationbar';
 import Register from './components/pages/register/Register';
 import Login from './components/pages/login/Login';
 
@@ -18,6 +19,7 @@ function App() {
       <Route exact path="/login" component={ Login } />
       <Route exact path="/register" component={ Register } />
       <Route exact path="/articlelist" component={ Articlelist } />
+      <Footer />
     </div>
   );
 }

@@ -54,13 +54,13 @@ function Homepage() {
                 </div>
             </div>
             <div className="finance-community">
-                <h2>Werde Teil der Finanz Community.</h2>
+                <h2>Werde ein Teil der Finanz Community.</h2>
                 <div className="finance-community-buttons">
-                    <Link to="/login">
-                        <Button variant="contained" color="primary" size="large">Login</Button>
-                    </Link>
                     <Link to='/register'>
                         <Button variant="contained" color="primary" size="large">Registrieren</Button>
+                    </Link>
+                    <Link to="/login">
+                        <Button variant="contained" color="primary" size="large">Login</Button>
                     </Link>
                 </div>
             </div>

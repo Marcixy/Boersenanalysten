@@ -1,0 +1,27 @@
+.footer {
+    background-color: #333333;
+    box-shadow: 3px 3px 15px black;
+    height: 115px;
+}
+
+.footer ul {
+    display: flex;
+    justify-content: center;
+}
+
+.footer ul li {
+    color: white;
+    margin: 30px 16px 0 0; 
+    list-style: none;
+}
+
+.footer ul li:hover {
+    cursor: pointer;
+    font-size: 1.05rem;
+}
+
+.footer p {
+    display: flex;
+    color: white;
+    justify-content: center;
+}
