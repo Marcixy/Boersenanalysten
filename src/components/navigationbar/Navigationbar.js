@@ -19,7 +19,7 @@ function Navigationbar() {
                     </Link>
                 </ul>
             </nav>
-            <div className="register-and-login">
+            <div className="register-and-login-buttons">
                 <Link to="/login">
                     <Button variant="contained" color="primary" size="small">Login</Button>
                 </Link>

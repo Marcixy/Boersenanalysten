@@ -1,5 +1,6 @@
 .navigationbar {
     background-color: #333333;
+    box-shadow: 3px 3px 15px black;
     display: flex;
     height: 60px;
     justify-content: space-between;
@@ -25,6 +26,6 @@
     font-size: 1.2rem;
 }
 
-.register-and-login button {
+.register-and-login-buttons button {
     margin: 14px 18px 0 0;
 }
