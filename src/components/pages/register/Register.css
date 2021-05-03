@@ -1,3 +1,44 @@
 .register-page {
+    color: white;
     height: 100vh;
+}
+
+.register-form {
+    box-shadow: 5px 5px 25px black;
+    display: flex;
+    flex-direction: column;
+    margin: 130px auto 0 auto;
+    padding: 32px;
+    width: 370px;
+}
+
+.register-form h2 {
+    font-size: 1.8rem;
+    margin-top: 10px;
+}
+
+.register-form input {
+    color: white;
+    padding-top: 24px;
+}
+
+.register-form label {
+    color: white;
+    padding-top: 16px;
+}
+
+.register-form button {
+    margin-top: 40px;
+}
+
+.register-form a {
+    color: white;
+    margin-top: 16px;
+    padding-left: auto;
+    text-align: end;
+    text-decoration: none;
+}
+
+.register-form a:hover {
+    font-size: 1.05rem;
 }
