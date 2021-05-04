@@ -1,3 +1,44 @@
 .login-page {
+    color: white;
     height: 100vh;
+}
+
+.login-form {
+    box-shadow: 5px 5px 25px black;
+    display: flex;
+    flex-direction: column;
+    margin: 140px auto 0 auto;
+    padding: 32px;
+    width: 370px;
+}
+
+.login-form h2 {
+    font-size: 1.8rem;
+    margin-top: 10px;
+}
+
+.login-form input {
+    color: white;
+    padding-top: 24px;
+}
+
+.login-form label {
+    color: white;
+    padding-top: 16px;
+}
+
+.login-form button {
+    margin-top: 40px;
+}
+
+.login-form a {
+    color: white;
+    margin-top: 16px;
+    padding-left: auto;
+    text-align: end;
+    text-decoration: none;
+}
+
+.login-form a:hover {
+    font-size: 1.05rem;
 }
