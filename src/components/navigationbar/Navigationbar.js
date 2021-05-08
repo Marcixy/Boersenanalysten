@@ -3,6 +3,7 @@ import { Button } from '@material-ui/core';
 
 // third-party imports
 import { Link } from 'react-router-dom';
+import firebaseConfig from '../../firebase/Config';
 
 import './Navigationbar.css';
 
