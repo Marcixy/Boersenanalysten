@@ -9,7 +9,6 @@ import {
 // third-party imports
 import { Link } from 'react-router-dom';
 import firebase from 'firebase/app';
-import 'firebase/auth';
 
 import './Register.css';
 
@@ -19,23 +18,26 @@ function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    // Errors für Registrierung
+    // Errortext für Registrierung
     const [emailErrorText, setEmailErrorText] = useState("");
     const [usernameErrorText, setUsernameErrorText] = useState("");
     const [passwordErrorText, setPasswordErrorText] = useState("");
 
+    // Error Farbe für Registrierung
     const [emailError, setEmailError] = useState(false);
     const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
     const registerUser = () =>  {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((user) => {
-                setEmailError(false);
-                setPasswordError(false);
-                setEmailErrorText("");
-                setPasswordErrorText("");
+        const isEmailValid = checkEmail();
+        const isUsernameValid = checkUsername();
+        const isPasswordValid = checkPassword(); 
+        if (isEmailValid === true && isUsernameValid === true && isPasswordValid === true) {
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                // TODO zur Artikelliste weiterleiten
             }).catch((error) => {
+                console.log(error.code);
                 switch(error.code) {
                     case "auth/email-already-in-use":
                         setEmailError(true);
@@ -45,13 +47,53 @@ function Register() {
                         setEmailError(true);
                         setEmailErrorText("E-Mail Adresse ist nicht gültig.");
                         break;
-                    case "auth/invalid-password":
+                    case "auth/weak-password":
                         setPasswordError(true);
-                        setPasswordErrorText("Passwort muss mindestens 6 Zeichen enthalten.");
+                        setPasswordErrorText("Passwort muss mindestens 6 Zeichen lang sein.");
                         break;
                     default:
+                        setEmailError(true);
+                        setEmailErrorText("Unbekannter Fehler bei Registrierung ist aufgetreten.");
                 }
             });
+        }
+    }
+
+    const checkEmail = () => {
+        if (email === "") {
+            setEmailError(true);
+            setEmailErrorText("Bitte gib deine E-Mail Adresse ein.");
+            return false;
+        }
+        setEmailError(false);
+        setEmailErrorText("");
+        return true;
+    }
+
+    const checkUsername = () => {
+        if (username === "") {
+            setUsernameError(true);
+            setUsernameErrorText("Bitte gib einen Benutzername ein.");
+            return false;
+        } else if (username.length < 5) {
+            setUsernameError(true);
+            setUsernameErrorText("Der Benutzername muss mindestens 5 Zeichen lang sein.");
+            return false;
+        }
+        setUsernameError(false);
+        setUsernameErrorText("");
+        return true;
+    }
+
+    const checkPassword = () => {
+        if (password === "") {
+            setPasswordError(true);
+            setPasswordErrorText("Bitte gib ein Passwort ein.");
+            return false;
+        }
+        setPasswordError(false);
+        setPasswordErrorText("");
+        return true;
     }
 
     return (
@@ -63,16 +105,21 @@ function Register() {
                     type="email"
                     error={emailError}
                     helperText={emailErrorText}
+                    inputProps={{ maxLength: 50 }}
                     onChange={(event) => setEmail(event.target.value)}
                     autoFocus />
                 <TextField
                     label="Benutzername"
+                    error={usernameError}
+                    helperText={usernameErrorText}
+                    inputProps={{ maxLength: 30 }}
                     onChange={(event) => setUsername(event.target.value)} />
                 <TextField
                     label="Passwort"
                     type="password"
                     error={passwordError}
                     helperText={passwordErrorText}
+                    inputProps={{ maxLength: 40 }}
                     onChange={(event) => setPassword(event.target.value)} />
                 <Button
                     variant="contained"
