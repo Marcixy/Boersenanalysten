@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 
 // third-party imports
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
 
 import './Register.css';
@@ -28,16 +28,17 @@ function Register() {
     const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
+    const toArticlelist = useHistory();
+
     const registerUser = () =>  {
         const isEmailValid = checkEmail();
         const isUsernameValid = checkUsername();
-        const isPasswordValid = checkPassword(); 
+        const isPasswordValid = checkPassword();
         if (isEmailValid === true && isUsernameValid === true && isPasswordValid === true) {
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
-                // TODO zur Artikelliste weiterleiten
+                toArticlelist.push("/articlelist");
             }).catch((error) => {
-                console.log(error.code);
                 switch(error.code) {
                     case "auth/email-already-in-use":
                         setEmailError(true);
