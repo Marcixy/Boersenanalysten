@@ -27,5 +27,10 @@
 }
 
 .right-navigationbar button {
+    color: white;
     margin: 14px 18px 0 0;
+}
+
+.right-navigationbar button:hover {
+    color: #3f51b5;
 }

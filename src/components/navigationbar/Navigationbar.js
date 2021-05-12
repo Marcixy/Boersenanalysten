@@ -1,10 +1,16 @@
 // material-ui imports
-import { Button } from '@material-ui/core';
+import { Button, IconButton } from '@material-ui/core';
 
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
 import firebaseConfig from '../../firebase/Config';
+
+// material-ui icon imports
+import PersonIcon from '@material-ui/icons/Person';
+import MessageIcon from '@material-ui/icons/Message';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import './Navigationbar.css';
 
@@ -25,7 +31,10 @@ function Navigationbar() {
     if (user !== null) {
         RightNavigationbar = (
             <div className="right-navigationbar">
-                <Button variant="contained" color="primary" size="small" onClick={() => signOut()}>Logout</Button>
+                <IconButton variant="contained" color="primary" size="small"><PersonIcon /></IconButton>
+                <IconButton variant="contained" color="primary" size="small"><MessageIcon /></IconButton>
+                <IconButton variant="contained" color="primary" size="small"><LiveHelpIcon /></IconButton>
+                <IconButton variant="contained" color="primary" size="small" onClick={() => signOut()}><ExitToAppIcon /></IconButton>
             </div>
         )
     } else {
