@@ -8,6 +8,7 @@ import Login from './components/pages/login/Login';
 import LegalNotice from './components/footer/legalNotice/LegalNotice';
 import PrivacyPolicy from './components/footer/privacyPolicy/PrivacyPolicy';
 import TermsOfUse from './components/footer/termsOfUse/TermsOfUse';
+import Userprofile from './components/pages/userprofile/Userprofile';
 
 // third-party imports
 import { Route } from 'react-router-dom';
@@ -21,6 +22,7 @@ function App() {
       <Route exact path="/" component={ Homepage } />
       <Route exact path="/login" component={ Login } />
       <Route exact path="/register" component={ Register } />
+      <Route exact path="/userprofile" component={ Userprofile } />
       <Route exact path="/articlelist" component={ Articlelist } />
       <Route exact path="/legalNotice" component={ LegalNotice } />
       <Route exact path="/privacyPolicy" component={ PrivacyPolicy } />

@@ -1,10 +1,15 @@
-// material-ui imports
-import { Button, IconButton } from '@material-ui/core';
+import React, { useState } from 'react';
 
-// third-party imports
-import { Link, useHistory } from 'react-router-dom';
-import firebase from 'firebase/app';
-import firebaseConfig from '../../firebase/Config';
+// material-ui imports
+import { 
+    Button,
+    IconButton,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+} from '@material-ui/core';
 
 // material-ui icon imports
 import PersonIcon from '@material-ui/icons/Person';
@@ -12,9 +17,24 @@ import MessageIcon from '@material-ui/icons/Message';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+// third-party imports
+import { Link, useHistory } from 'react-router-dom';
+import firebase from 'firebase/app';
+import firebaseConfig from '../../firebase/Config';
+
 import './Navigationbar.css';
 
 function Navigationbar() {
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    const handleOpenDialog = () => {
+        setDialogOpen(true);
+    };
+    
+    const handleCloseDialog = () => {
+        setDialogOpen(false);
+    };
+
     const user = firebase.auth().currentUser;
     const toHomepage = useHistory();
 
@@ -31,10 +51,13 @@ function Navigationbar() {
     if (user !== null) {
         RightNavigationbar = (
             <div className="right-navigationbar">
-                <IconButton variant="contained" color="primary" size="small"><PersonIcon /></IconButton>
-                <IconButton variant="contained" color="primary" size="small"><MessageIcon /></IconButton>
-                <IconButton variant="contained" color="primary" size="small"><LiveHelpIcon /></IconButton>
-                <IconButton variant="contained" color="primary" size="small" onClick={() => signOut()}><ExitToAppIcon /></IconButton>
+                <Link to="/userprofile">
+                    <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
+                </Link>
+                <IconButton variant="contained" size="small"><MessageIcon /></IconButton>
+                <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
+                <IconButton variant="contained" size="small" onClick={() => handleOpenDialog()}><ExitToAppIcon /></IconButton>
+                
             </div>
         )
     } else {
