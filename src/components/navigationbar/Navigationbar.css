@@ -26,11 +26,19 @@
     font-size: 1.2rem;
 }
 
-.right-navigationbar button {
+.user-right-navigationbar a {
+    color: white;
+}
+
+.user-right-navigationbar button {
+    margin: 14px 18px 0 0;
+}
+
+.visitor-right-navigationbar button {
     color: white;
     margin: 14px 18px 0 0;
 }
 
-.right-navigationbar button:hover {
+.visitor-right-navigationbar button:hover {
     color: #3f51b5;
 }

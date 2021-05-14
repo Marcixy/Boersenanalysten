@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // material-ui imports
 import { 
@@ -10,20 +10,12 @@ import {
     DialogActions,
 } from '@material-ui/core';
 
-
-function YesNoDialog() {
-    const [dialogOpen, setDialogOpen] = useState(false);
-
-    const handleOpenDialog = () => {
-        setDialogOpen(true);
-    };
-    
-    const handleCloseDialog = () => {
-        setDialogOpen(false);
-    };
-
+function ChoiceDialog(props) {
     return (
-        <Dialog open={dialogOpen} keepMounted onClose={handleCloseDialog}>
+        <Dialog 
+            open={props.dialogOpen}
+            keepMounted
+            onClose={props.handleCloseDialog}>
             <DialogTitle>Ausloggen?</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -31,10 +23,10 @@ function YesNoDialog() {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={signOut} color="primary">
+                <Button onClick={props.signOut} color="primary">
                     Ja
                 </Button>
-                <Button onClick={handleCloseDialog} color="primary">
+                <Button onClick={props.handleCloseDialog} color="primary">
                     Nein
                 </Button>
                 </DialogActions>
@@ -42,4 +34,4 @@ function YesNoDialog() {
     )
 }
 
-export default YesNoDialog;
+export default ChoiceDialog;

@@ -4,11 +4,6 @@ import React, { useState } from 'react';
 import { 
     Button,
     IconButton,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
 } from '@material-ui/core';
 
 // material-ui icon imports
@@ -23,9 +18,10 @@ import firebase from 'firebase/app';
 import firebaseConfig from '../../firebase/Config';
 
 import './Navigationbar.css';
+import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
 
 function Navigationbar() {
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [openDialog, setDialogOpen] = useState(false);
 
     const handleOpenDialog = () => {
         setDialogOpen(true);
@@ -41,6 +37,7 @@ function Navigationbar() {
     const signOut = () => {
         firebase.auth().signOut().then(function() {
             toHomepage.push("/");
+            setDialogOpen(false);
             console.log("Benutzer wurde erfolgreich ausgeloggt.");
         }, function(error) {
             console.error("Fehler beim Logout. ", error);
@@ -50,19 +47,22 @@ function Navigationbar() {
     let RightNavigationbar;
     if (user !== null) {
         RightNavigationbar = (
-            <div className="right-navigationbar">
+            <div className="visitor-right-navigationbar">
                 <Link to="/userprofile">
                     <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
                 </Link>
                 <IconButton variant="contained" size="small"><MessageIcon /></IconButton>
                 <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
                 <IconButton variant="contained" size="small" onClick={() => handleOpenDialog()}><ExitToAppIcon /></IconButton>
-                
+                <ChoiceDialog 
+                    dialogOpen={openDialog}
+                    handleCloseDialog={handleCloseDialog}
+                    signOut={signOut} />
             </div>
         )
     } else {
         RightNavigationbar = (
-            <div className="right-navigationbar">
+            <div className="user-right-navigationbar">
                 <Link to="/login">
                     <Button variant="contained" color="primary" size="small">Login</Button>
                 </Link>
