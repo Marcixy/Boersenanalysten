@@ -1,8 +1,10 @@
 // own component imports
 import Articlelist from './components/pages/articlelist/Articlelist';
 import Footer from './components/footer/Footer';
+import Help from './components/pages/help/Help';
 import Homepage from './components/pages/homepage/Homepage';
 import Navigationbar from './components/navigationbar/Navigationbar';
+import Message from './components/pages/message/Message';
 import Register from './components/pages/register/Register';
 import Login from './components/pages/login/Login';
 import LegalNotice from './components/footer/legalNotice/LegalNotice';
@@ -27,6 +29,8 @@ function App() {
       <Route exact path="/legalNotice" component={ LegalNotice } />
       <Route exact path="/privacyPolicy" component={ PrivacyPolicy } />
       <Route exact path="/termsOfUse" component={ TermsOfUse } />
+      <Route exact path="/help" component={ Help } />
+      <Route exact path="/message" component={ Message } />
       <Footer />
     </div>
   );

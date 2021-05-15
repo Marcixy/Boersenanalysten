@@ -12,24 +12,30 @@ import {
 
 function ChoiceDialog(props) {
     return (
-        <Dialog 
-            open={props.dialogOpen}
+        <Dialog
+            PaperProps={{
+                style: {
+                    backgroundColor: '#212121',
+                    color: 'white',
+                },
+            }}
             keepMounted
+            open={props.dialogOpen}
             onClose={props.handleCloseDialog}>
             <DialogTitle>Ausloggen?</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    Wollen Sie sich wirklich ausloggen?
+                <DialogContentText style={{color: 'white'}}>
+                    {props.content}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.signOut} color="primary">
+                <Button onClick={props.onYesButton} color="primary">
                     Ja
                 </Button>
-                <Button onClick={props.handleCloseDialog} color="primary">
+                <Button onClick={props.onNoButton} color="primary">
                     Nein
                 </Button>
-                </DialogActions>
+            </DialogActions>
         </Dialog>
     )
 }

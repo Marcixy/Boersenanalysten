@@ -51,13 +51,19 @@ function Navigationbar() {
                 <Link to="/userprofile">
                     <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
                 </Link>
-                <IconButton variant="contained" size="small"><MessageIcon /></IconButton>
-                <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
+                <Link to="/message">
+                    <IconButton variant="contained" size="small"><MessageIcon /></IconButton>
+                </Link>
+                <Link to="/help">
+                    <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
+                </Link>
                 <IconButton variant="contained" size="small" onClick={() => handleOpenDialog()}><ExitToAppIcon /></IconButton>
                 <ChoiceDialog 
-                    dialogOpen={openDialog}
-                    handleCloseDialog={handleCloseDialog}
-                    signOut={signOut} />
+                    dialogOpen={ openDialog }
+                    handleCloseDialog={ handleCloseDialog }
+                    content="Wollen Sie sich wirklich ausloggen?"
+                    onYesButton={ signOut }
+                    onNoButton={ handleCloseDialog } />
             </div>
         )
     } else {
