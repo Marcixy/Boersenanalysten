@@ -15,7 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
-import firebaseConfig from '../../firebase/Config';
+import firebaseConfig from '../../server/firebase/Config';
 
 import './Navigationbar.css';
 import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
