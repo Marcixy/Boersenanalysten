@@ -9,6 +9,7 @@ import {
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
+import axios from 'axios';
 
 import './Register.css';
 
@@ -37,6 +38,20 @@ function Register() {
         if (isEmailValid === true && isUsernameValid === true && isPasswordValid === true) {
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
+                // TODO
+                console.log(email);
+                axios({
+                    url: '/register',
+                    method: 'post',
+                    data: {
+                        usernamee: 'Marci',
+                        emailAddress: 'Test@web.de'
+                    }
+                }).then(() => {
+                    console.log("Daten wurden erfolgreich gesendet.");
+                }).catch(() => {
+                    console.log("Daten wurden nicht gesendet.");
+                });
                 toArticlelist.push("/articlelist");
             }).catch((error) => {
                 switch(error.code) {
