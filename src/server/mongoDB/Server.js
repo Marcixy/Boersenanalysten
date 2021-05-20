@@ -2,15 +2,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const MONGODB_URL = "mongodb+srv://admin:O7dsTH6x6KOIdw1F@boersenanalystencluster.ie2ek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const MONGODB_URL = "mongodb+srv://admin:O7dsTH6x6KOIdw1F@boersenanalystencluster.ie2ek.mongodb.net/boersenanalystenDB?retryWrites=true&w=majority";
 
 const routes = require('./routes/api');
 
+app.use(cors());
 // HTTP request logger
 app.use(morgan('tiny'));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Routes must declared finally
 app.use('/', routes);
 
 app.listen(PORT, function () {
@@ -18,7 +25,7 @@ app.listen(PORT, function () {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).then(() => {
-            console.log(`Server started successfully on port ${PORT}.`);
+            console.log(`Server started successfully on port ${PORT}`);
         }).catch((error) => {
             console.log(`DB error: ${error.message}`);
         });
@@ -27,12 +34,3 @@ app.listen(PORT, function () {
 mongoose.connection.on('connected', () => {
     console.log("Mongoose is successfully connected.");
 })
-
-/*const newUser = new User(data);
-newUser.save((error) => {
-    if (error) {
-        console.log("Benutzer konnte nicht erstellt werden.");
-    } else {
-        console.log("Benutzer wurde erfolgreich erstellt.");
-    }
-});*/

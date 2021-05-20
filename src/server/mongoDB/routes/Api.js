@@ -6,16 +6,14 @@ const User = require('../models/User');
 
 // Routes
 router.post('/register', (req, res) => {
-    console.log("Benutzerdaten: ", req.body);
-    const data = req.body;
-    const newUser = User(data);
+    console.log("Userdata: ", req.body);
+    const userData = req.body;
+    const newUser = User(userData);
     newUser.save((error) => {
         if (error) {
-            res.status(500).json({ msg: "Sorry, internal server error" });
+            res.status(500).json({ msg: "Internal server error" });
         } else {
-            res.json({
-                msg: "Benutzer wurde erfolgreich registriert."
-            });
+            res.json({ msg: "User successfully write to MongoDB" });
         }
     });
 });

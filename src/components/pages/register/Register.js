@@ -38,19 +38,18 @@ function Register() {
         if (isEmailValid === true && isUsernameValid === true && isPasswordValid === true) {
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
-                // TODO
-                console.log(email);
                 axios({
                     url: '/register',
                     method: 'post',
                     data: {
-                        usernamee: 'Marci',
-                        emailAddress: 'Test@web.de'
+                        email: email,
+                        username: username,
+                        shareCounter: 0
                     }
                 }).then(() => {
-                    console.log("Daten wurden erfolgreich gesendet.");
-                }).catch(() => {
-                    console.log("Daten wurden nicht gesendet.");
+                    console.log("User successfully registered");
+                }).catch((error) => {
+                    console.error("User are not successfully registered: ", error);
                 });
                 toArticlelist.push("/articlelist");
             }).catch((error) => {
