@@ -1,5 +1,6 @@
 // own component imports
 import Articlelist from './components/pages/articlelist/Articlelist';
+import CreateArticle from './components/pages/createArticle/CreateArticle';
 import Footer from './components/footer/Footer';
 import Help from './components/pages/help/Help';
 import Homepage from './components/pages/homepage/Homepage';
@@ -31,6 +32,7 @@ function App() {
       <Route exact path="/termsOfUse" component={ TermsOfUse } />
       <Route exact path="/help" component={ Help } />
       <Route exact path="/message" component={ Message } />
+      <Route exact path="/createArticle" component= { CreateArticle } />
       <Footer />
     </div>
   );

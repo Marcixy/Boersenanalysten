@@ -8,7 +8,8 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL = "mongodb+srv://admin:O7dsTH6x6KOIdw1F@boersenanalystencluster.ie2ek.mongodb.net/boersenanalystenDB?retryWrites=true&w=majority";
 
-const routes = require('./routes/api');
+const userRoute = require('./routes/UserRoute');
+const articleRoute = require('./routes/ArticleRoute');
 
 app.use(cors());
 // HTTP request logger
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes must declared finally
-app.use('/', routes);
+app.use('/UserRoute', userRoute);
+app.use('/ArticleRoute', articleRoute);
 
 app.listen(PORT, function () {
     require('mongoose').connect(MONGODB_URL, { 
