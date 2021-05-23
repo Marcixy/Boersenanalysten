@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+// own component imports
+import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
+import firebaseConfig from '../../server/firebase/Config';
+
 // material-ui imports
 import { 
     Button,
@@ -15,10 +19,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
-import firebaseConfig from '../../server/firebase/Config';
 
 import './Navigationbar.css';
-import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
 
 function Navigationbar() {
     const [openDialog, setDialogOpen] = useState(false);

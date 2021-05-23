@@ -1,0 +1,6 @@
+.editor-menuebar button {
+    background-color: #3f51b5;
+    border: none;
+    border-right: 1px solid black;
+    color: white;
+}

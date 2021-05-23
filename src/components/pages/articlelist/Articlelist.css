@@ -1,3 +1,20 @@
 .articlelist-page {
     height: 100vh;
+    margin: 50px auto 0 auto;
+    width: 50%;
+}
+
+.articlelist-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.articlelist-header h2 {
+    color: white;
+    font-size: 30px;
+    margin: 0;
+}
+
+.articlelist-header a {
+    text-decoration: none;
 }
