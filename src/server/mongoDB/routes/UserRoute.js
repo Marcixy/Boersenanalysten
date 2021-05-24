@@ -21,7 +21,7 @@ router.post('/register', (req, res) => {
 router.get('/userprofile', (req, res) => {
     User.find({ })
         .then((data) => {
-            console.log("Benutzer Daten: ", data);
+            console.log("Userdata: ", data);
             res.json(data);
         })
         .catch((error) => {

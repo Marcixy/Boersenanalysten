@@ -4,7 +4,9 @@ const router = express.Router();
 
 const Article = require('../models/Article');
 
-// Routes
+// =============== Routes ===================
+
+// Neuer Beitrag wird erstellt
 router.post('/createArticle', (req, res) => {
     console.log("Articledata: ", req.body);
     const articleData = req.body;
@@ -16,6 +18,18 @@ router.post('/createArticle', (req, res) => {
             res.json({ msg: "Article successfully write to MongoDB" });
         }
     });
+});
+
+// Beiträge mit Daten werden geladen
+router.get('/articlelist', (req, res) => {
+    Article.find({ })
+        .then((data) => {
+            console.log("Articledata: ", data);
+            res.json(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 });
 
 module.exports = router;

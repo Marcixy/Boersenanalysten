@@ -13,10 +13,9 @@ function Userprofile() {
         .then((response) => {
             const userData = response.data;
             setUserData(userData);
-            console.log("Test " + response.data);
         })
-        .catch(() => {
-            console.error("Benutzerdaten konnten nicht geladen werden");
+        .catch((error) => {
+            console.error("Userdata are not loaded", error);
         })
     }, [])
 

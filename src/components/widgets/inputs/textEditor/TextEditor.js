@@ -31,6 +31,7 @@ function TextEditor() {
                 <div className="editor-content"
                     id="editor-content"
                     contentEditable="true"
+                    spellCheck="false"
                     onKeyUp={() => setEditorContent()}>
                 </div>
             </div>
