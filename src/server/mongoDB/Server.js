@@ -19,8 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes must declared finally
-app.use('/UserRoute', userRoute);
-app.use('/ArticleRoute', articleRoute);
+app.use('/', userRoute, articleRoute);
 
 app.listen(PORT, function () {
     require('mongoose').connect(MONGODB_URL, { 

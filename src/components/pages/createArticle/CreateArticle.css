@@ -4,7 +4,15 @@
     width: 50%;
 }
 
-.editor-content {
-    border: 1px solid black;
-    height: 250px;
+.create-article-page h2 {
+    color: white;
+}
+
+.create-article-page label {
+    color: white;
+}
+
+.create-article-page a {
+    display: block;
+    text-decoration: none;
 }

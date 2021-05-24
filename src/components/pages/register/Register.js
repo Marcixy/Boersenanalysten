@@ -49,7 +49,7 @@ function Register() {
                 }).then(() => {
                     console.log("User successfully registered");
                 }).catch((error) => {
-                    console.error("User are not successfully registered: ", error);
+                    console.error("User is not successfully registered", error);
                 });
                 toArticlelist.push("/articlelist");
             }).catch((error) => {

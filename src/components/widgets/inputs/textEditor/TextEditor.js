@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 import './TextEditor.css';
 
@@ -22,6 +25,9 @@ function TextEditor() {
                 <button className="editor-button" onClick={() => editorButtonHandler('bold')}><FormatBoldIcon /></button>
                 <button className="editor-button" onClick={() => editorButtonHandler('italic')}><FormatItalicIcon /></button>
                 <button className="editor-button" onClick={() => editorButtonHandler('underline')}><FormatUnderlinedIcon /></button>
+                <button className="editor-button" onClick={() => editorButtonHandler('insertUnorderedList')}><FormatListBulletedIcon /></button>
+                <button className="editor-button" onClick={() => editorButtonHandler('insertOrderedList')}><FormatListNumberedIcon /></button>
+                <button className="editor-button" onClick={() => editorButtonHandler('insertImage')}><ImageSearchIcon /></button>
                 <div className="editor-content"
                     id="editor-content"
                     contentEditable="true"

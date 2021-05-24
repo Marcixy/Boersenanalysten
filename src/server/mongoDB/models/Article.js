@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const articleSchema = new Schema({
     title: String,
-    text: String,
+    content: String,
+    tags: String,
     voting: Number,
     answerCounter: Number,
     views: Number,

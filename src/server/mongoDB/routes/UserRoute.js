@@ -25,7 +25,7 @@ router.get('/userprofile', (req, res) => {
             res.json(data);
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
         });
 });
 
