@@ -24,6 +24,18 @@ router.post('/createArticle', (req, res) => {
 router.get('/articlelist', (req, res) => {
     Article.find({ })
         .then((data) => {
+            console.log("Articlelist data: ", data);
+            res.json(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+});
+
+// Ein Beitrag wird anhand der id geladen
+router.get('/article', (req, res) => {
+    Article.find({"_id": req.query.id})
+        .then((data) => {
             console.log("Articledata: ", data);
             res.json(data);
         })

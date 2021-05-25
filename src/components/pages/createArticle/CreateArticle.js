@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 
 // third-party imports
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import './CreateArticle.css';
@@ -20,24 +20,50 @@ function CreateArticle() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState([]);
+
+    const [titleErrorText, setTitleErrorText] = useState("");
+
+    const [titleError, setTitleError] = useState(false);
     
+    const toArticle = useHistory();
+
     const createArticle = () => {
-        axios({
-            url: '/createArticle',
-            method: 'post',
-            data: {
-                title: title,
-                content: content,
-                tags: tags,
-                voting: 0,
-                answerCounter: 0,
-                views: 0
-            }
-        }).then(() => {
-            console.log("Article successfully created");
-        }).catch((error) => {
-            console.error("Article is not successfully created", error);
-        });
+        const isTitleValid = checkTitle();
+        //const isTagsValid = checkTags();
+        if (isTitleValid === true) {
+            axios({
+                url: '/createArticle',
+                method: 'post',
+                data: {
+                    title: title,
+                    content: content,
+                    tags: tags,
+                    voting: 0,
+                    answerCounter: 0,
+                    views: 0
+                }
+            }).then(() => {
+                console.log("Article successfully created");
+            }).catch((error) => {
+                console.error("Article is not successfully created", error);
+            });
+            toArticle.push("/article");
+        }
+    }
+
+    const checkTitle = () => {
+        if (title === "") {
+            setTitleError(true);
+            setTitleErrorText("Bitte gib einen Titel ein.");
+            return false;
+        } else if (title.length < 5) {
+            setTitleError(true);
+            setTitleErrorText("Der Titel muss mindestens 5 Zeichen lang sein.");
+            return false;
+        }
+        setTitleError(false);
+        setTitleErrorText("");
+        return true;
     }
 
     return (
@@ -48,8 +74,8 @@ function CreateArticle() {
                     label="Titel"
                     type="text"
                     variant="outlined"
-                    //error={emailError}
-                    //helperText={emailErrorText}
+                    error={titleError}
+                    helperText={titleErrorText}
                     inputProps={{ maxLength: 100 }}
                     onChange={(event) => setTitle(event.target.value)}
                     fullWidth
@@ -67,12 +93,10 @@ function CreateArticle() {
                     onChange={(event) => setTags(event.target.value)} 
                     fullWidth />
             </Box>
-            <Link to="/article">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => createArticle()}>Beitrag erstellen</Button>
-            </Link>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => createArticle()}>Beitrag erstellen</Button>
         </div>
     )
 }

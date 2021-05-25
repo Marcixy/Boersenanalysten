@@ -29,6 +29,7 @@ function Articlelist() {
     const displayArticleData = (articles) => {
         return articles.map((article, index) => (
             <Articlelistitem
+                id={article._id}
                 index={index}
                 title={article.title}
                 voting={article.voting}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // own component imports
 import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
@@ -24,6 +24,8 @@ import './Navigationbar.css';
 
 function Navigationbar() {
     const [openDialog, setDialogOpen] = useState(false);
+    const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+    const toHomepage = useHistory();
 
     const handleOpenDialog = () => {
         setDialogOpen(true);
@@ -33,8 +35,15 @@ function Navigationbar() {
         setDialogOpen(false);
     };
 
-    const user = firebase.auth().currentUser;
-    const toHomepage = useHistory();
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                setUserIsLoggedIn(true);
+            } else {
+                setUserIsLoggedIn(false);
+            }
+        });
+    }, [])
 
     const signOut = () => {
         firebase.auth().signOut().then(function() {
@@ -47,7 +56,7 @@ function Navigationbar() {
     }
 
     let RightNavigationbar;
-    if (user !== null) {
+    if (userIsLoggedIn === true) {
         RightNavigationbar = (
             <div className="visitor-right-navigationbar">
                 <Link to="/userprofile">
