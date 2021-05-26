@@ -34,7 +34,9 @@ function Articlelist() {
                 title={article.title}
                 voting={article.voting}
                 answerCounter={article.answerCounter}
-                views={article.views} />
+                views={article.views}
+                creator={article.creator}
+                 />
         ));
     }
 

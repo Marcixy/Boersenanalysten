@@ -4,7 +4,9 @@ const router = express.Router();
 
 const User = require('../models/User');
 
-// Routes
+// =============== Routes ===================
+
+// Benutzer wird registriert und erstellt
 router.post('/register', (req, res) => {
     console.log("Userdata: ", req.body);
     const userData = req.body;
@@ -18,8 +20,21 @@ router.post('/register', (req, res) => {
     });
 });
 
+// Benutzerprofile laden
 router.get('/userprofile', (req, res) => {
     User.find({ })
+        .then((data) => {
+            console.log("Userdata: ", data);
+            res.json(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+});
+
+// Ein Benutzerprofil wird anhand der uid geladen
+router.get('/user', (req, res) => {
+    User.find({"_id": req.query.id})
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);

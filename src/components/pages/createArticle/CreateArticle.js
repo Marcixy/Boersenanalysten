@@ -12,6 +12,7 @@ import {
 
 // third-party imports
 import { useHistory } from 'react-router-dom';
+import firebase from 'firebase/app';
 import axios from 'axios';
 
 import './CreateArticle.css';
@@ -31,23 +32,35 @@ function CreateArticle() {
         const isTitleValid = checkTitle();
         //const isTagsValid = checkTags();
         if (isTitleValid === true) {
-            axios({
-                url: '/createArticle',
-                method: 'post',
-                data: {
-                    title: title,
-                    content: content,
-                    tags: tags,
-                    voting: 0,
-                    answerCounter: 0,
-                    views: 0
+            axios.get('/user', {
+                params: {
+                    id: firebase.auth().currentUser.uid
                 }
-            }).then(() => {
-                console.log("Article successfully created");
-            }).catch((error) => {
-                console.error("Article is not successfully created", error);
-            });
-            toArticle.push("/article");
+            })
+            .then((response) => {
+                const userData = response.data[0];
+                axios({
+                    url: '/createArticle',
+                    method: 'post',
+                    data: {
+                        title: title,
+                        content: content,
+                        tags: tags,
+                        creator: userData.username,
+                        voting: 0,
+                        answerCounter: 0,
+                        views: 0
+                    }
+                }).then(() => {
+                    console.log("Article successfully created");
+                }).catch((error) => {
+                    console.error("Article is not successfully created", error);
+                });
+                toArticle.push("/article");
+            })
+            .catch((error) => {
+                console.error("Userdata are not loaded", error);
+            })
         }
     }
 

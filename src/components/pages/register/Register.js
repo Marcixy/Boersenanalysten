@@ -42,6 +42,7 @@ function Register() {
                     url: '/register',
                     method: 'post',
                     data: {
+                        _id: firebase.auth().currentUser.uid,
                         email: email,
                         username: username,
                         shareCounter: 0
