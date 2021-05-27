@@ -14,12 +14,22 @@ import './Articlelist.css';
 
 function Articlelist() {
     const [articleData, setArticleData] = useState([]);
+    const [creatorData, setCreatorData] = useState("");
 
     useEffect(() => {
         axios.get('/articlelist')
         .then((response) => {
             const articleData = response.data;
             setArticleData(articleData);
+            axios.get('/user', {
+                params: {
+                    _id: articleData[0].creator
+                }
+            })
+            .then((userResponse) => {
+                const creatorData = userResponse.data[0];
+                setCreatorData(creatorData);
+            })
         })
         .catch((error) => {
             console.error("Articledata are not loaded", error);
@@ -29,14 +39,14 @@ function Articlelist() {
     const displayArticleData = (articles) => {
         return articles.map((article, index) => (
             <Articlelistitem
-                id={article._id}
+                id={article.firebaseid}
                 index={index}
                 title={article.title}
                 voting={article.voting}
                 answerCounter={article.answerCounter}
                 views={article.views}
-                creator={article.creator}
-                 />
+                //creator={creatorData.username}
+                created={article.created} />
         ));
     }
 

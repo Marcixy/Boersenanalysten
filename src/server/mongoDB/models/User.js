@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // User Schema
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
-    _id: {
+    firebaseid: {
         type: String,
         required: [true, 'Unique User Id must exist'],
     },

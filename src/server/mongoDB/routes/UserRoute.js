@@ -32,9 +32,17 @@ router.get('/userprofile', (req, res) => {
         });
 });
 
-// Ein Benutzerprofil wird anhand der uid geladen
+// Ein Benutzerprofil wird anhand der firebaseid geladen
 router.get('/user', (req, res) => {
-    User.find({"_id": req.query.id})
+    User.find({"firebaseid": req.query.firebaseid})
+        .then((data) => {
+            console.log("Userdata: ", data);
+            res.json(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    User.find({"_id": req.query._id})
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);

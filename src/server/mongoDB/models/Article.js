@@ -7,16 +7,14 @@ const articleSchema = new Schema({
         type: String,
         required: [true, 'Article title must exist'],
     },
-    content: {
-        type: String,
-        required: [true, 'Article content must exist'],
-    },
+    content: String,
     tags: {
         type: String,
         required: [true, 'Article tags must exist'],
     },
     creator: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: [true, 'Article creator must exist'],
     },
     voting: {
@@ -34,7 +32,7 @@ const articleSchema = new Schema({
         min: [0, 'Article can not have less than 0 views'],
     },
     created: {
-        type: String,
+        type: String,   // Date
         required: [true, 'Article creation date must exist'],
         default: Date.now(),
     }

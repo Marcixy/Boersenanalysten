@@ -34,7 +34,7 @@ function CreateArticle() {
         if (isTitleValid === true) {
             axios.get('/user', {
                 params: {
-                    id: firebase.auth().currentUser.uid
+                    firebaseid: firebase.auth().currentUser.uid
                 }
             })
             .then((response) => {
@@ -46,17 +46,17 @@ function CreateArticle() {
                         title: title,
                         content: content,
                         tags: tags,
-                        creator: userData.username,
+                        creator: userData._id,
                         voting: 0,
                         answerCounter: 0,
                         views: 0
                     }
                 }).then(() => {
                     console.log("Article successfully created");
+                    toArticle.push("/article");
                 }).catch((error) => {
                     console.error("Article is not successfully created", error);
                 });
-                toArticle.push("/article");
             })
             .catch((error) => {
                 console.error("Userdata are not loaded", error);

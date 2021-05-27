@@ -42,17 +42,17 @@ function Register() {
                     url: '/register',
                     method: 'post',
                     data: {
-                        _id: firebase.auth().currentUser.uid,
+                        firebaseid: firebase.auth().currentUser.uid,
                         email: email,
                         username: username,
                         shareCounter: 0
                     }
                 }).then(() => {
                     console.log("User successfully registered");
+                    toArticlelist.push("/articlelist");
                 }).catch((error) => {
                     console.error("User is not successfully registered", error);
                 });
-                toArticlelist.push("/articlelist");
             }).catch((error) => {
                 switch(error.code) {
                     case "auth/email-already-in-use":
