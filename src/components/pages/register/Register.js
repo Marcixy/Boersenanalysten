@@ -39,7 +39,7 @@ function Register() {
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 axios({
-                    url: '/register',
+                    url: '/registerUser',
                     method: 'post',
                     data: {
                         firebaseid: firebase.auth().currentUser.uid,

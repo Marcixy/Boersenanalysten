@@ -7,7 +7,7 @@ const User = require('../models/User');
 // =============== Routes ===================
 
 // Benutzer wird registriert und erstellt
-router.post('/register', (req, res) => {
+router.post('/registerUser', (req, res) => {
     console.log("Userdata: ", req.body);
     const userData = req.body;
     const newUser = User(userData);
@@ -21,7 +21,7 @@ router.post('/register', (req, res) => {
 });
 
 // Benutzerprofile laden
-router.get('/userprofile', (req, res) => {
+router.get('/getUserprofiles', (req, res) => {
     User.find({ })
         .then((data) => {
             console.log("Userdata: ", data);
@@ -32,9 +32,9 @@ router.get('/userprofile', (req, res) => {
         });
 });
 
-// Ein Benutzerprofil wird anhand der firebaseid geladen
-router.get('/user', (req, res) => {
-    User.find({"firebaseid": req.query.firebaseid})
+// Ein Benutzerprofil wird anhand der _id geladen
+router.get('/getUserById', (req, res) => {
+    User.find({"_id": req.query._id})
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);
@@ -42,7 +42,11 @@ router.get('/user', (req, res) => {
         .catch((error) => {
             console.error(error);
         });
-    User.find({"_id": req.query._id})
+});
+
+// Ein Benutzerprofil wird anhand der firebaseid geladen
+router.get('/getUserByFirebaseid', (req, res) => {
+    User.find({"firebaseid": req.query.firebaseid})
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);

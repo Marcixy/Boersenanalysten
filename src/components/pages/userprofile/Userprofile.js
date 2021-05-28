@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-import './Userprofile.css';
-
 // third-party imports
 import axios from 'axios';
+
+import './Userprofile.css';
 
 function Userprofile() {
     const [userData, setUserData] = useState([]);
 
     useEffect(() => {
-        axios.get('/userprofile')
+        axios.get('/getUserprofiles')
         .then((response) => {
             const userData = response.data;
             setUserData(userData);

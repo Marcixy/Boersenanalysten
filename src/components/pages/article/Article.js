@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
-import './Article.css';
-
 // third-party imports
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+
+import './Article.css';
 
 function Article() {
     const [articleData, setArticleData] = useState([]);
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/article', {
+        axios.get('/getArticleById', {
             params: {
                 id: id
             }

@@ -32,7 +32,7 @@ function CreateArticle() {
         const isTitleValid = checkTitle();
         //const isTagsValid = checkTags();
         if (isTitleValid === true) {
-            axios.get('/user', {
+            axios.get('/getUserByFirebaseid', {
                 params: {
                     firebaseid: firebase.auth().currentUser.uid
                 }

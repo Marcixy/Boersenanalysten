@@ -17,11 +17,11 @@ function Articlelist() {
     const [creatorData, setCreatorData] = useState("");
 
     useEffect(() => {
-        axios.get('/articlelist')
+        axios.get('/getArticlelist')
         .then((response) => {
             const articleData = response.data;
             setArticleData(articleData);
-            axios.get('/user', {
+            axios.get('/getUserById', {
                 params: {
                     _id: articleData[0].creator
                 }
@@ -39,13 +39,15 @@ function Articlelist() {
     const displayArticleData = (articles) => {
         return articles.map((article, index) => (
             <Articlelistitem
-                id={article.firebaseid}
+                id={article._id}
                 index={index}
                 title={article.title}
                 voting={article.voting}
                 answerCounter={article.answerCounter}
                 views={article.views}
-                //creator={creatorData.username}
+                creator={creatorData.username}
+                creatorId={creatorData._id}
+                creatorShareCount={creatorData.shareCounter}
                 created={article.created} />
         ));
     }

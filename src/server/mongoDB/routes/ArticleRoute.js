@@ -21,7 +21,7 @@ router.post('/createArticle', (req, res) => {
 });
 
 // Beiträge mit Daten werden geladen
-router.get('/articlelist', (req, res) => {
+router.get('/getArticlelist', (req, res) => {
     Article.find({ })
         .then((data) => {
             console.log("Articlelist data: ", data);
@@ -32,8 +32,8 @@ router.get('/articlelist', (req, res) => {
         });
 });
 
-// Ein Beitrag wird anhand der id geladen
-router.get('/article', (req, res) => {
+// Ein Beitrag wird anhand der _id geladen
+router.get('/getArticleById', (req, res) => {
     Article.find({"_id": req.query.id})
         .then((data) => {
             console.log("Articledata: ", data);
