@@ -19,7 +19,7 @@ import './CreateArticle.css';
 
 function CreateArticle() {
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [editorContent, setEditorContent] = useState("");
     const [tags, setTags] = useState([]);
 
     const [titleErrorText, setTitleErrorText] = useState("");
@@ -30,6 +30,7 @@ function CreateArticle() {
 
     const createArticle = () => {
         const isTitleValid = checkTitle();
+        //const isContentValid = checkContent();
         //const isTagsValid = checkTags();
         if (isTitleValid === true) {
             axios.get('/getUserByFirebaseid', {
@@ -44,7 +45,7 @@ function CreateArticle() {
                     method: 'post',
                     data: {
                         title: title,
-                        content: content,
+                        content: editorContent,
                         tags: tags,
                         creator: userData._id,
                         voting: 0,
@@ -79,6 +80,12 @@ function CreateArticle() {
         return true;
     }
 
+    // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
+    // Zugriff zu bekommen.
+    const callbackEditorContent = (editorContent) => {
+        setEditorContent(editorContent);
+    }
+
     return (
         <div className="create-article-page">
             <h2>Beitrag erstellen</h2>
@@ -94,7 +101,7 @@ function CreateArticle() {
                     fullWidth
                     autoFocus />
             </Box>
-            <TextEditor />
+            <TextEditor parentCallbackEditorContent={ callbackEditorContent }/>
             <Box mb={4}>
                 <TextField
                     label="Tags"

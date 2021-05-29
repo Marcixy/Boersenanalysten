@@ -27,8 +27,11 @@ function Article() {
 
     return (
         <div className="article-page">
-            <h2>Beitrag</h2>
-            { articleData.title }
+            <div className="article-page-content">
+                <h1>{articleData.title}</h1>
+                <p>{articleData.content}</p>
+                <p>{articleData.tags}</p>
+            </div>
         </div>
     )
 }

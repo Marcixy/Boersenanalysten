@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // material-ui icon imports
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
@@ -10,8 +10,11 @@ import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 import './TextEditor.css';
 
-function TextEditor() {
-    const [editorContent, setEditorContent] = useState("");
+function TextEditor({ parentCallbackEditorContent }) {
+
+    const setEditorContent = () => {
+        parentCallbackEditorContent(document.getElementById('editor-content').innerHTML);
+    }
 
     // Setzt die Eigenschaft die übergeben wird
     // Beispiel: bold = fetter Text (<b></b>)

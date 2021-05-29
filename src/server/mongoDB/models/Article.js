@@ -7,7 +7,10 @@ const articleSchema = new Schema({
         type: String,
         required: [true, 'Article title must exist'],
     },
-    content: String,
+    content: {
+        type: String,
+        required: [true, 'Article content must exist'],
+    },
     tags: {
         type: String,
         required: [true, 'Article tags must exist'],
@@ -32,7 +35,7 @@ const articleSchema = new Schema({
         min: [0, 'Article can not have less than 0 views'],
     },
     created: {
-        type: String,   // Date
+        type: Date,
         required: [true, 'Article creation date must exist'],
         default: Date.now(),
     }
