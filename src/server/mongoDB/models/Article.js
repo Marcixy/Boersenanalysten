@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const Answer = require('../models/Answer');
+
 // Article Schema
 const Schema = mongoose.Schema;
 const articleSchema = new Schema({
@@ -38,7 +40,8 @@ const articleSchema = new Schema({
         type: Date,
         required: [true, 'Article creation date must exist'],
         default: Date.now(),
-    }
+    },
+    answers: [Answer.schema],
 });
 
 // Model
