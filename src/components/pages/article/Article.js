@@ -8,12 +8,14 @@ import { Button } from '@material-ui/core';
 
 // third-party imports
 import { useParams } from "react-router-dom";
+import firebase from 'firebase/app';
 import axios from 'axios';
 
 import './Article.css';
 
 function Article() {
     const [articleData, setArticleData] = useState([]);
+    const [editorContent, setEditorContent] = useState("");
     const { id } = useParams();
 
     useEffect(() => {
@@ -32,7 +34,38 @@ function Article() {
     }, [id])
 
     const createAnswer = () => {
-        // TODO hier weitermachen
+        axios.get('/getUserByFirebaseid', {
+            params: {
+                firebaseid: firebase.auth().currentUser.uid
+            }
+        })
+        .then((response) => {
+            const userData = response.data[0];
+            console.log(articleData._id);
+            axios({
+                url: `/createAnswer/${articleData._id}`,
+                method: 'post',
+                data: {
+                    content: editorContent,
+                    creator: userData._id,
+                    voting: 0
+                }
+            }).then(() => {
+                console.log("Answer successfully created");
+                //toArticle.push("/article");
+            }).catch((error) => {
+                console.error("Answer is not successfully created", error);
+            })
+        })
+        .catch((error) => {
+            console.error("Userdata are not loaded", error);
+        })
+    }
+
+    // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
+    // Zugriff zu bekommen.
+    const callbackEditorContent = (editorContent) => {
+        setEditorContent(editorContent);
     }
 
     return (
@@ -42,7 +75,8 @@ function Article() {
                 <p>{articleData.content}</p>
                 <p>{articleData.tags}</p>
                 <h2>Antworten:</h2>
-                <TextEditor />
+                <h3>Deine Antwort:</h3>
+                <TextEditor parentCallbackEditorContent={ callbackEditorContent } />
                 <Button
                     variant="contained"
                     color="primary"

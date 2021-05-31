@@ -101,7 +101,7 @@ function CreateArticle() {
                     fullWidth
                     autoFocus />
             </Box>
-            <TextEditor parentCallbackEditorContent={ callbackEditorContent }/>
+            <TextEditor parentCallbackEditorContent={ callbackEditorContent } />
             <Box mb={4}>
                 <TextField
                     label="Tags"
