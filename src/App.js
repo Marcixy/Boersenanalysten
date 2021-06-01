@@ -3,6 +3,7 @@ import Article from './components/pages/article/Article';
 import Articlelist from './components/pages/articlelist/Articlelist';
 import CreateArticle from './components/pages/createArticle/CreateArticle';
 import Footer from './components/footer/Footer';
+import ForgotPassword from './components/pages/forgotPassword/ForgotPassword';
 import Help from './components/pages/help/Help';
 import Homepage from './components/pages/homepage/Homepage';
 import Navigationbar from './components/navigationbar/Navigationbar';
@@ -35,6 +36,7 @@ function App() {
       <Route exact path="/message" component={ Message } />
       <Route exact path="/createArticle" component={ CreateArticle } />
       <Route exact path="/article/:id" component={ Article } />
+      <Route exact path="/forgotPassword" component={ ForgotPassword } />
       <Footer />
     </div>
   );

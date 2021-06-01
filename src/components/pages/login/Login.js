@@ -101,6 +101,9 @@ function Login() {
                     helperText={passwordErrorText}
                     inputProps={{ maxLength: 40 }}
                     onChange={(event) => setPassword(event.target.value)} />
+                <Link to="/forgotPassword">
+                    Passwort vergessen?
+                </Link>
                 <Button
                     variant="contained"
                     color="primary"
