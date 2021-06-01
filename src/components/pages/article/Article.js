@@ -12,9 +12,11 @@ import firebase from 'firebase/app';
 import axios from 'axios';
 
 import './Article.css';
+import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem';
 
 function Article() {
     const [articleData, setArticleData] = useState([]);
+    const [answerData, setAnswerData] = useState([]);
     const [editorContent, setEditorContent] = useState("");
     const { id } = useParams();
 
@@ -27,6 +29,7 @@ function Article() {
         .then((response) => {
             const articleData = response.data[0];
             setArticleData(articleData);
+            setAnswerData(articleData.answers);
         })
         .catch((error) => {
             console.error("Articledata are not loaded", error);
@@ -41,7 +44,6 @@ function Article() {
         })
         .then((response) => {
             const userData = response.data[0];
-            console.log(articleData._id);
             axios({
                 url: `/createAnswer/${articleData._id}`,
                 method: 'post',
@@ -52,7 +54,7 @@ function Article() {
                 }
             }).then(() => {
                 console.log("Answer successfully created");
-                //toArticle.push("/article");
+                //toArticle.push(`/article/${articleData._id}`);
             }).catch((error) => {
                 console.error("Answer is not successfully created", error);
             })
@@ -60,6 +62,15 @@ function Article() {
         .catch((error) => {
             console.error("Userdata are not loaded", error);
         })
+    }
+
+    const displayAnswerData = (answers) => {
+        return answers.map((answer, index) => (
+            <Answerlistitem
+                content={answer.content}
+                voting={answer.voting}
+                created={answer.created} />
+        ));
     }
 
     // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
@@ -75,6 +86,7 @@ function Article() {
                 <p>{articleData.content}</p>
                 <p>{articleData.tags}</p>
                 <h2>Antworten:</h2>
+                { displayAnswerData(answerData) }
                 <h3>Deine Antwort:</h3>
                 <TextEditor parentCallbackEditorContent={ callbackEditorContent } />
                 <Button
