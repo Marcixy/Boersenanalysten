@@ -44,4 +44,17 @@ router.get('/getArticleById', (req, res) => {
         });
 });
 
+// Beitrag wird up- und downgevotet
+router.post('/articleVotingUpdate/:articleid', (req, res) => {
+    Article.updateOne({_id: req.params.articleid}, {
+        $inc: { voting: 1}},
+    function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Successfully voting update");
+        }
+    });
+});
+
 module.exports = router;

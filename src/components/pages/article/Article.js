@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
+import ArticleVoting from '../../widgets/inputs/voting/ArticleVoting';
 
 // material-ui imports
 import { Button } from '@material-ui/core';
@@ -17,10 +18,12 @@ import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem'
 function Article() {
     const [articleData, setArticleData] = useState([]);
     const [answerData, setAnswerData] = useState([]);
+    const [answerCreatorData, setAnswerCreatorData] = useState([]);
     const [editorContent, setEditorContent] = useState("");
     const { id } = useParams();
 
     useEffect(() => {
+        console.log("Test 3");
         axios.get('/getArticleById', {
             params: {
                 id: id
@@ -30,6 +33,19 @@ function Article() {
             const articleData = response.data[0];
             setArticleData(articleData);
             setAnswerData(articleData.answers);
+            articleData.answers.map((answer) => (
+                axios.get('/getUserById', {
+                    params: {
+                        _id: answer.creator
+                    }
+                })
+                .then((userResponse) => {
+                    const newAnswerCreator = userResponse.data[0];
+                    console.log(newAnswerCreator);
+                    setAnswerCreatorData(answerCreatorData => [...answerCreatorData, newAnswerCreator]);
+                    console.log(answerCreatorData);
+                })
+            ))
         })
         .catch((error) => {
             console.error("Articledata are not loaded", error);
@@ -69,7 +85,8 @@ function Article() {
             <Answerlistitem
                 content={answer.content}
                 voting={answer.voting}
-                created={answer.created} />
+                created={answer.created}
+                creator={answerCreatorData.username} />
         ));
     }
 
@@ -84,6 +101,9 @@ function Article() {
             <div className="article-page-content">
                 <h1>{articleData.title}</h1>
                 <p>{articleData.content}</p>
+                <ArticleVoting
+                    articleid={articleData._id}
+                    voting={articleData.voting} />
                 <p>{articleData.tags}</p>
                 <h2>Antworten:</h2>
                 { displayAnswerData(answerData) }

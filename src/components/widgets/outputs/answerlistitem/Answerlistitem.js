@@ -1,5 +1,8 @@
 import React from 'react';
 
+// own-component imports
+import Voting from '../../inputs/voting/ArticleVoting';
+
 // third-party imports
 import { Link } from 'react-router-dom';
 
@@ -9,8 +12,9 @@ function Answerlistitem(props) {
     return (
         <div className="answer-list-item" key={props.index}>
             <p>{props.content}</p>
-            <p>{props.voting}</p>
+            {/*<Voting voting={props.voting} />*/}
             <p>{props.created}</p>
+            <p>{props.creator}</p>
         </div>
     )
 }

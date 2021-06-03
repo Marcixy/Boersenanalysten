@@ -1,0 +1,15 @@
+.voting {
+    display: inline-block;
+    text-align: center;
+}
+
+.voting p {
+    margin: 0;
+    justify-content: center;
+}
+
+.voting button {
+    background-color: transparent;
+    border: none;
+    color: white;
+}

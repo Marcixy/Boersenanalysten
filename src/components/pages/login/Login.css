@@ -1,6 +1,6 @@
 .login-page {
     color: white;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .login-form {

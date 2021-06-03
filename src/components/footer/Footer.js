@@ -7,13 +7,13 @@ function Footer() {
     return (
         <footer className="footer">
             <ul>
-                <Link to="privacyPolicy">
+                <Link to="/privacyPolicy">
                     <li>Datenschutzrichtlinien</li>
                 </Link>
-                <Link to="legalNotice">
+                <Link to="/legalNotice">
                     <li>Impressum</li>
                 </Link>
-                <Link to="termsOfUse">
+                <Link to="/termsOfUse">
                     <li>Nutzungsbedingungen</li>
                 </Link>
             </ul>
