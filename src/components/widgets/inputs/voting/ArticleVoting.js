@@ -14,27 +14,28 @@ function ArticleVoting(props) {
 
     useEffect(() => {
         setArticleVoting(props.voting);
-        console.log("Test");
     }, [props.voting])
 
     const upVoting = () => {
-        console.log("Test 2");
         axios({
             url: `/articleVotingUpdate/${props.articleid}`,
             method: 'post',
+        }).then(() => {
+            axios.get('/getArticleById', {
+                params: {
+                    id: props.articleid
+                }
+            })
+            .then((response) => {
+                const articleVoting = response.data[0].voting;
+                setArticleVoting(articleVoting);
+            })
+            .catch((error) => {
+                console.error("Articledata are not loaded", error);
+            });
+        }).catch((error) => {
+            console.log(error);
         })
-        axios.get('/getArticleById', {
-            params: {
-                id: props.articleid
-            }
-        })
-        .then((response) => {
-            const articleVoting = response.data[0].voting;
-            setArticleVoting(articleVoting);
-        })
-        .catch((error) => {
-            console.error("Articledata are not loaded", error);
-        });
     }
 
     const downVoting = () => {

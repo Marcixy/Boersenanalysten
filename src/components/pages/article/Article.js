@@ -23,7 +23,6 @@ function Article() {
     const { id } = useParams();
 
     useEffect(() => {
-        console.log("Test 3");
         axios.get('/getArticleById', {
             params: {
                 id: id

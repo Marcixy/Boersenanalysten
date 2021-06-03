@@ -46,13 +46,17 @@ router.get('/getArticleById', (req, res) => {
 
 // Beitrag wird up- und downgevotet
 router.post('/articleVotingUpdate/:articleid', (req, res) => {
-    Article.updateOne({_id: req.params.articleid}, {
-        $inc: { voting: 1}},
+    Article.updateOne({_id: req.params.articleid},
+    {
+        $inc: { 
+            voting: 1,
+        },
+    },
     function (error) {
         if (error) {
-          console.log(error);
+            res.status(500).json({ msg: "Internal server error" });
         } else {
-          console.log("Successfully voting update");
+            res.json({ msg: "Successfully voting update" });
         }
     });
 });
