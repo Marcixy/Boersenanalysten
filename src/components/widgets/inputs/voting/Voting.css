@@ -4,6 +4,8 @@
 }
 
 .voting p {
+    color: #aaaaaa;
+    font-size: 20px;
     margin: 0;
     justify-content: center;
 }
@@ -11,5 +13,9 @@
 .voting button {
     background-color: transparent;
     border: none;
-    color: white;
+    color: #697075;
+}
+
+.voting button:hover {
+    cursor: pointer;
 }

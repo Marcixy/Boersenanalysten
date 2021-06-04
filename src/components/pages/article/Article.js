@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
-import ArticleVoting from '../../widgets/inputs/voting/ArticleVoting';
+import Voting from '../../widgets/inputs/voting/Voting';
 
 // material-ui imports
-import { Button } from '@material-ui/core';
+import { 
+    Button,
+    Chip
+ } from '@material-ui/core';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -99,11 +102,18 @@ function Article() {
         <div className="article-page">
             <div className="article-page-content">
                 <h1>{articleData.title}</h1>
-                <p>{articleData.content}</p>
-                <ArticleVoting
-                    articleid={articleData._id}
-                    voting={articleData.voting} />
-                <p>{articleData.tags}</p>
+                <div className="article-content"> 
+                    <div>
+                        <Voting
+                            articleid={articleData._id}
+                            axiosUrl="articleVotingUpdate"
+                            voting={articleData.voting} />
+                    </div>
+                    <div className="article-content-right">
+                        <p>{articleData.content}</p>
+                        <Chip label={articleData.tags} size="small" color="primary" />
+                    </div>
+                </div>
                 <h2>Antworten:</h2>
                 { displayAnswerData(answerData) }
                 <h3>Deine Antwort:</h3>

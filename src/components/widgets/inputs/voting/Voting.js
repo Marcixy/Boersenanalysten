@@ -7,18 +7,18 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 // third-party imports
 import axios from 'axios';
 
-import './ArticleVoting.css';
+import './Voting.css';
 
-function ArticleVoting(props) {
-    const [articleVoting, setArticleVoting] = useState(props.voting);
+function Voting(props) {
+    const [voting, setVoting] = useState(props.voting);
 
     useEffect(() => {
-        setArticleVoting(props.voting);
+        setVoting(props.voting);
     }, [props.voting])
 
     const upVoting = () => {
         axios({
-            url: `/articleVotingUpdate/${props.articleid}`,
+            url: `/${props.axiosUrl}/${props.articleid}`,
             method: 'post',
         }).then(() => {
             axios.get('/getArticleById', {
@@ -27,8 +27,8 @@ function ArticleVoting(props) {
                 }
             })
             .then((response) => {
-                const articleVoting = response.data[0].voting;
-                setArticleVoting(articleVoting);
+                const voting = response.data[0].voting;
+                setVoting(voting);
             })
             .catch((error) => {
                 console.error("Articledata are not loaded", error);
@@ -44,11 +44,11 @@ function ArticleVoting(props) {
     
     return (
         <div className="voting">
-            <button onClick={upVoting}><ArrowDropUpIcon /></button>
-            <p>{articleVoting}</p>
-            <button onClick={downVoting}><ArrowDropDownIcon /></button>
+            <button onClick={upVoting}><ArrowDropUpIcon fontSize="large" /></button>
+            <p>{voting}</p>
+            <button onClick={downVoting}><ArrowDropDownIcon fontSize="large" /></button>
         </div>
     )
 }
 
-export default ArticleVoting;
+export default Voting;

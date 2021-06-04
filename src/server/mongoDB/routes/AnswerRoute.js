@@ -26,4 +26,22 @@ router.post('/createAnswer/:articleid', (req, res) => {
     });
 });
 
+// Antwort wird up- und downgevotet
+router.post('/answerVotingUpdate/:articleid', (req, res) => {
+  /* TODO muss noch implementiert werden!
+  Article.updateOne({_id: req.params.articleid},
+  {
+      $inc: { 
+          voting: 1,
+      },
+  },
+  function (error) {
+      if (error) {
+          res.status(500).json({ msg: "Internal server error" });
+      } else {
+          res.json({ msg: "Successfully voting update" });
+      }
+  });*/
+});
+
 module.exports = router;
