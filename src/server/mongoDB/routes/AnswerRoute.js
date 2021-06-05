@@ -16,6 +16,9 @@ router.post('/createAnswer/:articleid', (req, res) => {
         $push: {
             answers: answerData,
         },
+        $inc: {
+            answerCounter: 1,
+        }
     },
     function (error) {
         if (error) {

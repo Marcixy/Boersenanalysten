@@ -11,6 +11,7 @@
 
 .article-content {
     display: flex;
+    border: 1px solid #333333;
 }
 
 .article-content-right {

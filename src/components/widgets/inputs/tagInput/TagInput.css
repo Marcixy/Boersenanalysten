@@ -1,0 +1,9 @@
+.tag-list {
+    padding: 0;
+}
+
+.tag-listitem {
+    display: inline-block;
+    margin-right: 12px;
+    list-style-type: none;
+}

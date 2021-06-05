@@ -12,7 +12,15 @@
     color: white;
 }
 
+.create-article-page input {
+    color: white;
+}
+
 .create-article-page a {
     display: block;
     text-decoration: none;
+}
+
+#createAnswerButton {
+    margin-top: 16px;
 }

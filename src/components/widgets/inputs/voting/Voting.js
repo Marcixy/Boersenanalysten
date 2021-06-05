@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// material-ui imports
+import { IconButton } from '@material-ui/core';
+
 // material-ui icon imports
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -44,9 +47,17 @@ function Voting(props) {
     
     return (
         <div className="voting">
-            <button onClick={upVoting}><ArrowDropUpIcon fontSize="large" /></button>
+            <IconButton onClick={upVoting}>
+                <ArrowDropUpIcon 
+                    iconStyle={{width: '56px', height: '56px'}}
+                    style={{width: '56px', height: '56px' }} />
+            </IconButton>
             <p>{voting}</p>
-            <button onClick={downVoting}><ArrowDropDownIcon fontSize="large" /></button>
+            <IconButton onClick={downVoting}>
+                <ArrowDropDownIcon
+                    iconStyle={{width: '56px', height: '56px'}}
+                    style={{width: '56px', height: '56px' }} />
+            </IconButton>
         </div>
     )
 }

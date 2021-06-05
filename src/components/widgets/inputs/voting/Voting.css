@@ -14,6 +14,7 @@
     background-color: transparent;
     border: none;
     color: #697075;
+    padding: 0;
 }
 
 .voting button:hover {

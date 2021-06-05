@@ -32,6 +32,7 @@ function Article() {
             }
         })
         .then((response) => {
+            let newAnswerCreatorData = answerCreatorData;
             const articleData = response.data[0];
             setArticleData(articleData);
             setAnswerData(articleData.answers);
@@ -42,9 +43,11 @@ function Article() {
                     }
                 })
                 .then((userResponse) => {
-                    const newAnswerCreator = userResponse.data[0];
+                    const newAnswerCreator = userResponse.data[0].username;
                     console.log(newAnswerCreator);
-                    setAnswerCreatorData(answerCreatorData => [...answerCreatorData, newAnswerCreator]);
+                    newAnswerCreatorData = { ...answerCreatorData, newAnswerCreator }
+                    setAnswerCreatorData(newAnswerCreatorData);
+                    //setAnswerCreatorData(answerCreatorData => [...answerCreatorData, newAnswerCreator]);
                     console.log(answerCreatorData);
                 })
             ))
@@ -103,12 +106,10 @@ function Article() {
             <div className="article-page-content">
                 <h1>{articleData.title}</h1>
                 <div className="article-content"> 
-                    <div>
-                        <Voting
-                            articleid={articleData._id}
-                            axiosUrl="articleVotingUpdate"
-                            voting={articleData.voting} />
-                    </div>
+                    <Voting
+                        articleid={articleData._id}
+                        axiosUrl="articleVotingUpdate"
+                        voting={articleData.voting} />
                     <div className="article-content-right">
                         <p>{articleData.content}</p>
                         <Chip label={articleData.tags} size="small" color="primary" />

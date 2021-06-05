@@ -11,13 +11,17 @@ import './Answerlistitem.css';
 function Answerlistitem(props) {
     return (
         <div className="answer-list-item" key={props.index}>
-            <p>{props.content}</p>
             <Voting
                 articleid={props.articleid}
                 axiosUrl="answerVotingUpdate"
                 voting={props.voting} />
-            <p>{props.created}</p>
-            <p>{props.creator}</p>
+            <div className="answer-content-right">
+                <p>{props.content}</p>
+                <p>{props.created}</p>
+                <Link to={{pathname: `/userprofile/${props.creatorId}`}}>
+                    <p>{props.creator}</p>
+                </Link>
+            </div>
         </div>
     )
 }

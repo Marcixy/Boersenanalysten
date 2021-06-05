@@ -14,7 +14,7 @@ const articleSchema = new Schema({
         required: [true, 'Article content must exist'],
     },
     tags: {
-        type: String,
+        type: Array,
         required: [true, 'Article tags must exist'],
     },
     creator: {

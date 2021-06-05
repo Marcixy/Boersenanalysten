@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 // own imports
+import TagInput from '../../widgets/inputs/tagInput/TagInput';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 
 // material-ui imports
@@ -30,9 +31,10 @@ function CreateArticle() {
 
     const createArticle = () => {
         const isTitleValid = checkTitle();
+        console.log(tags);
         //const isContentValid = checkContent();
         //const isTagsValid = checkTags();
-        if (isTitleValid === true) {
+        if (isTitleValid === true && tags.length >= 0) {
             axios.get('/getUserByFirebaseid', {
                 params: {
                     firebaseid: firebase.auth().currentUser.uid
@@ -86,6 +88,12 @@ function CreateArticle() {
         setEditorContent(editorContent);
     }
 
+    // Verbindung zu TagInput Komponente um auf die eingegebenen Tags 
+    // Zugriff zu bekommen.
+    const callbackTagInput = (tagInput) => {
+        setTags(tagInput);
+    }
+
     return (
         <div className="create-article-page">
             <h2>Beitrag erstellen</h2>
@@ -102,20 +110,11 @@ function CreateArticle() {
                     autoFocus />
             </Box>
             <TextEditor parentCallbackEditorContent={ callbackEditorContent } />
-            <Box mb={4}>
-                <TextField
-                    label="Tags"
-                    type="text"
-                    variant="outlined"
-                    //error={tagsError}
-                    //helperText={tagsErrorText}
-                    inputProps={{ maxLength: 40 }}
-                    onChange={(event) => setTags(event.target.value)} 
-                    fullWidth />
-            </Box>
+            <TagInput parentCallbackTags={ callbackTagInput } />
             <Button
                 variant="contained"
                 color="primary"
+                id="createAnswerButton"
                 onClick={() => createArticle()}>Beitrag erstellen</Button>
         </div>
     )
