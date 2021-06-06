@@ -10,8 +10,13 @@
     cursor: pointer;
 }
 
+.editor-menuebar p {
+    color: #f44336;
+    font-size: 14px;
+    margin-left: 12px;
+}
+
 .editor-content {
-    border: 1px solid black;
     border-radius: 4px;
     color: white;
     height: 250px;

@@ -19,22 +19,28 @@ import axios from 'axios';
 import './CreateArticle.css';
 
 function CreateArticle() {
+    // Eingabefelder für Beitrag erstellen
     const [title, setTitle] = useState("");
-    const [editorContent, setEditorContent] = useState("");
+    const [content, setContent] = useState("");
     const [tags, setTags] = useState([]);
 
+    // Errortexte für Beitrag erstellen
     const [titleErrorText, setTitleErrorText] = useState("");
+    const [contentErrorText, setContentErrorText] = useState("");
+    const [tagErrorText, setTagErrorText] = useState("");
 
+    // Error Farbe für Beitrag erstellen
     const [titleError, setTitleError] = useState(false);
+    const [contentError, setContentError] = useState(false);
+    const [tagError, setTagError] = useState(false);
     
     const toArticle = useHistory();
 
     const createArticle = () => {
         const isTitleValid = checkTitle();
-        console.log(tags);
-        //const isContentValid = checkContent();
-        //const isTagsValid = checkTags();
-        if (isTitleValid === true && tags.length >= 0) {
+        const isContentValid = checkContent();
+        const isTagsValid = checkTags();
+        if (isTitleValid === true && isContentValid === true && isTagsValid === true) {
             axios.get('/getUserByFirebaseid', {
                 params: {
                     firebaseid: firebase.auth().currentUser.uid
@@ -47,7 +53,7 @@ function CreateArticle() {
                     method: 'post',
                     data: {
                         title: title,
-                        content: editorContent,
+                        content: content,
                         tags: tags,
                         creator: userData._id,
                         voting: 0,
@@ -82,10 +88,36 @@ function CreateArticle() {
         return true;
     }
 
+    const checkContent = () => {
+        if (content === "") {
+            setContentError(true);
+            setContentErrorText("Bitte gib einen Beitragstext ein.");
+            return false;
+        }
+        setContentError(false);
+        setContentErrorText("");
+        return true;
+    }
+
+    const checkTags = () => {
+        if (tags.length === 0) {
+            setTagError(true);
+            setTagErrorText("Es muss mindestens ein Tag angegeben werden damit dein Beitrag besser gefunden werden kann.");
+            return false;
+        } else if (tags.length > 10) {
+            setTagError(true);
+            setTagErrorText("Es sind maximal 10 Tags erlaubt.");
+            return false;
+        }
+        setTagError(false);
+        setTagErrorText("");
+        return true;
+    }
+
     // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
     // Zugriff zu bekommen.
     const callbackEditorContent = (editorContent) => {
-        setEditorContent(editorContent);
+        setContent(editorContent);
     }
 
     // Verbindung zu TagInput Komponente um auf die eingegebenen Tags 
@@ -109,8 +141,14 @@ function CreateArticle() {
                     fullWidth
                     autoFocus />
             </Box>
-            <TextEditor parentCallbackEditorContent={ callbackEditorContent } />
-            <TagInput parentCallbackTags={ callbackTagInput } />
+            <TextEditor
+                contentError={ contentError }
+                contentErrorText={ contentErrorText }
+                parentCallbackEditorContent={ callbackEditorContent } />
+            <TagInput
+                tagError={tagError}
+                tagErrorText={tagErrorText}
+                parentCallbackTags={ callbackTagInput } />
             <Button
                 variant="contained"
                 color="primary"

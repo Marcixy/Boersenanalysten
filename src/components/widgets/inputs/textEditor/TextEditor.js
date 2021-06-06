@@ -10,7 +10,7 @@ import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 import './TextEditor.css';
 
-function TextEditor({ parentCallbackEditorContent }) {
+function TextEditor({ contentError, contentErrorText, parentCallbackEditorContent }) {
 
     const setEditorContent = () => {
         parentCallbackEditorContent(document.getElementById('editor-content').innerHTML);
@@ -35,8 +35,10 @@ function TextEditor({ parentCallbackEditorContent }) {
                     id="editor-content"
                     contentEditable="true"
                     spellCheck="false"
-                    onKeyUp={() => setEditorContent()}>
+                    onKeyUp={() => setEditorContent()}
+                    style={{ border: contentError === true ? '1px solid #f44336' : '1px solid black' }}>
                 </div>
+                <p>{ contentErrorText }</p>
             </div>
         </div>
     )

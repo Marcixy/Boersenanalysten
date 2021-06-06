@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // own component imports
+import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import Voting from '../../widgets/inputs/voting/Voting';
 
@@ -16,46 +17,49 @@ import firebase from 'firebase/app';
 import axios from 'axios';
 
 import './Article.css';
-import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem';
 
 function Article() {
     const [articleData, setArticleData] = useState([]);
     const [answerData, setAnswerData] = useState([]);
-    const [answerCreatorData, setAnswerCreatorData] = useState([]);
+    let [answerCreatorData, setAnswerCreatorData] = useState([]);
     const [editorContent, setEditorContent] = useState("");
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/getArticleById', {
-            params: {
-                id: id
-            }
-        })
-        .then((response) => {
-            let newAnswerCreatorData = answerCreatorData;
-            const articleData = response.data[0];
-            setArticleData(articleData);
-            setAnswerData(articleData.answers);
-            articleData.answers.map((answer) => (
-                axios.get('/getUserById', {
-                    params: {
-                        _id: answer.creator
-                    }
-                })
-                .then((userResponse) => {
-                    const newAnswerCreator = userResponse.data[0].username;
-                    console.log(newAnswerCreator);
-                    newAnswerCreatorData = { ...answerCreatorData, newAnswerCreator }
-                    setAnswerCreatorData(newAnswerCreatorData);
-                    //setAnswerCreatorData(answerCreatorData => [...answerCreatorData, newAnswerCreator]);
-                    console.log(answerCreatorData);
-                })
-            ))
-        })
-        .catch((error) => {
-            console.error("Articledata are not loaded", error);
-        });
-    }, [id])
+        const getData = () => {
+            axios.get('/getArticleById', {
+                params: {
+                    id: id
+                }
+            })
+            .then((response) => {
+                const articleData = response.data[0];
+                setArticleData(articleData);
+                setAnswerData(articleData.answers);
+                articleData.answers.map((answer) => (
+                    axios.get('/getUserById', {
+                        params: {
+                            _id: answer.creator
+                        }
+                    })
+                    .then((userResponse) => {
+                        //let newAnswerCreator = userResponse.data[0].username;
+                        //console.log(newAnswerCreator);
+                        answerCreatorData = [ ...answerCreatorData, userResponse.data[0].username];
+                        setAnswerCreatorData(answerCreatorData);
+                        console.log(answerCreatorData);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                ))
+            })
+            .catch((error) => {
+                console.error("Articledata are not loaded", error);
+            });
+        }
+        getData();
+    }, [])
 
     const createAnswer = () => {
         axios.get('/getUserByFirebaseid', {
@@ -91,7 +95,7 @@ function Article() {
                 content={answer.content}
                 voting={answer.voting}
                 created={answer.created}
-                creator={answerCreatorData.username} />
+                creator={answerCreatorData[index]} />
         ));
     }
 

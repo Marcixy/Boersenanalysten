@@ -9,7 +9,7 @@ import {
 
 import './TagInput.css';
 
-function TagInput({ parentCallbackTags }) {
+function TagInput({ tagError, tagErrorText, parentCallbackTags }) {
     const [tags, setTags] = useState([]);
 
     const addTag = () => {
@@ -29,16 +29,16 @@ function TagInput({ parentCallbackTags }) {
     return (
         <div>
             <Box mb={4}>
-            <TextField
-                id="tag-inputfield"
-                label="Tags"
-                type="text"
-                variant="outlined"
-                //error={tagsError}
-                //helperText={tagsErrorText}
-                inputProps={{ maxLength: 40 }}
-                onKeyDown={(event) => (event.key === "Enter" ? addTag(event) : null)}
-                fullWidth />
+                <TextField
+                    id="tag-inputfield"
+                    label="Tags"
+                    type="text"
+                    variant="outlined"
+                    error={tagError}
+                    helperText={tagErrorText}
+                    inputProps={{ maxLength: 40 }}
+                    onKeyDown={(event) => (event.key === "Enter" ? addTag(event) : null)}
+                    fullWidth />
             </Box>
             <ul className="tag-list">
                 {
