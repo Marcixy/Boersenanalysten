@@ -14,7 +14,6 @@ function TagInput({ tagError, tagErrorText, parentCallbackTags }) {
 
     const addTag = () => {
         let tag = document.getElementById('tag-inputfield').value;
-        console.log(tag);
         if (tag !== "") {
             setTags([...tags, tag]);
             parentCallbackTags([...tags, tag]);

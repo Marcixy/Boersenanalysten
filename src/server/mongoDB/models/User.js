@@ -20,10 +20,28 @@ const userSchema = new Schema({
         required: [true, 'Share Counter must exist'],
         min: [0, 'User can not have less than {VALUE} share counter'],
     },
+    articleCounter: {
+        type: Number,
+        required: [true, 'Article Counter must exist'],
+        min: [0, 'User can not have less than {VALUE} article counter'],
+    },
+    answerCounter: {
+        type: Number,
+        required: [true, 'Answer Counter must exist'],
+        min: [0, 'User can not have less than {VALUE} answer counter'],
+    },
     registerDate: {
         type: String,
         required: [true, 'User register date must exist'],
         default: Date.now(),
+    },
+    description: {
+        type: String,
+        default: "",
+    },
+    location: {
+        type: String,
+        default: "",
     }
 });
 

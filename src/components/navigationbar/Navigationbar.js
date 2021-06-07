@@ -17,15 +17,18 @@ import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // third-party imports
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import firebase from 'firebase/app';
+import axios from 'axios';
 
 import './Navigationbar.css';
 
 function Navigationbar() {
+    const [userData, setUserData] = useState("");
     const [openDialog, setDialogOpen] = useState(false);
     const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
     const toHomepage = useHistory();
+    const { id } = useParams();
 
     const handleOpenDialog = () => {
         setDialogOpen(true);
@@ -38,7 +41,18 @@ function Navigationbar() {
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-                setUserIsLoggedIn(true);
+                axios.get('/getUserByFirebaseid', {
+                    params: {
+                        firebaseid: user.uid
+                    }
+                })
+                .then((userResponse) => {
+                    setUserData(userResponse.data[0]);
+                    setUserIsLoggedIn(true);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
             } else {
                 setUserIsLoggedIn(false);
             }
@@ -59,7 +73,8 @@ function Navigationbar() {
     if (userIsLoggedIn === true) {
         RightNavigationbar = (
             <div className="visitor-right-navigationbar">
-                <Link to="/userprofile">
+                <span>{userData.username}</span>
+                <Link to={{pathname: `/userprofile/${userData._id}`}}>
                     <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
                 </Link>
                 <Link to="/message">

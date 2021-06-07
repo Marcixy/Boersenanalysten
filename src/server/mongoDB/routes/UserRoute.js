@@ -28,19 +28,20 @@ router.get('/getUserprofiles', (req, res) => {
             res.json(data);
         })
         .catch((error) => {
-            console.error(error);
+            res.json({ msg: error });
         });
 });
 
+
 // Ein Benutzerprofil wird anhand der _id geladen
-router.get('/getUserById', (req, res) => {
-    User.find({"_id": req.query._id})
+router.get('/getUserById', async (req, res) => {
+    await User.find({"_id": req.query._id})
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);
         })
         .catch((error) => {
-            console.error(error);
+            res.json({ msg: error });
         });
 });
 

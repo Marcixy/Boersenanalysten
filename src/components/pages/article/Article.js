@@ -6,10 +6,10 @@ import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import Voting from '../../widgets/inputs/voting/Voting';
 
 // material-ui imports
-import { 
+import {
     Button,
     Chip
- } from '@material-ui/core';
+} from '@material-ui/core';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -21,7 +21,8 @@ import './Article.css';
 function Article() {
     const [articleData, setArticleData] = useState([]);
     const [answerData, setAnswerData] = useState([]);
-    let [answerCreatorData, setAnswerCreatorData] = useState([]);
+    const [answerUsernames, setAnswerUsernames] = useState([]);
+    const [answerCreatorShareCounters, setAnswerCreatorShareCounters] = useState([]);
     const [editorContent, setEditorContent] = useState("");
     const { id } = useParams();
 
@@ -36,18 +37,22 @@ function Article() {
                 const articleData = response.data[0];
                 setArticleData(articleData);
                 setAnswerData(articleData.answers);
-                articleData.answers.map((answer) => (
+                console.log(articleData.answers);
+                articleData.answers.map((answer, index) => (
                     axios.get('/getUserById', {
                         params: {
                             _id: answer.creator
                         }
                     })
                     .then((userResponse) => {
-                        //let newAnswerCreator = userResponse.data[0].username;
-                        //console.log(newAnswerCreator);
-                        answerCreatorData = [ ...answerCreatorData, userResponse.data[0].username];
-                        setAnswerCreatorData(answerCreatorData);
-                        console.log(answerCreatorData);
+                        // TODO Code verbessern!
+                        console.log(userResponse.data[0].username);
+                        console.log(answer.creator);
+                        console.log(index);
+                        let answerUsername = [userResponse.data[0].username, ...answerUsernames];
+                        let answerCreatorShareCounter = [userResponse.data[0].shareCounter, ...answerCreatorShareCounters];
+                        setAnswerUsernames(answerUsername);
+                        setAnswerCreatorShareCounters(answerCreatorShareCounter);
                     })
                     .catch((error) => {
                         console.log(error);
@@ -59,7 +64,7 @@ function Article() {
             });
         }
         getData();
-    }, [])
+    }, [id])
 
     const createAnswer = () => {
         axios.get('/getUserByFirebaseid', {
@@ -67,26 +72,26 @@ function Article() {
                 firebaseid: firebase.auth().currentUser.uid
             }
         })
-        .then((response) => {
-            const userData = response.data[0];
-            axios({
-                url: `/createAnswer/${articleData._id}`,
-                method: 'post',
-                data: {
-                    content: editorContent,
-                    creator: userData._id,
-                    voting: 0
-                }
-            }).then(() => {
-                console.log("Answer successfully created");
-                //toArticle.push(`/article/${articleData._id}`);
-            }).catch((error) => {
-                console.error("Answer is not successfully created", error);
+            .then((response) => {
+                const userData = response.data[0];
+                axios({
+                    url: `/createAnswer/${articleData._id}`,
+                    method: 'post',
+                    data: {
+                        content: editorContent,
+                        creator: userData._id,
+                        voting: 0
+                    }
+                }).then(() => {
+                    console.log("Answer successfully created");
+                    //toArticle.push(`/article/${articleData._id}`);
+                }).catch((error) => {
+                    console.error("Answer is not successfully created", error);
+                })
             })
-        })
-        .catch((error) => {
-            console.error("Userdata are not loaded", error);
-        })
+            .catch((error) => {
+                console.error("Userdata are not loaded", error);
+            })
     }
 
     const displayAnswerData = (answers) => {
@@ -95,7 +100,9 @@ function Article() {
                 content={answer.content}
                 voting={answer.voting}
                 created={answer.created}
-                creator={answerCreatorData[index]} />
+                creator={answerUsernames[index]}
+                creatorId={answer.creator}
+                creatorShareCounter={answerCreatorShareCounters[index]} />
         ));
     }
 
@@ -109,7 +116,7 @@ function Article() {
         <div className="article-page">
             <div className="article-page-content">
                 <h1>{articleData.title}</h1>
-                <div className="article-content"> 
+                <div className="article-content">
                     <Voting
                         articleid={articleData._id}
                         axiosUrl="articleVotingUpdate"
@@ -120,9 +127,9 @@ function Article() {
                     </div>
                 </div>
                 <h2>Antworten:</h2>
-                { displayAnswerData(answerData) }
+                {displayAnswerData(answerData)}
                 <h3>Deine Antwort:</h3>
-                <TextEditor parentCallbackEditorContent={ callbackEditorContent } />
+                <TextEditor parentCallbackEditorContent={callbackEditorContent} />
                 <Button
                     variant="contained"
                     color="primary"

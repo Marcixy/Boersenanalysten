@@ -18,9 +18,11 @@ function Answerlistitem(props) {
             <div className="answer-content-right">
                 <p>{props.content}</p>
                 <p>{props.created}</p>
+                {/* TODO in eigene Komponente auslagern und auch in Articlelistitem aufrufen */}
                 <Link to={{pathname: `/userprofile/${props.creatorId}`}}>
-                    <p>{props.creator}</p>
+                    <span>{props.creator}</span>
                 </Link>
+                {props.creatorShareCounter}
             </div>
         </div>
     )

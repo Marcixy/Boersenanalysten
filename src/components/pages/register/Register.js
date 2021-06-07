@@ -45,7 +45,9 @@ function Register() {
                         firebaseid: firebase.auth().currentUser.uid,
                         email: email,
                         username: username,
-                        shareCounter: 0
+                        shareCounter: 0,
+                        articleCounter: 0,
+                        answerCounter: 0
                     }
                 }).then(() => {
                     console.log("User successfully registered");
