@@ -1,3 +1,14 @@
 .userprofile-page {
+    color: white;
+    margin: 40px auto 0 auto;
     min-height: 100vh;
+    width: 50%;
+}
+
+.userprofile-page a {
+    text-decoration: none;
+}
+
+.userprofile-page button {
+    color: #2196f3;
 }

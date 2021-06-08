@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-// material-ui imports
-import {
-    Button,
-    ButtonGroup
-} from '@material-ui/core';
+// own-component imports
+import UserNavigationbar from '../../widgets/outputs/usernavigationbar/UserNavigationbar';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -33,11 +30,7 @@ function Userprofile() {
 
     return (
         <div className="userprofile-page">
-            <ButtonGroup color="primary">
-                <Button>Profil</Button>
-                <Button>Portfolio Historie</Button>
-                <Button>Einstellungen</Button>
-            </ButtonGroup>
+            <UserNavigationbar />
             <h1>Profil</h1>
             <h2>{userData.username}</h2>
             <p>{userData.shareCounter}</p>

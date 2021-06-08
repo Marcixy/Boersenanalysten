@@ -8,9 +8,11 @@ import Help from './components/pages/help/Help';
 import Homepage from './components/pages/homepage/Homepage';
 import Navigationbar from './components/navigationbar/Navigationbar';
 import Message from './components/pages/message/Message';
+import Settings from './components/pages/settings/Settings';
 import Register from './components/pages/register/Register';
 import Login from './components/pages/login/Login';
 import LegalNotice from './components/footer/legalNotice/LegalNotice';
+import PortfolioHistory from './components/pages/portfolioHistory/PortfolioHistory';
 import PrivacyPolicy from './components/footer/privacyPolicy/PrivacyPolicy';
 import TermsOfUse from './components/footer/termsOfUse/TermsOfUse';
 import Userprofile from './components/pages/userprofile/Userprofile';
@@ -37,6 +39,8 @@ function App() {
       <Route exact path="/createArticle" component={ CreateArticle } />
       <Route exact path="/article/:id" component={ Article } />
       <Route exact path="/forgotPassword" component={ ForgotPassword } />
+      <Route exact path="/settings" component={ Settings } />
+      <Route exact path="/portfolioHistory" component={ PortfolioHistory } />
       <Footer />
     </div>
   );

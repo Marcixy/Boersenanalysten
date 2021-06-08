@@ -17,7 +17,7 @@ import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // third-party imports
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
 import axios from 'axios';
 
@@ -28,7 +28,6 @@ function Navigationbar() {
     const [openDialog, setDialogOpen] = useState(false);
     const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
     const toHomepage = useHistory();
-    const { id } = useParams();
 
     const handleOpenDialog = () => {
         setDialogOpen(true);
