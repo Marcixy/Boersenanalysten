@@ -39,8 +39,8 @@ function App() {
       <Route exact path="/createArticle" component={ CreateArticle } />
       <Route exact path="/article/:id" component={ Article } />
       <Route exact path="/forgotPassword" component={ ForgotPassword } />
-      <Route exact path="/settings" component={ Settings } />
-      <Route exact path="/portfolioHistory" component={ PortfolioHistory } />
+      <Route exact path="/settings/:id" component={ Settings } />
+      <Route exact path="/portfolioHistory/:id" component={ PortfolioHistory } />
       <Footer />
     </div>
   );

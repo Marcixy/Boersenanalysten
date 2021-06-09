@@ -30,9 +30,9 @@ function Userprofile() {
 
     return (
         <div className="userprofile-page">
-            <UserNavigationbar />
-            <h1>Profil</h1>
-            <h2>{userData.username}</h2>
+            <UserNavigationbar userid={id} />
+            <h2>Profil</h2>
+            <p>{userData.username}</p>
             <p>{userData.shareCounter}</p>
             <p>{userData.articleCounter}</p>
             <p>{userData.answerCounter}</p>

@@ -9,19 +9,23 @@ import {
 // third-party imports
 import { Link } from "react-router-dom";
 
-function UserNavigationbar() {
+import "./UserNavigationbar.css";
+
+function UserNavigationbar(props) {
     return (
-        <ButtonGroup variant="text" color="primary">
-            <Link to="/userprofile">
-                <Button>Profil</Button>
-            </Link>
-            <Link to="/portfolioHistory">
-                <Button>Portfolio Historie</Button>
-            </Link>
-            <Link to="/settings">
-                <Button>Einstellungen</Button>
-            </Link>
-        </ButtonGroup>
+        <div className="user-navigationbar">
+            <ButtonGroup variant="text" color="primary" >
+                <Link to={{pathname: `/userprofile/${props.userid}`}}>
+                    <Button>Profil</Button>
+                </Link>
+                <Link to={{pathname: `/portfolioHistory/${props.userid}`}}>
+                    <Button>Portfolio Historie</Button>
+                </Link>
+                <Link to={{pathname: `/settings/${props.userid}`}}>
+                    <Button>Einstellungen</Button>
+                </Link>
+            </ButtonGroup>
+        </div>
     )
 }
 
