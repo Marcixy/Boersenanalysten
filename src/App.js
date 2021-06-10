@@ -14,6 +14,10 @@ import Login from './components/pages/login/Login';
 import LegalNotice from './components/footer/legalNotice/LegalNotice';
 import PortfolioHistory from './components/pages/portfolioHistory/PortfolioHistory';
 import PrivacyPolicy from './components/footer/privacyPolicy/PrivacyPolicy';
+import ProfileSettings from './components/pages/settings/profileSettings/ProfileSettings';
+import EmailSettings from './components/pages/settings/emailSettings/EmailSettings';
+import PasswordSettings from './components/pages/settings/passwordSettings/PasswordSettings';
+import DeleteAccount from './components/pages/settings/deleteAccount/DeleteAccount';
 import TermsOfUse from './components/footer/termsOfUse/TermsOfUse';
 import Userprofile from './components/pages/userprofile/Userprofile';
 
@@ -41,6 +45,10 @@ function App() {
       <Route exact path="/forgotPassword" component={ ForgotPassword } />
       <Route exact path="/settings/:id" component={ Settings } />
       <Route exact path="/portfolioHistory/:id" component={ PortfolioHistory } />
+      <Route exact path="/profileSettings/:id" component={ ProfileSettings } />
+      <Route exact path="/emailSettings/:id" component={ EmailSettings } />
+      <Route exact path="/passwordSettings/:id" component={ PasswordSettings } />
+      <Route exact path="/deleteAccount/:id" component={ DeleteAccount } />
       <Footer />
     </div>
   );
