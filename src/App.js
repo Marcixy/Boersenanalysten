@@ -8,7 +8,6 @@ import Help from './components/pages/help/Help';
 import Homepage from './components/pages/homepage/Homepage';
 import Navigationbar from './components/navigationbar/Navigationbar';
 import Message from './components/pages/message/Message';
-import Settings from './components/pages/settings/Settings';
 import Register from './components/pages/register/Register';
 import Login from './components/pages/login/Login';
 import LegalNotice from './components/footer/legalNotice/LegalNotice';
@@ -43,7 +42,6 @@ function App() {
       <Route exact path="/createArticle" component={ CreateArticle } />
       <Route exact path="/article/:id" component={ Article } />
       <Route exact path="/forgotPassword" component={ ForgotPassword } />
-      <Route exact path="/settings/:id" component={ Settings } />
       <Route exact path="/portfolioHistory/:id" component={ PortfolioHistory } />
       <Route exact path="/profileSettings/:id" component={ ProfileSettings } />
       <Route exact path="/emailSettings/:id" component={ EmailSettings } />

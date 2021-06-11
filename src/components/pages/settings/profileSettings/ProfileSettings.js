@@ -1,16 +1,24 @@
 import React from 'react';
 
 // own-component imports
-import Settings from '../Settings';
+import SettingsMenu from '../../../widgets/outputs/settingsmenu/SettingsMenu';
+import UserNavigationbar from '../../../widgets/outputs/usernavigationbar/UserNavigationbar';
+
+// third-party imports
+import { useParams } from "react-router-dom";
 
 import './ProfileSettings.css';
 
 function ProfileSettings() {
+    const { id } = useParams();
 
     return (
         <div className="profile-settings-page">
-            <Settings />
-            <h2>Profil</h2>
+            <UserNavigationbar userid={id} />
+            <SettingsMenu userid={id} />
+            <div className="password-settings-section">
+                <h2>Profil</h2>
+            </div>
         </div>
     )
 }

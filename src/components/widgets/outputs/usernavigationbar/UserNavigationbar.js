@@ -21,7 +21,7 @@ function UserNavigationbar(props) {
                 <Link to={{pathname: `/portfolioHistory/${props.userid}`}}>
                     <Button>Portfolio Historie</Button>
                 </Link>
-                <Link to={{pathname: `/settings/${props.userid}`}}>
+                <Link to={{pathname: `/profileSettings/${props.userid}`}}>
                     <Button>Einstellungen</Button>
                 </Link>
             </ButtonGroup>
