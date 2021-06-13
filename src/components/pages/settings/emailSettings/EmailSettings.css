@@ -1,0 +1,22 @@
+.email-settings-page {
+    color: white;
+    display: grid;
+    grid-auto-rows: minmax(min-content, max-content);
+    margin: 40px auto 0 auto;
+    min-height: 100vh;
+    width: 50%;
+}
+
+.email-settings-section {
+    grid-column: 2 / 2;
+}
+
+.email-settings-section div {
+    color: white;
+    display: flex;
+    margin-top: 24px;
+}
+
+.email-settings-section label {
+    color: white;
+}

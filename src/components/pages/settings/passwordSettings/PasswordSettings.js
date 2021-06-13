@@ -39,12 +39,36 @@ function PasswordSettings() {
         const isNewPasswordValid = checkNewPassword();
         const isRepeatedNewPasswordValid = checkRepeatedNewPassword();
         if (isOldPasswordValid === true && isNewPasswordValid === true && isRepeatedNewPasswordValid === true) {
-            firebase.auth().currentUser.updatePassword(newPassword).then(() => {
-                console.log("Passwort wurde erfolgreich geändert.");
-            }).catch((error) => {
-                console.log(error);
+            reauthenticateUser(oldPassword).then(() => {
+                const user = firebase.auth().currentUser;
+                // TODO async benötigt? Danach testen
+                user.updatePassword(newPassword).then(async () => {
+                    alert("Passwort wurde erfolgreich aktualisiert.");
+                    window.location.reload();
+                    console.log("Passwort wurde erfolgreich aktualisiert.");
+                }).catch((error) => {
+                     console.log(error.code);
+                });
             })
+            .catch((error) => {
+                switch (error.code) {
+                    case 'auth/wrong-password':
+                        setOldPasswordError(true);
+                        setOldPasswordErrorText('Falsches Passwort.');
+                        break;
+                    default:
+                        console.log('Unbekannter Fehler bei Passwort Aktualisierung: ' + error);
+                        break;
+                }
+            });
         }
+    }
+
+    const reauthenticateUser = (oldPassword) => {
+        let user = firebase.auth().currentUser;
+        let cred = firebase.auth.EmailAuthProvider.credential(
+            user.email, oldPassword);
+        return user.reauthenticateWithCredential(cred);
     }
 
     const checkOldPassword = () => {

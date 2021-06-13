@@ -1,0 +1,22 @@
+.delete-account-page {
+    color: white;
+    display: grid;
+    grid-auto-rows: minmax(min-content, max-content);
+    margin: 40px auto 0 auto;
+    min-height: 100vh;
+    width: 50%;
+}
+
+.delete-account-section {
+    grid-column: 2 / 2;
+}
+
+.delete-account-section div {
+    color: white;
+    display: flex;
+    margin-top: 24px;
+}
+
+.delete-account-section label {
+    color: white;
+}
