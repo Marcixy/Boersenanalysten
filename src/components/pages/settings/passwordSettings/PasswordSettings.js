@@ -47,10 +47,9 @@ function PasswordSettings() {
                     window.location.reload();
                     console.log("Passwort wurde erfolgreich aktualisiert.");
                 }).catch((error) => {
-                     console.log(error.code);
+                     console.log(error);
                 });
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 switch (error.code) {
                     case 'auth/wrong-password':
                         setOldPasswordError(true);

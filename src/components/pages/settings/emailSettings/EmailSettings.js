@@ -30,7 +30,8 @@ function EmailSettings() {
 
     const changeEmail = () => {
         const isEmailValid = checkEmail();
-        if (isEmailValid === true) {
+        const isPasswordValid = checkPassword();
+        if (isEmailValid === true && isPasswordValid === true) {
             reauthenticateUser(password).then(() => {
                 const user = firebase.auth().currentUser;
                 console.log(email);
@@ -39,28 +40,32 @@ function EmailSettings() {
                     window.location.reload();
                     console.log("E-Mail wurde erfolgreich aktualisiert.");
                 }).catch((error) => {
-                    console.log(error.code);
-                    switch(error.code) {
-                        case "auth/invalid-email":
-                            setEmailError(true);
-                            setEmailErrorText("E-Mail Adresse ist nicht gültig.");
-                            break;
-                        default:
-                            setEmailError(true);
-                            setEmailErrorText("Unbekannter Fehler bei E-Mail Aktualisierung ist aufgetreten.");
-                    }
+                    console.log(error);
                 });
             }).catch((error) => {
-
-            })
+                console.log(error.code);
+                switch(error.code) {
+                    case "auth/invalid-email":
+                        setEmailError(true);
+                        setEmailErrorText("E-Mail Adresse ist nicht gültig.");
+                        break;
+                    case 'auth/wrong-password':
+                        setPasswordError(true);
+                        setPasswordErrorText('Falsches Passwort.');
+                        break;
+                    default:
+                        setEmailError(true);
+                        setEmailErrorText("Unbekannter Fehler bei E-Mail Aktualisierung ist aufgetreten.");
+                }
+            });
         }
     }
 
     // TODO in extra Klasse auslagern
-    const reauthenticateUser = (oldPassword) => {
+    const reauthenticateUser = (password) => {
         let user = firebase.auth().currentUser;
         let cred = firebase.auth.EmailAuthProvider.credential(
-            user.email, oldPassword);
+            user.email, password);
         return user.reauthenticateWithCredential(cred);
     }
 
@@ -72,6 +77,17 @@ function EmailSettings() {
         }
         setEmailError(false);
         setEmailErrorText("");
+        return true;
+    }
+
+    const checkPassword = () => {
+        if (password === "") {
+            setPasswordError(true);
+            setPasswordErrorText("Bitte gib ein Passwort ein.");
+            return false;
+        }
+        setPasswordError(false);
+        setPasswordErrorText("");
         return true;
     }
 
@@ -87,6 +103,7 @@ function EmailSettings() {
                     error={emailError}
                     helperText={emailErrorText}
                     inputProps={{ maxLength: 50 }}
+                    style={{ width: '270px' }}
                     onChange={(event) => setEmail(event.target.value)}
                     autoFocus />
                 <TextField

@@ -1,5 +1,6 @@
 .settings-menu {
     grid-column: 1 / 1;
+    width: 75%;
 }
 
 .settings-menu a {
