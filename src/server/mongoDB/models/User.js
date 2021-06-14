@@ -17,16 +17,19 @@ const userSchema = new Schema({
     },
     shareCounter: {
         type: Number,
+        default: 0,
         required: [true, 'Share Counter must exist'],
         min: [0, 'User can not have less than {VALUE} share counter'],
     },
     articleCounter: {
         type: Number,
+        default: 0,
         required: [true, 'Article Counter must exist'],
         min: [0, 'User can not have less than {VALUE} article counter'],
     },
     answerCounter: {
         type: Number,
+        default: 0,
         required: [true, 'Answer Counter must exist'],
         min: [0, 'User can not have less than {VALUE} answer counter'],
     },
@@ -36,10 +39,6 @@ const userSchema = new Schema({
         default: Date.now(),
     },
     description: {
-        type: String,
-        default: "",
-    },
-    location: {
         type: String,
         default: "",
     }

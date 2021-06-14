@@ -21,6 +21,10 @@
     text-decoration: none;
 }
 
+#is-portfolio-article-checkbox {
+    margin-bottom: 12px;
+}
+
 #createAnswerButton {
     margin-top: 16px;
 }

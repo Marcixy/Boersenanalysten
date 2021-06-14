@@ -19,12 +19,15 @@ import './EmailSettings.css';
 function EmailSettings() {
     const { id } = useParams();
 
+    // Eingabefelder für E-Mail ändern
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+     // Errortext für E-Mail ändern
     const [emailErrorText, setEmailErrorText] = useState("");
     const [passwordErrorText, setPasswordErrorText] = useState("");
 
+    // Error Farbe für E-Mail ändern
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
@@ -34,7 +37,6 @@ function EmailSettings() {
         if (isEmailValid === true && isPasswordValid === true) {
             reauthenticateUser(password).then(() => {
                 const user = firebase.auth().currentUser;
-                console.log(email);
                 user.updateEmail(email).then(() => {
                     alert("E-Mail wurde erfolgreich aktualisiert.");
                     window.location.reload();

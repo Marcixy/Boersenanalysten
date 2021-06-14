@@ -8,6 +8,8 @@ import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import {
     Box,
     Button,
+    Checkbox,
+    FormControlLabel,
     TextField
 } from '@material-ui/core';
 
@@ -23,6 +25,7 @@ function CreateArticle() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState([]);
+    const [isPortfolioArticle, setIsPortfolioArticle] = useState(false);
 
     // Errortexte für Beitrag erstellen
     const [titleErrorText, setTitleErrorText] = useState("");
@@ -56,9 +59,7 @@ function CreateArticle() {
                         content: content,
                         tags: tags,
                         creator: userData._id,
-                        voting: 0,
-                        answerCounter: 0,
-                        views: 0
+                        isPortfolioArticle: isPortfolioArticle
                     }
                 }).then(() => {
                     console.log("Article successfully created");
@@ -114,6 +115,10 @@ function CreateArticle() {
         return true;
     }
 
+    const handleIsPortfolioArticle = () => {
+        setIsPortfolioArticle(!isPortfolioArticle);
+    }
+
     // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
     // Zugriff zu bekommen.
     const callbackEditorContent = (editorContent) => {
@@ -145,6 +150,15 @@ function CreateArticle() {
                 contentError={ contentError }
                 contentErrorText={ contentErrorText }
                 parentCallbackEditorContent={ callbackEditorContent } />
+            <FormControlLabel
+                id="is-portfolio-article-checkbox"
+                control={
+                    <Checkbox
+                        checked={isPortfolioArticle}
+                        color="primary"
+                        onChange={handleIsPortfolioArticle} />
+                }
+                label="Portfolio Beitrag" />
             <TagInput
                 tagError={tagError}
                 tagErrorText={tagErrorText}

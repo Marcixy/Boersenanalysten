@@ -4,7 +4,17 @@ import React, { useState, useEffect } from 'react';
 import Articlelistitem from '../../widgets/outputs/articlelistitem/Articlelistitem';
 
 // material-ui imports
-import { Button } from '@material-ui/core';
+import {
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    Button,
+    ButtonGroup,
+    Typography
+} from '@material-ui/core';
+
+// material-ui icon imports
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 // third-party imports
 import { Link } from 'react-router-dom';
@@ -61,6 +71,26 @@ function Articlelist() {
                         variant="contained"
                         color="primary">Beitrag erstellen</Button>
                 </Link>
+            </div>
+            <div className="articlelist-filter">
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={ <ExpandMoreIcon /> }>
+                    <Typography>Filter</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                        TODO
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
+            </div>
+            <div className="articlelist-sorting">
+                <ButtonGroup variant="text" size="small" color="primary">
+                    <Button>Neuste</Button>
+                    <Button>Voting</Button>
+                    <Button>Antworten</Button>
+                </ButtonGroup>
             </div>
             <div>
                 { displayArticleData(articleData) }

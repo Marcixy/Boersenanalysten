@@ -18,3 +18,18 @@
 .articlelist-header a {
     text-decoration: none;
 }
+
+.articlelist-filter {
+    margin: 12px 0;
+}
+
+.articlelist-filter div {
+    background-color: #333333;
+    color: white;
+}
+
+.articlelist-sorting {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
