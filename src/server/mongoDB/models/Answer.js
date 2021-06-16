@@ -16,11 +16,9 @@ const answerSchema = new Schema({
         type: Number,
         required: [true, 'Answer voting must exist'],
     },
-    created: {
-        type: Date,
-        required: [true, 'Answer creation date must exist'],
-        default: Date.now(),
-    }
+},
+{
+    timestamps: true
 });
 
 // Model

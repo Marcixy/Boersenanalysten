@@ -58,7 +58,7 @@ function Articlelist() {
                 creator={creatorData.username}
                 creatorId={creatorData._id}
                 creatorShareCount={creatorData.shareCounter}
-                created={article.created} />
+                created={article.createdAt} />
         ));
     }
 

@@ -33,15 +33,13 @@ const userSchema = new Schema({
         required: [true, 'Answer Counter must exist'],
         min: [0, 'User can not have less than {VALUE} answer counter'],
     },
-    registerDate: {
-        type: String,
-        required: [true, 'User register date must exist'],
-        default: Date.now(),
-    },
     description: {
         type: String,
         default: "",
     }
+},
+{
+    timestamps: true
 });
 
 // Model

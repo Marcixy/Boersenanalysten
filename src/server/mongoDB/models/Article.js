@@ -39,16 +39,14 @@ const articleSchema = new Schema({
         required: [true, 'Article views must exist'],
         min: [0, 'Article can not have less than 0 views'],
     },
-    created: {
-        type: Date,
-        required: [true, 'Article creation date must exist'],
-        default: Date.now(),
-    },
     isPortfolioArticle: {
         type: Boolean,
         required: [true, 'isPortfolioArticle must exist'],
     },
     answers: [Answer.schema],
+},
+{
+    timestamps: true
 });
 
 // Model
