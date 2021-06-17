@@ -33,10 +33,14 @@
     color: #303F9F;
 }
 
-.article-list-item-right span {
-    margin-right: 16px;
+.article-list-item-right .MuiChip-root {
+    margin-right: 8px;
 }
 
 .article-list-item-user-info {
     text-align: end;
+}
+
+.article-list-item-user-info span {
+    margin-right: 16px;
 }

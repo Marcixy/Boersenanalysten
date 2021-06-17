@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+// material-ui imports
+import {
+    Chip,
+} from '@material-ui/core';
+
 // third-party imports
 import { Link } from 'react-router-dom';
 
@@ -32,6 +37,15 @@ function Articlelistitem(props) {
                 <Link to={{pathname: `/article/${props.id}`}}>
                     <h3>{props.title}</h3>
                 </Link>
+                {
+                props.tags.map((tag) => (
+                    <Chip 
+                        className="tag-title"
+                        size="small"
+                        color="primary"
+                        label={tag} />
+                    ))
+                }
                 <div className="article-list-item-user-info">
                     {formattedCreationDate}<br />
                     <Link to={{pathname: `/userprofile/${props.creatorId}`}}>
