@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const Article = require('../models/Article');
+const User = require('../models/User');
 
 // =============== Routes ===================
 
@@ -11,11 +12,27 @@ router.post('/createArticle', (req, res) => {
     console.log("Articledata: ", req.body);
     const articleData = req.body;
     const newArticle = Article(articleData);
+    let arrayToUpdate = "";
+    newArticle.isPortfolioArticle === true ?
+        arrayToUpdate = "portfolioArticle" :
+        arrayToUpdate = "article";
     newArticle.save((error) => {
         if (error) {
-            res.status(500).json({ msg: "Internal server error" });
+            res.status(500).json({ msg: "Internal server error by create Article" });
         } else {
-            res.json({ msg: "Article successfully write to MongoDB" });
+            User.updateOne({"_id": newArticle.creator},
+            {
+                $addToSet: {
+                    [`${arrayToUpdate}`]: newArticle._id 
+                },
+            },
+            function (error) {
+                if (error) {
+                    res.status(500).json({ msg: "Internal server error by updating user " + arrayToUpdate + " array" });
+                } else {
+                    res.json({ msg: "Create Article was successful" });
+                }
+            });
         }
     });
 });

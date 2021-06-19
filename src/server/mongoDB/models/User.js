@@ -36,7 +36,29 @@ const userSchema = new Schema({
     description: {
         type: String,
         default: "",
-    }
+    },
+    portfolioArticle: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Article',
+    }],
+    article: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Article',
+    }],
+    answers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Answer',
+    }],
+    upvotings: [{
+        type: mongoose.Schema.Types.ObjectId,
+    }],
+    downvotings: [{
+        type: mongoose.Schema.Types.ObjectId,
+    }],
+    tags: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',
+    }]
 },
 {
     timestamps: true

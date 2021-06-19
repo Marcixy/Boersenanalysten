@@ -66,6 +66,7 @@ function CreateArticle() {
                     toArticle.push("/article");
                 }).catch((error) => {
                     console.error("Article is not successfully created", error);
+                    alert("Serverfehler: Beitrag konnte nicht erstellt werden bitte versuchen Sie es später erneut.");
                 });
             })
             .catch((error) => {
