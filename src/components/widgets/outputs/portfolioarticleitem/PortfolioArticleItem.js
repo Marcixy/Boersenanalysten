@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // third-party imports
 import { Link } from 'react-router-dom';
@@ -19,6 +19,19 @@ import TimelineDot from '@material-ui/lab/TimelineDot';
 import './PortfolioArticleItem.css';
 
 function PortfolioArticleItem(props) {
+    const [formattedCreationDate, setFormattedCreationDate] = useState("");
+
+    var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    
+    useEffect(() => {
+        convertCreationDate();
+    }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+
+    const convertCreationDate = () => {
+        const creationDate = new Date(props.creationDate);
+        setFormattedCreationDate(creationDate.toLocaleString("de-DE", options));
+    }
+
     return (
         <TimelineItem className="timeline-item">
             <TimelineSeparator>
@@ -27,8 +40,10 @@ function PortfolioArticleItem(props) {
             </TimelineSeparator>
             <TimelineContent>
             <Paper elevation={3}>
-                <Typography variant="h6">{props.title}</Typography>
-                <Typography>{props.creationDate}</Typography>
+                <Link to={{pathname: `/article/${props.id}`}}>
+                    <Typography variant="h6">{props.title}</Typography>
+                </Link>
+                <Typography>{formattedCreationDate}</Typography>
             </Paper>
             </TimelineContent>
         </TimelineItem>

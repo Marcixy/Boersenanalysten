@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/User');
+const Article = require('../models/Article');
 
 // =============== Routes ===================
 
@@ -56,5 +57,25 @@ router.get('/getUserByFirebaseid', (req, res) => {
             console.error(error);
         });
 });
+
+// TODO hier weitermachen Route implementieren für getPortfolioArticles und
+// dann anzeigen lassen in Portfolio Historie
+router.get('/getUserPortfolioArticles', async (req, res) => {
+    await User.find({"_id": req.query._id})
+        .then((data) => {
+            console.log("Userdata: ", data[0].portfolioArticle[0]);
+            Article.find({"_id": data[0].portfolioArticle})
+            .then((data) => {
+                console.log("PortfolioArticle: ", data);
+                res.json(data);
+            })
+            .catch((error) => {
+                res.json({ msg: error });
+            });
+        })
+        .catch((error) => {
+            res.json({ msg: error });
+        });
+})
 
 module.exports = router;

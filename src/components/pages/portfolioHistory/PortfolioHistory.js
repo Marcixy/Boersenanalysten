@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // own-component imports
 import UserNavigationbar from '../../widgets/outputs/usernavigationbar/UserNavigationbar';
@@ -9,29 +9,45 @@ import Timeline from '@material-ui/lab/Timeline';
 
 // third-party imports
 import { useParams } from "react-router-dom";
+import axios from 'axios';
 
 import './PortfolioHistory.css';
 
 function PortfolioHistory() {
+    const [portfolioArticleData, setPortfolioArticleData] = useState([]);
+
     const { id } = useParams();
+
+    useEffect(() => {
+        axios.get('/getUserPortfolioArticles', {
+            params: {
+                _id: id
+            }
+        })
+        .then((response) => {
+            const portfolioArticleData = response.data;
+            setPortfolioArticleData(portfolioArticleData);
+        })
+        .catch((error) => {
+            console.error("Portfolio Article are not loaded", error);
+        });
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    const displayPortfolioArticles = (portfolioArticles) => {
+        return portfolioArticles.map((portfolioArticle) => (
+            <PortfolioArticleItem
+                id={portfolioArticle._id}
+                title={portfolioArticle.title}
+                creationDate={portfolioArticle.createdAt} />
+        ));
+    }
 
     return (
         <div className="portfolio-history-page">
             <UserNavigationbar userid={id} />
             <h2>Portfolio Historie</h2>
             <Timeline align="alternate">
-                <PortfolioArticleItem 
-                    title="Portfolio Beitrag 4"
-                    creationDate="01.07.2021"/>
-                <PortfolioArticleItem 
-                    title="Portfolio Beitrag 3"
-                    creationDate="15.06.2021"/>
-                <PortfolioArticleItem 
-                    title="Portfolio Beitrag 2"
-                    creationDate="08.06.2021"/>
-                <PortfolioArticleItem 
-                    title="Portfolio Beitrag 1"
-                    creationDate="01.06.2021"/>
+                { displayPortfolioArticles(portfolioArticleData) }
             </Timeline>
         </div>
     )
