@@ -1,0 +1,12 @@
+.article-statistics {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.article-statistics ul li {
+    display: inline-block;
+    margin-right: 16px; 
+    text-align: center;
+    list-style: none;
+}

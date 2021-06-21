@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+// own component imports
+import ArticleLink from '../articlelink/ArticleLink';
+import ArticleStatistics from '../articlestatistics/ArticleStatistics';
+
 // material-ui imports
 import {
     Chip,
@@ -26,17 +30,14 @@ function Articlelistitem(props) {
 
     return (
         <div className="article-list-item" key={props.index}>
-            <div className="article-list-item-left">
-                <ul>
-                    <li>{props.voting}<br />Voting</li>
-                    <li>{props.answerCounter}<br />Antworten</li>
-                    <li>{props.views}<br />Ansichten</li>
-                </ul>
-            </div>
+            <ArticleStatistics 
+                voting={props.voting}
+                answerCounter={props.answerCounter}
+                views={props.views} />
             <div className="article-list-item-right">
-                <Link to={{pathname: `/article/${props.id}`}}>
-                    <h3>{props.title}</h3>
-                </Link>
+                <ArticleLink 
+                    id={props.id}
+                    title={props.title} />
                 {
                 props.tags.map((tag) => (
                     <Chip 

@@ -1,0 +1,9 @@
+.article-link a {
+    color: #3f51b5;
+    margin: 0;
+    text-decoration: none;
+}
+
+.article-link a:hover {
+    color: #303F9F;
+}

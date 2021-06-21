@@ -38,6 +38,9 @@ function PortfolioHistory() {
             <PortfolioArticleItem
                 id={portfolioArticle._id}
                 title={portfolioArticle.title}
+                voting={portfolioArticle.voting}
+                answerCounter={portfolioArticle.answerCounter}
+                views={portfolioArticle.views}
                 creationDate={portfolioArticle.createdAt} />
         ));
     }

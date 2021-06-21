@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-// third-party imports
-import { Link } from 'react-router-dom';
+// own component imports
+import ArticleLink from '../articlelink/ArticleLink';
+import ArticleStatistics from '../articlestatistics/ArticleStatistics';
 
 // material-ui imports
 import {
@@ -39,10 +40,14 @@ function PortfolioArticleItem(props) {
             <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
-            <Paper elevation={3}>
-                <Link to={{pathname: `/article/${props.id}`}}>
-                    <Typography variant="h6">{props.title}</Typography>
-                </Link>
+            <Paper elevation={3} style={{color: 'white'}}>
+                <ArticleLink 
+                    id={props.id}
+                    title={props.title} />
+                <ArticleStatistics
+                    voting={props.voting}
+                    answerCounter={props.answerCounter}
+                    views={props.views} />
                 <Typography>{formattedCreationDate}</Typography>
             </Paper>
             </TimelineContent>
