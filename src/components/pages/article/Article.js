@@ -24,6 +24,7 @@ function Article() {
     const [answerUsernames, setAnswerUsernames] = useState([]);
     const [answerCreatorShareCounters, setAnswerCreatorShareCounters] = useState([]);
     const [editorContent, setEditorContent] = useState("");
+
     const { id } = useParams();
 
     useEffect(() => {
@@ -72,26 +73,25 @@ function Article() {
                 firebaseid: firebase.auth().currentUser.uid
             }
         })
-            .then((response) => {
-                const userData = response.data[0];
-                axios({
-                    url: `/createAnswer/${articleData._id}`,
-                    method: 'post',
-                    data: {
-                        content: editorContent,
-                        creator: userData._id,
-                        voting: 0
-                    }
-                }).then(() => {
-                    console.log("Answer successfully created");
-                    //toArticle.push(`/article/${articleData._id}`);
-                }).catch((error) => {
-                    console.error("Answer is not successfully created", error);
-                })
+        .then((response) => {
+            const userData = response.data[0];
+            axios({
+                url: `/createAnswer/${articleData._id}`,
+                method: 'post',
+                data: {
+                    content: editorContent,
+                    creator: userData._id,
+                    voting: 0
+                }
+            }).catch((error) => {
+                console.error("Answer is not successfully created", error);
             })
-            .catch((error) => {
-                console.error("Userdata are not loaded", error);
-            })
+            console.log("Answer successfully created");
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error("Userdata are not loaded", error);
+        })
     }
 
     const displayAnswerData = (answers) => {

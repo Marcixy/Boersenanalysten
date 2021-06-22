@@ -40,7 +40,7 @@ function PortfolioArticleItem(props) {
             <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
-            <Paper elevation={3} style={{color: 'white'}}>
+            <Paper elevation={3} style={{color: 'white', backgroundColor: '#333333'}}>
                 <ArticleLink 
                     id={props.id}
                     title={props.title} />
@@ -48,7 +48,7 @@ function PortfolioArticleItem(props) {
                     voting={props.voting}
                     answerCounter={props.answerCounter}
                     views={props.views} />
-                <Typography>{formattedCreationDate}</Typography>
+                <p>{formattedCreationDate}</p>
             </Paper>
             </TimelineContent>
         </TimelineItem>
