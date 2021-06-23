@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem';
+import ItemActions from '../../widgets/outputs/itemactions/ItemActions';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import Voting from '../../widgets/inputs/voting/Voting';
 
@@ -24,6 +25,7 @@ function Article() {
     const [answerUsernames, setAnswerUsernames] = useState([]);
     const [answerCreatorShareCounters, setAnswerCreatorShareCounters] = useState([]);
     const [editorContent, setEditorContent] = useState("");
+    const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
 
     const { id } = useParams();
 
@@ -38,7 +40,7 @@ function Article() {
                 const articleData = response.data[0];
                 setArticleData(articleData);
                 setAnswerData(articleData.answers);
-                console.log(articleData.answers);
+                console.log(articleData)
                 articleData.answers.map((answer, index) => (
                     axios.get('/getUserById', {
                         params: {
@@ -59,6 +61,26 @@ function Article() {
                         console.log(error);
                     })
                 ))
+                firebase.auth().onAuthStateChanged(function(user) {
+                    console.log("UID:" + user.uid);
+                    axios.get('/getUserByFirebaseid', {
+                        params: {
+                            firebaseid: user.uid
+                        }
+                    })
+                    .then((userResponse) => {
+                        console.log("articleData.creator: " + articleData.creator);
+                        console.log("userResponse.data[0]._id: " + userResponse.data[0]._id);
+                        if (articleData.creator === userResponse.data[0]._id) {
+                            setUserIsLoggedIn(true);
+                        } else {
+                            setUserIsLoggedIn(false);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                })
             })
             .catch((error) => {
                 console.error("Articledata are not loaded", error);
@@ -106,6 +128,17 @@ function Article() {
         ));
     }
 
+    let articleActions;
+    if (userIsLoggedIn === true) {
+        articleActions = (
+            <ItemActions
+                deleteDialogTitle="Beitrag löschen"
+                deleteDialogText="Wollen Sie den Beitrag wirklich löschen?"
+                deleteUrl="deleteArticle"
+                id={articleData._id} />
+        )
+    }
+
     // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
     // Zugriff zu bekommen.
     const callbackEditorContent = (editorContent) => {
@@ -124,6 +157,7 @@ function Article() {
                     <div className="article-content-right">
                         <p>{articleData.content}</p>
                         <Chip label={articleData.tags} size="small" color="primary" />
+                        { articleActions }
                     </div>
                 </div>
                 <h2>Antworten:</h2>

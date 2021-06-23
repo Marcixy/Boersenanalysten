@@ -1,0 +1,14 @@
+.function-section ul {
+    padding: 0;
+}
+
+.function-section ul li {
+    display: inline;
+    margin: 0 12px 0 0;
+    list-style: none;
+}
+
+.function-section ul li:hover {
+    color: #757de8;
+    cursor: pointer;
+}

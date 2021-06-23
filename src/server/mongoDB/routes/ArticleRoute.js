@@ -43,9 +43,8 @@ router.get('/getArticlelist', (req, res) => {
         .then((data) => {
             console.log("Articlelist data: ", data);
             res.json(data);
-        })
-        .catch((error) => {
-            console.error(error);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
         });
 });
 
@@ -55,9 +54,8 @@ router.get('/getArticleById', (req, res) => {
         .then((data) => {
             console.log("Articledata: ", data);
             res.json(data);
-        })
-        .catch((error) => {
-            console.error(error);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
         });
 });
 
@@ -71,11 +69,23 @@ router.post('/articleVotingUpdate/:articleid', (req, res) => {
     },
     function (error) {
         if (error) {
-            res.status(500).json({ msg: "Internal server error" });
+            res.status(500).json({ msg: "Internal server error: " + error });
         } else {
             res.json({ msg: "Successfully voting update" });
         }
     });
+});
+
+// Beitrag wird gelöscht
+router.post('/deleteArticle/:articleid', (req, res) => {
+    Article.deleteOne({_id: req.params.articleid},
+        function (error) {
+            if (error) {
+                res.status(500).json({ msg: "Internal server error" });
+            } else {
+                res.json({ msg: "Delete Article was successfully" });
+            }
+        });
 });
 
 module.exports = router;

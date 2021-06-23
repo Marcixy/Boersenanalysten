@@ -24,22 +24,27 @@ import './Articlelist.css';
 
 function Articlelist() {
     const [articleData, setArticleData] = useState([]);
-    const [creatorData, setCreatorData] = useState("");
+    let [creatorData, setCreatorData] = useState("");
 
     useEffect(() => {
+        // TODO hier weitermachen und getArticlelist und getUserById zusammenlegen in eine get Route überlegen?
         axios.get('/getArticlelist')
         .then((response) => {
             const articleData = response.data;
             setArticleData(articleData);
-            axios.get('/getUserById', {
-                params: {
-                    _id: articleData[0].creator
-                }
-            })
-            .then((userResponse) => {
-                const creatorData = userResponse.data[0];
-                setCreatorData(creatorData);
-            })
+            console.log(articleData);
+            articleData.forEach((article) => {
+                axios.get('/getUserById', {
+                    params: {
+                        _id: article.creator
+                    }
+                })
+                .then((userResponse) => {
+                    const creatorData = userResponse.data;
+                    console.log(creatorData);
+                    setCreatorData(creatorData);
+                })
+            });
         })
         .catch((error) => {
             console.error("Articledata are not loaded", error);

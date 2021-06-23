@@ -22,7 +22,7 @@ function ChoiceDialog(props) {
             keepMounted
             open={props.dialogOpen}
             onClose={props.handleCloseDialog}>
-            <DialogTitle>Ausloggen?</DialogTitle>
+            <DialogTitle>{props.title}</DialogTitle>
             <DialogContent>
                 <DialogContentText style={{color: 'white'}}>
                     {props.content}

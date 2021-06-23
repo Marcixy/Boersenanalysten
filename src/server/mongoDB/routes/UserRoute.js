@@ -40,8 +40,7 @@ router.get('/getUserById', async (req, res) => {
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);
-        })
-        .catch((error) => {
+        }).catch((error) => {
             res.json({ msg: error });
         });
 });
@@ -52,9 +51,8 @@ router.get('/getUserByFirebaseid', (req, res) => {
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);
-        })
-        .catch((error) => {
-            console.error(error);
+        }).catch((error) => {
+            res.json({ msg: error });
         });
 });
 

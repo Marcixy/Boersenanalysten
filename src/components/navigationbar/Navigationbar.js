@@ -86,6 +86,7 @@ function Navigationbar() {
                 <ChoiceDialog 
                     dialogOpen={ openDialog }
                     handleCloseDialog={ handleCloseDialog }
+                    title="Ausloggen"
                     content="Wollen Sie sich wirklich ausloggen?"
                     onYesButton={ signOut }
                     onNoButton={ handleCloseDialog } />
