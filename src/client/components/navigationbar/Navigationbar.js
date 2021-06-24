@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
-import firebaseConfig from '../../server/firebase/Config';
+import firebaseConfig from '../../../server/firebase/Config';
 
 // material-ui imports
 import { 
@@ -38,24 +38,26 @@ function Navigationbar() {
     };
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                axios.get('/getUserByFirebaseid', {
-                    params: {
-                        firebaseid: user.uid
-                    }
-                })
-                .then((userResponse) => {
-                    setUserData(userResponse.data[0]);
-                    setUserIsLoggedIn(true);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            } else {
-                setUserIsLoggedIn(false);
-            }
-        });
+        firebaseConfig.getUserState().then(() => {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    axios.get('/getUserByFirebaseid', {
+                        params: {
+                            firebaseid: user.uid
+                        }
+                    })
+                    .then((userResponse) => {
+                        setUserData(userResponse.data[0]);
+                        setUserIsLoggedIn(true);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                } else {
+                    setUserIsLoggedIn(false);
+                }
+            });
+        })
     }, [])
 
     const signOut = () => {

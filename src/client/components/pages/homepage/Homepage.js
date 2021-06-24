@@ -7,10 +7,10 @@ import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 // image imports
-import BackgroundImg from '../../../assets/images/homepage-background.jpg';
-import financeCommunityImg from '../../../assets/images/finance-community.svg';
-import questionImg from '../../../assets/images/questions.svg';
-import scoreImg from '../../../assets/images/score.svg';
+import BackgroundImg from '../../../../assets/images/homepage-background.jpg';
+import financeCommunityImg from '../../../../assets/images/finance-community.svg';
+import questionImg from '../../../../assets/images/questions.svg';
+import scoreImg from '../../../../assets/images/score.svg';
 
 let backgroundImage = {
     backgroundImage: `url(${ BackgroundImg })`,
