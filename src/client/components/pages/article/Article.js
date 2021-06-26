@@ -22,10 +22,9 @@ import './Article.css';
 function Article() {
     const [articleData, setArticleData] = useState([]);
     const [answerData, setAnswerData] = useState([]);
-    const [answerUsernames, setAnswerUsernames] = useState([]);
-    const [answerCreatorShareCounters, setAnswerCreatorShareCounters] = useState([]);
+    const [answerCreatorNames, setAnswerCreatorNames] = useState([]);
     const [editorContent, setEditorContent] = useState("");
-    const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+    const [isArticleCreator, setIsArticleCreator] = useState(false);
 
     const { id } = useParams();
 
@@ -36,52 +35,29 @@ function Article() {
                     id: id
                 }
             })
-            .then((response) => {
-                const articleData = response.data[0];
+            .then((articleResponse) => {
+                const articleData = articleResponse.data[0];
                 setArticleData(articleData);
                 setAnswerData(articleData.answers);
-                console.log("Beitrag: " + articleData)
-                axios.get('/getAnswerlist', {
+                axios.get('/getAnswerCreatorNames', {
                     params: {
                         id: articleData._id
                     }
                 }).then((response) => {
-                    console.log(response.data);
-                    setAnswerUsernames(response.data);
+                    setAnswerCreatorNames(response.data);
                 }).catch((error) => {
-
+                    console.log(error);
                 });
-                /*articleData.answers.map((answer, index) => (
-                    axios.get('/getUserById', {
-                        params: {
-                            _id: answer.creator
-                        }
-                    }).then((userResponse) => {
-                        // TODO Code verbessern!
-                        console.log("Benutzername: " + userResponse.data[0].username);
-                        console.log(answer.creator);
-                        console.log(index);
-                        let answerUsername = [userResponse.data[0].username, ...answerUsernames];
-                        let answerCreatorShareCounter = [userResponse.data[0].shareCounter, ...answerCreatorShareCounters];
-                        setAnswerUsernames(answerUsername);
-                        setAnswerCreatorShareCounters(answerCreatorShareCounter);
-                    }).catch((error) => {
-                        console.log(error);
-                    })
-                ))*/
                 firebase.auth().onAuthStateChanged(function(user) {
-                    console.log("UID:" + user.uid);
                     axios.get('/getUserByFirebaseid', {
                         params: {
                             firebaseid: user.uid
                         }
                     }).then((userResponse) => {
-                        console.log("articleData.creator: " + articleData.creator);
-                        console.log("userResponse.data[0]._id: " + userResponse.data[0]._id);
                         if (articleData.creator === userResponse.data[0]._id) {
-                            setUserIsLoggedIn(true);
+                            setIsArticleCreator(true);
                         } else {
-                            setUserIsLoggedIn(false);
+                            setIsArticleCreator(false);
                         }
                     }).catch((error) => {
                         console.log(error);
@@ -105,8 +81,7 @@ function Article() {
                 method: 'post',
                 data: {
                     content: editorContent,
-                    creator: userResponse.data[0]._id,
-                    voting: 0
+                    creator: userResponse.data[0]._id
                 }
             }).then(() => {
                 console.log("Answer successfully created");
@@ -125,14 +100,13 @@ function Article() {
                 content={answer.content}
                 voting={answer.voting}
                 created={answer.created}
-                creator={answerUsernames[index]}
-                creatorId={answer.creator}
-                creatorShareCounter={answerCreatorShareCounters[index]} />
+                creator={answerCreatorNames[index]}
+                creatorId={answer.creator} />
         ));
     }
 
     let articleActions;
-    if (userIsLoggedIn === true) {
+    if (isArticleCreator === true) {
         articleActions = (
             <ItemActions
                 deleteDialogTitle="Beitrag löschen"
@@ -164,7 +138,7 @@ function Article() {
                     </div>
                 </div>
                 <h2>Antworten:</h2>
-                {displayAnswerData(answerData)}
+                { displayAnswerData(answerData) }
                 <h3>Deine Antwort:</h3>
                 <TextEditor parentCallbackEditorContent={callbackEditorContent} />
                 <Button

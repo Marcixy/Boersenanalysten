@@ -14,6 +14,7 @@ const answerSchema = new Schema({
     },
     voting: {
         type: Number,
+        default: 0,
         required: [true, 'Answer voting must exist'],
     },
 },

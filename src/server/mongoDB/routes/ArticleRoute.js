@@ -48,36 +48,19 @@ router.get('/getArticlelist', (req, res) => {
         });
 });
 
-// Antworten eines Beitrages werden geladen
-router.get('/getAnswerlist', (req, res) => {
-    console.log("Id " + req.query.id);
+// Die Benutzernamen von den Antworten eines Beitrages werden geladen
+router.get('/getAnswerCreatorNames', (req, res) => {
     Article.find({"_id": req.query.id})
         .then(async (articleData) => {
             var answerCreatorNames = [];
             for (let i = 0; i < articleData[0].answers.length; i++) {
                 await User.find({"_id": articleData[0].answers[i].creator})
                 .then((userData) => {
-                    console.log("Index: " + i);
-                    console.log(userData[0].username);
                     answerCreatorNames.push(userData[0].username);
                 }).catch((error) => {
-                    console.log(error);
+                    res.status(500).json({ msg: "Internal server error: " + error });
                 });
-                //console.log(userData.username);
-                //answerCreatorNames.push(userData.username);  
             }
-            //console.log(answerCreatorNames);
-            /*await articleData[0].answers.map(async (answer, index) => (
-                await User.find({"_id": answer.creator})
-                    .then((userData) => {
-                        console.log("Index: " + index);
-                        //console.log(userData.username);
-                        answerCreatorNames.push(userData.username);
-                    }).catch((error) => {
-                        console.log(error);
-                    })
-            ));*/
-            console.log("Antworten Ersteller: " + answerCreatorNames);
             res.json(answerCreatorNames);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });

@@ -3,19 +3,20 @@ const express = require('express');
 const router = express.Router();
 
 const Article = require('../models/Article');
+const Answer = require('../models/Answer');
 const User = require('../models/User');
 
 // =============== Routes ===================
 
 // Neue Antwort wird erstellt
 router.post('/createAnswer/:articleid', (req, res) => {
-    console.log("Articleid: ", req.params.articleid);
-    console.log("Answerdata: ", req.body);
     const answerData = req.body;
+    const newAnswer = Answer(answerData);
+    // Neue Antwort für Beitrag erstellen
     Article.findOneAndUpdate({_id: req.params.articleid},
     {
         $push: {
-            answers: answerData,
+            answers: newAnswer,
         },
         $inc: {
             answerCounter: 1,
@@ -23,20 +24,25 @@ router.post('/createAnswer/:articleid', (req, res) => {
     },
     function (error) {
         if (error) {
-          console.log(error);
+            res.status(500).json({ msg: "Internal server error" + error });
         } else {
-          console.log("New answer is successful created");
+            console.log("New answer is successful created");
         }
     });
+    // Benutzer Antwortenliste updaten mit Antwort ObjectId und
+    // Antworten Zähler um 1 erhöhen.
     User.updateOne({"_id": answerData.creator}, 
     {
         $addToSet: {
-            [`answers`]: articleData.answers[0]._id
+            [`answers`]: newAnswer._id
+        },
+        $inc: { 
+            answerCounter: 1,
         },
     },
     function (error) {
         if (error) {
-            res.status(500).json({ msg: "Internal server error by updating user " + arrayToUpdate + " array" });
+            res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
         } else {
             res.json({ msg: "Create Answer was successful" });
         }
