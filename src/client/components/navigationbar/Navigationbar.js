@@ -25,16 +25,16 @@ import './Navigationbar.css';
 
 function Navigationbar() {
     const [userData, setUserData] = useState("");
-    const [openDialog, setDialogOpen] = useState(false);
+    const [openLogoutDialog, setLogoutDialogOpen] = useState(false);
     const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
     const toHomepage = useHistory();
 
-    const handleOpenDialog = () => {
-        setDialogOpen(true);
+    const handleOpenLogoutDialog = () => {
+        setLogoutDialogOpen(true);
     };
     
-    const handleCloseDialog = () => {
-        setDialogOpen(false);
+    const handleCloseLogoutDialog = () => {
+        setLogoutDialogOpen(false);
     };
 
     useEffect(() => {
@@ -45,25 +45,23 @@ function Navigationbar() {
                         params: {
                             firebaseid: user.uid
                         }
-                    })
-                    .then((userResponse) => {
+                    }).then((userResponse) => {
                         setUserData(userResponse.data[0]);
                         setUserIsLoggedIn(true);
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.log(error);
-                    })
+                    });
                 } else {
                     setUserIsLoggedIn(false);
                 }
             });
-        })
+        });
     }, [])
 
     const signOut = () => {
         firebase.auth().signOut().then(function() {
             toHomepage.push("/");
-            setDialogOpen(false);
+            setLogoutDialogOpen(false);
             console.log("Benutzer wurde erfolgreich ausgeloggt.");
         }, function(error) {
             console.error("Fehler beim Logout. ", error);
@@ -73,7 +71,7 @@ function Navigationbar() {
     let RightNavigationbar;
     if (userIsLoggedIn === true) {
         RightNavigationbar = (
-            <div className="visitor-right-navigationbar">
+            <div className="user-right-navigationbar">
                 <span>{userData.username}</span>
                 <Link to={{pathname: `/userprofile/${userData._id}`}}>
                     <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
@@ -84,19 +82,19 @@ function Navigationbar() {
                 <Link to="/help">
                     <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
                 </Link>
-                <IconButton variant="contained" size="small" onClick={() => handleOpenDialog()}><ExitToAppIcon /></IconButton>
+                <IconButton variant="contained" size="small" onClick={() => handleOpenLogoutDialog()}><ExitToAppIcon /></IconButton>
                 <ChoiceDialog 
-                    dialogOpen={ openDialog }
-                    handleCloseDialog={ handleCloseDialog }
+                    dialogOpen={ openLogoutDialog }
+                    handleCloseDialog={ handleCloseLogoutDialog }
                     title="Ausloggen"
                     content="Wollen Sie sich wirklich ausloggen?"
                     onYesButton={ signOut }
-                    onNoButton={ handleCloseDialog } />
+                    onNoButton={ handleCloseLogoutDialog } />
             </div>
         )
     } else {
         RightNavigationbar = (
-            <div className="user-right-navigationbar">
+            <div className="visitor-right-navigationbar">
                 <Link to="/login">
                     <Button variant="contained" color="primary" size="small">Login</Button>
                 </Link>

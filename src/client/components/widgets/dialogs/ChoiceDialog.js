@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // material-ui imports
 import { 
@@ -11,18 +11,6 @@ import {
 } from '@material-ui/core';
 
 function ChoiceDialog(props) {
-    // TODO hier weitermachen openDialog und handleCloseDialog werden nur
-    // als Parameter übergeben müsste in diese Komponente verlagert werden können.
-    const [openDialog, setDialogOpen] = useState(false);
-
-    const handleOpenDialog = () => {
-        setDialogOpen(true);
-    };
-    
-    const handleCloseDialog = () => {
-        setDialogOpen(false);
-    };
-
     return (
         <Dialog
             PaperProps={{

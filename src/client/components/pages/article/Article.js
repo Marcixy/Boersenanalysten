@@ -40,35 +40,42 @@ function Article() {
                 const articleData = response.data[0];
                 setArticleData(articleData);
                 setAnswerData(articleData.answers);
-                console.log(articleData)
-                articleData.answers.map((answer, index) => (
+                console.log("Beitrag: " + articleData)
+                axios.get('/getAnswerlist', {
+                    params: {
+                        id: articleData._id
+                    }
+                }).then((response) => {
+                    console.log(response.data);
+                    setAnswerUsernames(response.data);
+                }).catch((error) => {
+
+                });
+                /*articleData.answers.map((answer, index) => (
                     axios.get('/getUserById', {
                         params: {
                             _id: answer.creator
                         }
-                    })
-                    .then((userResponse) => {
+                    }).then((userResponse) => {
                         // TODO Code verbessern!
-                        console.log(userResponse.data[0].username);
+                        console.log("Benutzername: " + userResponse.data[0].username);
                         console.log(answer.creator);
                         console.log(index);
                         let answerUsername = [userResponse.data[0].username, ...answerUsernames];
                         let answerCreatorShareCounter = [userResponse.data[0].shareCounter, ...answerCreatorShareCounters];
                         setAnswerUsernames(answerUsername);
                         setAnswerCreatorShareCounters(answerCreatorShareCounter);
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.log(error);
                     })
-                ))
+                ))*/
                 firebase.auth().onAuthStateChanged(function(user) {
                     console.log("UID:" + user.uid);
                     axios.get('/getUserByFirebaseid', {
                         params: {
                             firebaseid: user.uid
                         }
-                    })
-                    .then((userResponse) => {
+                    }).then((userResponse) => {
                         console.log("articleData.creator: " + articleData.creator);
                         console.log("userResponse.data[0]._id: " + userResponse.data[0]._id);
                         if (articleData.creator === userResponse.data[0]._id) {
@@ -76,13 +83,11 @@ function Article() {
                         } else {
                             setUserIsLoggedIn(false);
                         }
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.log(error);
                     })
                 })
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 console.error("Articledata are not loaded", error);
             });
         }
@@ -94,24 +99,22 @@ function Article() {
             params: {
                 firebaseid: firebase.auth().currentUser.uid
             }
-        })
-        .then((response) => {
-            const userData = response.data[0];
+        }).then((userResponse) => {
             axios({
                 url: `/createAnswer/${articleData._id}`,
                 method: 'post',
                 data: {
                     content: editorContent,
-                    creator: userData._id,
+                    creator: userResponse.data[0]._id,
                     voting: 0
                 }
+            }).then(() => {
+                console.log("Answer successfully created");
             }).catch((error) => {
                 console.error("Answer is not successfully created", error);
             })
-            console.log("Answer successfully created");
             window.location.reload();
-        })
-        .catch((error) => {
+        }).catch((error) => {
             console.error("Userdata are not loaded", error);
         })
     }
