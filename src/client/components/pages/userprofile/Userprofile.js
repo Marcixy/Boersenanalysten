@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 // own-component imports
 import UserNavigationbar from '../../widgets/outputs/usernavigationbar/UserNavigationbar';
+import UserArticlelist from '../../pages/userprofile/userArticlelist/UserArticlelist';
+
+// material-ui imports
+import {
+    Button,
+    ButtonGroup,
+} from '@material-ui/core';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -33,11 +40,21 @@ function Userprofile() {
             <UserNavigationbar userid={id} />
             <h2>Profil</h2>
             <p>{userData.username}</p>
-            <p>{userData.shareCounter}</p>
-            <p>{userData.articleCounter}</p>
-            <p>{userData.answerCounter}</p>
+            <p>{userData.shareCounter} Aktienanteile</p>
+            <p>{userData.articleCounter} Artikel</p>
+            <p>{userData.answerCounter} Antworten</p>
             <p>{userData.description}</p>
             <p>{userData.location}</p>
+            <div className="user-articlelist-filter">
+                <ButtonGroup variant="text" size="small" color="primary">
+                    <Button>Beiträge</Button>
+                    <Button>Portfoliobeiträge</Button>
+                    <Button>Antworten</Button>
+                    <Button>Up Votings</Button>
+                    <Button>Down Votings</Button>
+                </ButtonGroup>
+            </div>
+            <UserArticlelist />
         </div>
     )
 }

@@ -97,10 +97,36 @@ router.post('/articleVotingUpdate/:articleid', (req, res) => {
         }
     });
 });
-
+    
 // Beitrag wird gelöscht
 router.post('/deleteArticle/:articleid', (req, res) => {
-    Article.deleteOne({_id: req.params.articleid},
+    let arrayToUpdate = "";
+    // Benutzer Beitragsliste updaten mit (Portfolio-)Beitrags ObjectId wird
+    // entfernt und Beitrags Zähler um 1 verringern.
+    Article.find({"_id": req.params.articleid})
+    .then((articleData) => {
+        articleData[0].isPortfolioArticle === true ?
+            arrayToUpdate = "portfolioArticle" :
+            arrayToUpdate = "article";
+        User.findOneAndUpdate({"_id": articleData[0].creator},
+        {
+            $pull: {
+                [`${arrayToUpdate}`]: articleData[0]._id
+            },
+            $inc: {
+                articleCounter: -1,
+            }
+        },
+        function (error) {
+            if (error) {
+                res.status(500).json({ msg: "Internal server error" + error });
+            } else {
+                console.log("Update Article was successful");
+            }
+        });
+    });
+    // Beitrag wird gelöscht
+    Article.deleteOne({"_id": req.params.articleid},
         function (error) {
             if (error) {
                 res.status(500).json({ msg: "Internal server error" });
