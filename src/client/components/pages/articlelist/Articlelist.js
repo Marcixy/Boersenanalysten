@@ -24,7 +24,7 @@ import './Articlelist.css';
 
 function Articlelist() {
     const [articleData, setArticleData] = useState([]);
-    let [creatorData, setCreatorData] = useState("");
+    let [articleCreatorNames, setArticleCreatorNames] = useState([]);
 
     useEffect(() => {
         // TODO hier weitermachen und getArticlelist und getUserById zusammenlegen in eine get Route überlegen?
@@ -33,22 +33,16 @@ function Articlelist() {
             const articleData = response.data;
             setArticleData(articleData);
             console.log(articleData);
-            articleData.forEach((article) => {
-                axios.get('/getUserById', {
-                    params: {
-                        _id: article.creator
-                    }
-                })
-                .then((userResponse) => {
-                    const creatorData = userResponse.data;
-                    console.log(creatorData);
-                    setCreatorData(creatorData);
-                })
-            });
+            axios.get('/getArticleCreatorNames', { })
+            .then((response) => {
+                console.log(response.data);
+                setArticleCreatorNames(response.data);
+            })
         })
         .catch((error) => {
             console.error("Articledata are not loaded", error);
         });
+        
     }, [])
 
     const displayArticleData = (articles) => {
@@ -61,9 +55,8 @@ function Articlelist() {
                 voting={article.voting}
                 answerCounter={article.answerCounter}
                 views={article.views}
-                creator={creatorData.username}
-                creatorId={creatorData._id}
-                creatorShareCount={creatorData.shareCounter}
+                creator={articleCreatorNames[index]}
+                //creatorId={articleCreatorNames._id}
                 created={article.createdAt} />
         ));
     }

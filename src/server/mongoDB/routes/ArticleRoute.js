@@ -25,6 +25,9 @@ router.post('/createArticle', (req, res) => {
                 $addToSet: {
                     [`${arrayToUpdate}`]: newArticle._id 
                 },
+                $inc: { 
+                    articleCounter: 1,
+                },
             },
             function (error) {
                 if (error) {
@@ -37,31 +40,31 @@ router.post('/createArticle', (req, res) => {
     });
 });
 
+// Der Erstellername eines Beitrags wird geladen
+router.get('/getArticleCreatorNames', async (req, res) => {
+    Article.find({ })
+        .then(async (articleData) => {
+            var articleCreatorNames = [];
+            for (let i = 0; i < articleData.length; i++) {
+                await User.find({"_id": articleData[i].creator})
+                .then((userData) => {
+                    articleCreatorNames.push(userData[0].username);
+                }).catch((error) => {
+                    res.status(500).json({ msg: "Internal server error: " + error });
+                });
+            }
+            res.json(articleCreatorNames);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });    
+});
+
 // Beiträge mit Daten werden geladen
 router.get('/getArticlelist', (req, res) => {
     Article.find({ })
         .then((data) => {
             console.log("Articlelist data: ", data);
             res.json(data);
-        }).catch((error) => {
-            res.status(500).json({ msg: "Internal server error: " + error });
-        });
-});
-
-// Die Benutzernamen von den Antworten eines Beitrages werden geladen
-router.get('/getAnswerCreatorNames', (req, res) => {
-    Article.find({"_id": req.query.id})
-        .then(async (articleData) => {
-            var answerCreatorNames = [];
-            for (let i = 0; i < articleData[0].answers.length; i++) {
-                await User.find({"_id": articleData[0].answers[i].creator})
-                .then((userData) => {
-                    answerCreatorNames.push(userData[0].username);
-                }).catch((error) => {
-                    res.status(500).json({ msg: "Internal server error: " + error });
-                });
-            }
-            res.json(answerCreatorNames);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });

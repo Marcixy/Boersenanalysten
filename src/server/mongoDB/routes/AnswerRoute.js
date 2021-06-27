@@ -49,6 +49,25 @@ router.post('/createAnswer/:articleid', (req, res) => {
     });
 });
 
+// Die Benutzernamen von den Antworten eines Beitrages werden geladen
+router.get('/getAnswerCreatorNames', (req, res) => {
+    Article.find({"_id": req.query.id})
+        .then(async (articleData) => {
+            var answerCreatorNames = [];
+            for (let i = 0; i < articleData[0].answers.length; i++) {
+                await User.find({"_id": articleData[0].answers[i].creator})
+                .then((userData) => {
+                    answerCreatorNames.push(userData[0].username);
+                }).catch((error) => {
+                    res.status(500).json({ msg: "Internal server error: " + error });
+                });
+            }
+            res.json(answerCreatorNames);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });
+});
+
 // Antwort wird up- und downgevotet
 router.post('/answerVotingUpdate/:articleid', (req, res) => {
   /* TODO muss noch implementiert werden!
