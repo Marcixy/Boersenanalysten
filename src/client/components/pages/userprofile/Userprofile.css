@@ -4,3 +4,8 @@
     min-height: 100vh;
     width: 50%;
 }
+
+.user-articlelist-header {
+    display: flex;
+    justify-content: space-between;
+}

@@ -53,7 +53,7 @@ function Register() {
                     console.error("User is not successfully registered", error);
                 });
             }).catch((error) => {
-                switch(error.code) {
+                switch (error.code) {
                     case "auth/email-already-in-use":
                         setEmailError(true);
                         setEmailErrorText("E-Mail Adresse ist bereits registriert.");

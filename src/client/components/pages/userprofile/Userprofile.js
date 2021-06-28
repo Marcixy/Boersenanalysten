@@ -18,6 +18,7 @@ import './Userprofile.css';
 
 function Userprofile() {
     const [userData, setUserData] = useState([]);
+    const [listType, setListType] = useState("articles");
     const { id } = useParams();
 
     useEffect(() => {
@@ -35,6 +36,24 @@ function Userprofile() {
         })
     }, [])
 
+    const displayList = () => {
+        switch (listType) {
+            case "articles":
+                return <UserArticlelist />
+            case "answers":
+                // TODO
+                break;
+            case "upVotings":
+                // TODO
+                break;
+            case "downVotings":
+                // TODO
+                break;
+            default:
+                console.log("List Type: " + listType + " wird nicht unterstützt.");
+        }
+    }
+
     return (
         <div className="userprofile-page">
             <UserNavigationbar userid={id} />
@@ -45,16 +64,24 @@ function Userprofile() {
             <p>{userData.answerCounter} Antworten</p>
             <p>{userData.description}</p>
             <p>{userData.location}</p>
-            <div className="user-articlelist-filter">
-                <ButtonGroup variant="text" size="small" color="primary">
-                    <Button>Beiträge</Button>
-                    <Button>Portfoliobeiträge</Button>
-                    <Button>Antworten</Button>
-                    <Button>Up Votings</Button>
-                    <Button>Down Votings</Button>
-                </ButtonGroup>
+            <div className="user-articlelist-header">
+                <div className="user-articlelist-filter">
+                    <ButtonGroup size="small" color="primary">
+                        <Button onClick={() => setListType("articles")}>Beiträge</Button>
+                        <Button onClick={() => setListType("answers")}>Antworten</Button>
+                        <Button onClick={() => setListType("upVotings")}>Up Votings</Button>
+                        <Button onClick={() => setListType("downVotings")}>Down Votings</Button>
+                    </ButtonGroup>
+                </div>
+                <div className="user-articlelist-sorting">
+                    <ButtonGroup variant="text" size="small" color="primary">
+                        <Button>Neuste</Button>
+                        <Button>Voting</Button>
+                        <Button>Antworten</Button>
+                    </ButtonGroup>
+                </div>
             </div>
-            <UserArticlelist />
+            { displayList() }
         </div>
     )
 }

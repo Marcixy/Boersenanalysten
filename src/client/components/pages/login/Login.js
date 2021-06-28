@@ -35,7 +35,7 @@ function Login() {
             .then(() => {
                 toArticlelist.push("/articlelist");
             }).catch((error) => {
-                switch(error.code) {
+                switch (error.code) {
                     case "auth/invalid-email":
                         setEmailError(true);
                         setEmailErrorText("E-Mail Adresse ist nicht gültig.");
