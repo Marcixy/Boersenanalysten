@@ -48,8 +48,7 @@ function CreateArticle() {
                 params: {
                     firebaseid: firebase.auth().currentUser.uid
                 }
-            })
-            .then((response) => {
+            }).then((response) => {
                 const userData = response.data[0];
                 axios({
                     url: '/createArticle',
@@ -61,15 +60,14 @@ function CreateArticle() {
                         creator: userData._id,
                         isPortfolioArticle: isPortfolioArticle
                     }
-                }).then(() => {
+                }).then((articleResponse) => {
                     console.log("Article successfully created");
-                    toArticle.push("/article");
+                    toArticle.push(`/article/${articleResponse.data._id}`);
                 }).catch((error) => {
                     console.error("Article is not successfully created", error);
                     alert("Serverfehler: Beitrag konnte nicht erstellt werden bitte versuchen Sie es später erneut.");
                 });
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 console.error("Userdata are not loaded", error);
             })
         }

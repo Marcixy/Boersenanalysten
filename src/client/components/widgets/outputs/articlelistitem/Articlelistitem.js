@@ -3,11 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import ArticleLink from '../articlelink/ArticleLink';
 import ArticleStatistics from '../articlestatistics/ArticleStatistics';
-
-// material-ui imports
-import {
-    Chip,
-} from '@material-ui/core';
+import TagList from '..//taglist/Taglist';
 
 // third-party imports
 import { Link } from 'react-router-dom';
@@ -35,18 +31,8 @@ function Articlelistitem(props) {
                 answerCounter={props.answerCounter}
                 views={props.views} />
             <div className="article-list-item-right">
-                <ArticleLink 
-                    id={props.id}
-                    title={props.title} />
-                {
-                props.tags.map((tag) => (
-                    <Chip 
-                        className="tag-title"
-                        size="small"
-                        color="primary"
-                        label={tag} />
-                    ))
-                }
+                <ArticleLink id={props.id} title={props.title} />
+                <TagList tagList={props.tags} />
                 <div className="article-list-item-user-info">
                     {formattedCreationDate}<br />
                     <Link to={{pathname: `/userprofile/${props.creatorId}`}}>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem';
 import ItemActions from '../../widgets/outputs/itemactions/ItemActions';
+import TagList from '../../widgets/outputs/taglist/Taglist';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import Voting from '../../widgets/inputs/voting/Voting';
 
@@ -81,7 +82,8 @@ function Article() {
                 method: 'post',
                 data: {
                     content: editorContent,
-                    creator: userResponse.data[0]._id
+                    creator: userResponse.data[0]._id,
+                    articleid: articleData._id
                 }
             }).then(() => {
                 console.log("Answer successfully created");
@@ -133,8 +135,9 @@ function Article() {
                         voting={articleData.voting} />
                     <div className="article-content-right">
                         <p>{articleData.content}</p>
+                        {/* TODO hier weitermachen <TagList tagList={articleData.tags} />*/}
                         <Chip label={articleData.tags} size="small" color="primary" />
-                        { articleActions }
+                        {articleActions}
                     </div>
                 </div>
                 <h2>Antworten:</h2>

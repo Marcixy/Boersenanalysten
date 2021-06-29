@@ -17,6 +17,10 @@ const answerSchema = new Schema({
         default: 0,
         required: [true, 'Answer voting must exist'],
     },
+    articleid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, 'Article id must exist'],
+    },
 },
 {
     timestamps: true

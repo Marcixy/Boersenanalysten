@@ -33,7 +33,7 @@ router.post('/createArticle', (req, res) => {
                 if (error) {
                     res.status(500).json({ msg: "Internal server error by updating user " + arrayToUpdate + " array" });
                 } else {
-                    res.json({ msg: "Create Article was successful" });
+                    res.json(newArticle);
                 }
             });
         }

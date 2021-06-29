@@ -47,7 +47,7 @@ function UserArticlelist() {
 
     return (
         <div className="user-articlelist">
-            { displayArticleData(articlelist) }
+            {displayArticleData(articlelist)}
         </div>
     )
 }
