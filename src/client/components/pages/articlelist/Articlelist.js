@@ -23,24 +23,23 @@ import axios from 'axios';
 import './Articlelist.css';
 
 function Articlelist() {
+    const [sortCriteria, setSortCriteria] = useState("createdAt");
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
 
     useEffect(() => {
-        axios.get('/getArticlelist')
+        axios.get(`/getArticlelist/${sortCriteria}`)
         .then((response) => {
             const articleData = response.data;
             setArticleData(articleData);
-            console.log(articleData);
-            axios.get('/getArticleCreatorNames', { })
+            axios.get(`/getArticleCreatorNames/${sortCriteria}`)
             .then((response) => {
-                console.log(response.data);
                 setArticleCreatorNames(response.data);
             })
         }).catch((error) => {
             console.error("Articledata are not loaded", error);
         });
-    }, [])
+    }, [sortCriteria])
 
     const displayArticleData = (articles) => {
         return articles.map((article, index) => (
@@ -83,9 +82,9 @@ function Articlelist() {
             </div>
             <div className="articlelist-sorting">
                 <ButtonGroup variant="text" size="small" color="primary">
-                    <Button>Neuste</Button>
-                    <Button>Voting</Button>
-                    <Button>Antworten</Button>
+                    <Button onClick={() => setSortCriteria("createdAt")}>Neuste</Button>
+                    <Button onClick={() => setSortCriteria("voting")}>Voting</Button>
+                    <Button onClick={() => setSortCriteria("answerCounter")}>Antworten</Button>
                 </ButtonGroup>
             </div>
             <div>

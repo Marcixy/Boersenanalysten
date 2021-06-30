@@ -10,14 +10,15 @@
     padding-left: 24px;
 }
 
-.article-list-item-right .MuiChip-root {
-    margin-right: 8px;
-}
-
 .article-list-item-user-info {
     text-align: end;
 }
 
-.article-list-item-user-info span {
-    margin-right: 16px;
+.article-list-item-user-info a {
+    color: #3f51b5;
+    text-decoration: none;
+}
+
+.article-list-item-user-info a:hover {
+    color: #303F9F;
 }

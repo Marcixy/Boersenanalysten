@@ -9,8 +9,7 @@ import Voting from '../../widgets/inputs/voting/Voting';
 
 // material-ui imports
 import {
-    Button,
-    Chip
+    Button
 } from '@material-ui/core';
 
 // third-party imports
@@ -39,6 +38,7 @@ function Article() {
             .then((articleResponse) => {
                 const articleData = articleResponse.data[0];
                 setArticleData(articleData);
+                console.log("ArticleData: " + articleData);
                 setAnswerData(articleData.answers);
                 axios.get('/getAnswerCreatorNames', {
                     params: {
@@ -135,8 +135,7 @@ function Article() {
                         voting={articleData.voting} />
                     <div className="article-content-right">
                         <p>{articleData.content}</p>
-                        {/* TODO hier weitermachen <TagList tagList={articleData.tags} />*/}
-                        <Chip label={articleData.tags} size="small" color="primary" />
+                        <TagList tagList={articleData.tags} />
                         {articleActions}
                     </div>
                 </div>

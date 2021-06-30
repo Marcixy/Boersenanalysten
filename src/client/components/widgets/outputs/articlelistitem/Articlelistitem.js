@@ -17,7 +17,7 @@ function Articlelistitem(props) {
 
     useEffect(() => {
         convertCreationDate();
-    }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+    }, [props.created])  // eslint-disable-line react-hooks/exhaustive-deps
 
     const convertCreationDate = () => {
         const creationDate = new Date(props.created);

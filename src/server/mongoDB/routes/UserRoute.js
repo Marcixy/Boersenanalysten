@@ -57,11 +57,12 @@ router.get('/getUserByFirebaseid', (req, res) => {
 });
 
 // Alle Beiträge eines Benutzers bekommen
-router.get('/getUserArticles', async (req, res) => {
+router.get('/getUserArticles/:sortCriteria', async (req, res) => {
+    console.log("Sort Criteria: " + req.params.sortCriteria);
     await User.find({"_id": req.query._id})
         .then((data) => {
             console.log("Userdata: ", data[0].article[0]);
-            Article.find({"_id": data[0].article})
+            Article.find({"_id": data[0].article}).sort({ [req.params.sortCriteria]: -1 })
             .then((data) => {
                 console.log("Article: ", data);
                 res.json(data);

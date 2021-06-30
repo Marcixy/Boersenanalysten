@@ -4,30 +4,28 @@ import React, { useState, useEffect } from 'react';
 import Articlelistitem from '../../../widgets/outputs/articlelistitem/Articlelistitem';
 
 // third-party imports
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import './UserArticlelist.css';
 
-function UserArticlelist() {
+function UserArticlelist(props) {
     const [articlelist, setArticlelist] = useState([]);
 
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/getUserArticles', {
+        axios.get(`/getUserArticles/${props.sortCriteria}`, {
             params: {
                 _id: id
             }
-        })
-        .then((response) => {
+        }).then((response) => {
             const articlelist = response.data;
             setArticlelist(articlelist);
-        })
-        .catch((error) => {
+        }).catch((error) => {
             console.error("Article List are not loaded", error);
         });
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [id, props.sortCriteria]) 
 
     const displayArticleData = (articles) => {
         return articles.map((article, index) => (
@@ -39,7 +37,6 @@ function UserArticlelist() {
                 voting={article.voting}
                 answerCounter={article.answerCounter}
                 views={article.views}
-                //creator={articleCreatorNames[index]}
                 creatorId={article.creator}
                 created={article.createdAt} />
         ));

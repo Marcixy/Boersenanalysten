@@ -33,3 +33,21 @@
     justify-content: flex-end;
     margin-top: 16px;
 }
+
+/**************************/
+/*        TABLETS         */
+/**************************/
+@media (max-width: 1200px) {
+    .articlelist-page {
+        width: 70%;
+    }
+}
+
+/**************************/
+/*       SMARTPHONES      */
+/**************************/
+@media (max-width: 700px) {
+    .articlelist-page {
+        width: 95%;
+    }
+}

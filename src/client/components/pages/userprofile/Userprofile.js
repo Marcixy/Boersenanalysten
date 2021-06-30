@@ -19,6 +19,7 @@ import './Userprofile.css';
 function Userprofile() {
     const [userData, setUserData] = useState([]);
     const [listType, setListType] = useState("articles");
+    const [sortCriteria, setSortCriteria] = useState("createdAt");
     const { id } = useParams();
 
     useEffect(() => {
@@ -39,7 +40,8 @@ function Userprofile() {
     const displayList = () => {
         switch (listType) {
             case "articles":
-                return <UserArticlelist />
+                return <UserArticlelist
+                    sortCriteria={sortCriteria} />
             case "answers":
                 // TODO
                 break;
@@ -75,9 +77,9 @@ function Userprofile() {
                 </div>
                 <div className="user-articlelist-sorting">
                     <ButtonGroup variant="text" size="small" color="primary">
-                        <Button>Neuste</Button>
-                        <Button>Voting</Button>
-                        <Button>Antworten</Button>
+                        <Button onClick={() => setSortCriteria("createdAt")}>Neuste</Button>
+                        <Button onClick={() => setSortCriteria("voting")}>Voting</Button>
+                        <Button onClick={() => setSortCriteria("answerCounter")}>Antworten</Button>
                     </ButtonGroup>
                 </div>
             </div>

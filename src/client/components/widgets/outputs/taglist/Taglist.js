@@ -1,21 +1,19 @@
 import React from 'react';
 
 // material-ui imports
-import {
-    Chip,
-} from '@material-ui/core';
+import { Chip } from '@material-ui/core';
 
 import './Taglist.css';
 
 function Taglist(props) {
-    
+
     const displayTagList = (tags) => {
-        return tags.map((tag) => (
+        return tags?.map((tagName) => (
             <Chip 
                 className="tag-title"
                 size="small"
                 color="primary"
-                label={tag} />
+                label={tagName} />
         ));
     }
 
