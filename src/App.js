@@ -19,6 +19,7 @@ import PasswordSettings from './client/components/pages/settings/passwordSetting
 import DeleteAccount from './client/components/pages/settings/deleteAccount/DeleteAccount';
 import TermsOfUse from './client/components/pages/termsOfUse/TermsOfUse';
 import Userprofile from './client/components/pages/userprofile/Userprofile';
+import ScrollToTop from './client/components/utils/scrollToTop/ScrollToTop';
 
 // third-party imports
 import { Route } from 'react-router-dom';
@@ -28,6 +29,7 @@ import './App.css';
 function App() {
   return (
     <div>
+      <ScrollToTop />
       <Navigationbar />
       <Route exact path="/" component={ Homepage } />
       <Route exact path="/login" component={ Login } />

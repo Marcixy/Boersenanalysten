@@ -4,6 +4,7 @@ const router = express.Router();
 
 const User = require('../models/User');
 const Article = require('../models/Article');
+const Answer = require('../models/Answer');
 
 // =============== Routes ===================
 
@@ -27,9 +28,8 @@ router.get('/getUserprofiles', (req, res) => {
         .then((data) => {
             console.log("Userdata: ", data);
             res.json(data);
-        })
-        .catch((error) => {
-            res.json({ msg: error });
+        }).catch((error) => {
+            res.status(500).json({ msg: error });
         });
 });
 
@@ -41,7 +41,7 @@ router.get('/getUserById', async (req, res) => {
             console.log("Userdata: ", data);
             res.json(data);
         }).catch((error) => {
-            res.json({ msg: error });
+            res.status(500).json({ msg: error });
         });
 });
 
@@ -52,13 +52,12 @@ router.get('/getUserByFirebaseid', (req, res) => {
             console.log("Userdata: ", data);
             res.json(data);
         }).catch((error) => {
-            res.json({ msg: error });
+            res.status(500).json({ msg: error });
         });
 });
 
 // Alle Beiträge eines Benutzers bekommen
 router.get('/getUserArticles/:sortCriteria', async (req, res) => {
-    console.log("Sort Criteria: " + req.params.sortCriteria);
     await User.find({"_id": req.query._id})
         .then((data) => {
             console.log("Userdata: ", data[0].article[0]);
@@ -67,10 +66,10 @@ router.get('/getUserArticles/:sortCriteria', async (req, res) => {
                 console.log("Article: ", data);
                 res.json(data);
             }).catch((error) => {
-                res.json({ msg: error });
+                res.status(500).json({ msg: error });
             });
         }).catch((error) => {
-            res.json({ msg: error });
+            res.status(500).json({ msg: error });
         });
 })
 
@@ -83,11 +82,33 @@ router.get('/getUserPortfolioArticles', async (req, res) => {
                 console.log("PortfolioArticle: ", data);
                 res.json(data);
             }).catch((error) => {
-                res.json({ msg: error });
+                res.status(500).json({ msg: error });
             });
         }).catch((error) => {
-            res.json({ msg: error });
+            res.status(500).json({ msg: error });
         });
+})
+
+// TODO hier weitermachen
+router.get('/getUserAnswers/', (req, res) => {
+    User.find({"_id": req.query._id})
+    .then((userData) => {
+        Answer.find({"_id": userData[0].answers})
+        .then((answerData) => {
+            console.log("Answers: ", answerData);
+            Article.find({"_id": answerData[0].articleid})
+            .then((articleData) => {
+                console.log("Article: ", articleData);
+                res.json(articleData);
+            }).catch((error) => {
+                res.status(500).json({ msg: error });
+            });
+        }).catch((error) => {
+            res.status(500).json({ msg: error });
+        });
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
 })
 
 module.exports = router;

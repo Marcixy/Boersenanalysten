@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Articlelistitem from '../../widgets/outputs/articlelistitem/Articlelistitem';
+import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
 
 // material-ui imports
 import {
@@ -9,7 +10,6 @@ import {
     AccordionSummary,
     AccordionDetails,
     Button,
-    ButtonGroup,
     Typography
 } from '@material-ui/core';
 
@@ -57,6 +57,12 @@ function Articlelist() {
         ));
     }
 
+    // Verbindung zu SortActions Komponente um auf die aktuelle Sortierungs-
+    // einstellung Zugriff zu bekommen.
+    const callbackSortCriteria = (sortCriteria) => {
+        setSortCriteria(sortCriteria);
+    }
+
     return (
         <div className="articlelist-page">
             <div className="articlelist-header">
@@ -81,14 +87,10 @@ function Articlelist() {
                 </Accordion>
             </div>
             <div className="articlelist-sorting">
-                <ButtonGroup variant="text" size="small" color="primary">
-                    <Button onClick={() => setSortCriteria("createdAt")}>Neuste</Button>
-                    <Button onClick={() => setSortCriteria("voting")}>Voting</Button>
-                    <Button onClick={() => setSortCriteria("answerCounter")}>Antworten</Button>
-                </ButtonGroup>
+                <SortingActions parentCallbackSortCriteria={callbackSortCriteria} />
             </div>
             <div>
-                { displayArticleData(articleData) }
+                {displayArticleData(articleData)}
             </div>
         </div>
     )

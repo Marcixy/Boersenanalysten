@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // own-component imports
 import TextEditor from '../../../widgets/inputs/textEditor/TextEditor';
@@ -13,11 +13,13 @@ import {
 
 // third-party imports
 import { useParams } from "react-router-dom";
+import axios from 'axios';
 
 import './ProfileSettings.css';
 
 function ProfileSettings() {
 
+    const [userData, setUserData] = useState("");
     const [username, setUsername] = useState("");
     const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
@@ -29,6 +31,20 @@ function ProfileSettings() {
     const [descriptionError, setDescriptionError] = useState(false);
 
     const { id } = useParams();
+
+    useEffect(() => {
+        axios.get('/getUserById', {
+            params: {
+                _id: id
+            }
+        }).then((userResponse) => {
+            const username = userResponse.data[0].username;
+            console.log(username);
+            setUsername(username);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }, [])
 
     const changeProfile = () => {
         // TODO
@@ -52,8 +68,7 @@ function ProfileSettings() {
                     helperText={usernameErrorText}
                     inputProps={{ maxLength: 30 }}
                     style={{ width: '270px' }}
-                    onChange={(event) => setUsername(event.target.value)}
-                    autoFocus />
+                    onChange={(event) => setUsername(event.target.value)}/>
                 <TextEditor
                     contentError={ descriptionError }
                     contentErrorText={ descriptionErrorText }

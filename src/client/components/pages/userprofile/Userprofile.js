@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own-component imports
 import UserNavigationbar from '../../widgets/outputs/usernavigationbar/UserNavigationbar';
 import UserArticlelist from '../../pages/userprofile/userArticlelist/UserArticlelist';
+import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
 
 // material-ui imports
 import {
@@ -23,18 +24,28 @@ function Userprofile() {
     const { id } = useParams();
 
     useEffect(() => {
+        // TODO hier weitermachen und Benutzerantworten laden
+        axios.get('/getUserAnswers', {
+            params: {
+                _id: id
+            }
+        }).then((userResponse) => {
+            const userData = userResponse.data[0];
+            setUserData(userData);
+        }).catch((error) => {
+            console.log(error);
+        });
+
         axios.get('/getUserById', {
             params: {
                 _id: id
             }
-        })
-        .then((userResponse) => {
+        }).then((userResponse) => {
             const userData = userResponse.data[0];
             setUserData(userData);
-        })
-        .catch((error) => {
+        }).catch((error) => {
             console.log(error);
-        })
+        });
     }, [])
 
     const displayList = () => {
@@ -56,15 +67,21 @@ function Userprofile() {
         }
     }
 
+    // Verbindung zu SortActions Komponente um auf die aktuelle Sortierungs-
+    // einstellung Zugriff zu bekommen.
+    const callbackSortCriteria = (sortCriteria) => {
+        setSortCriteria(sortCriteria);
+    }
+
     return (
         <div className="userprofile-page">
             <UserNavigationbar userid={id} />
             <h2>Profil</h2>
             <p>{userData.username}</p>
+            <p>{userData.description}</p>
             <p>{userData.shareCounter} Aktienanteile</p>
             <p>{userData.articleCounter} Artikel</p>
             <p>{userData.answerCounter} Antworten</p>
-            <p>{userData.description}</p>
             <p>{userData.location}</p>
             <div className="user-articlelist-header">
                 <div className="user-articlelist-filter">
@@ -75,13 +92,7 @@ function Userprofile() {
                         <Button onClick={() => setListType("downVotings")}>Down Votings</Button>
                     </ButtonGroup>
                 </div>
-                <div className="user-articlelist-sorting">
-                    <ButtonGroup variant="text" size="small" color="primary">
-                        <Button onClick={() => setSortCriteria("createdAt")}>Neuste</Button>
-                        <Button onClick={() => setSortCriteria("voting")}>Voting</Button>
-                        <Button onClick={() => setSortCriteria("answerCounter")}>Antworten</Button>
-                    </ButtonGroup>
-                </div>
+                <SortingActions parentCallbackSortCriteria={callbackSortCriteria} />
             </div>
             { displayList() }
         </div>
