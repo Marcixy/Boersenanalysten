@@ -18,11 +18,8 @@ import axios from 'axios';
 import './ProfileSettings.css';
 
 function ProfileSettings() {
-
-    const [userData, setUserData] = useState("");
     const [username, setUsername] = useState("");
     const [description, setDescription] = useState("");
-    const [location, setLocation] = useState("");
 
     const [usernameErrorText, setUsernameErrorText] = useState("");
     const [descriptionErrorText, setDescriptionErrorText] = useState("");
@@ -38,9 +35,7 @@ function ProfileSettings() {
                 _id: id
             }
         }).then((userResponse) => {
-            const username = userResponse.data[0].username;
-            console.log(username);
-            setUsername(username);
+            setUsername(userResponse.data[0].username);
         }).catch((error) => {
             console.log(error);
         })
@@ -68,7 +63,9 @@ function ProfileSettings() {
                     helperText={usernameErrorText}
                     inputProps={{ maxLength: 30 }}
                     style={{ width: '270px' }}
-                    onChange={(event) => setUsername(event.target.value)}/>
+                    placeholder={username}
+                    onChange={(event) => setUsername(event.target.value)} 
+                    autoFocus/>
                 <TextEditor
                     contentError={ descriptionError }
                     contentErrorText={ descriptionErrorText }

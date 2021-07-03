@@ -91,11 +91,13 @@ router.get('/getUserPortfolioArticles', async (req, res) => {
 
 // TODO hier weitermachen
 router.get('/getUserAnswers/', (req, res) => {
+    console.log("ID: " + req.query._id);
     User.find({"_id": req.query._id})
     .then((userData) => {
-        Answer.find({"_id": userData[0].answers})
+        console.log("Answers Data: " + userData[0].answers[0]);
+        Answer.find({"_id": userData[0].answers[0]})
         .then((answerData) => {
-            console.log("Answers: ", answerData);
+            console.log("Answers Data: ", answerData);
             Article.find({"_id": answerData[0].articleid})
             .then((articleData) => {
                 console.log("Article: ", articleData);

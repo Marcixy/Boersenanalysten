@@ -13,6 +13,11 @@ import {
     Typography
 } from '@material-ui/core';
 
+import { makeStyles } from '@material-ui/core/styles';
+
+// material-ui lab imports
+import Pagination from '@material-ui/lab/Pagination';
+
 // material-ui icon imports
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -22,22 +27,30 @@ import axios from 'axios';
 
 import './Articlelist.css';
 
+const useStyles = makeStyles(() => ({
+    ul: {
+      "& .MuiPaginationItem-root": {
+        color: "#fff"
+      }
+    }
+  }));
+
 function Articlelist() {
+    const classes = useStyles();
+
     const [sortCriteria, setSortCriteria] = useState("createdAt");
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
+    const [paginationCount, setPaginationCount] = useState("");
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
-        axios.get(`/getArticlelist/${sortCriteria}`)
-        .then((response) => {
-            const articleData = response.data;
-            setArticleData(articleData);
-            axios.get(`/getArticleCreatorNames/${sortCriteria}`)
-            .then((response) => {
-                setArticleCreatorNames(response.data);
-            })
+        getArticleList(page, page);
+        axios.get('/getArticleCount')
+        .then((articleCountResponse) => {
+            setPaginationCount(Math.ceil(articleCountResponse.data / 5));
         }).catch((error) => {
-            console.error("Articledata are not loaded", error);
+            console.error("Articlecount is not loaded", error);
         });
     }, [sortCriteria])
 
@@ -55,6 +68,25 @@ function Articlelist() {
                 creatorId={article.creator}
                 created={article.createdAt} />
         ));
+    }
+
+    const getArticleList = (event, currentPage) => {
+        setPage(currentPage);
+        console.log("Page: " + currentPage);
+        axios.get(`/getArticlelist/${sortCriteria}`, {
+            params: {
+                currentPage: currentPage
+            }
+        }).then((response) => {
+            const articleData = response.data;
+            setArticleData(articleData);
+            axios.get(`/getArticleCreatorNames/${sortCriteria}`)
+            .then((response) => {
+                setArticleCreatorNames(response.data);
+            })
+        }).catch((error) => {
+            console.error("Articledata are not loaded", error);
+        });
     }
 
     // Verbindung zu SortActions Komponente um auf die aktuelle Sortierungs-
@@ -92,6 +124,13 @@ function Articlelist() {
             <div>
                 {displayArticleData(articleData)}
             </div>
+            <Pagination
+                classes={{ ul: classes.ul }}
+                count={paginationCount}
+                page={page}
+                variant="outlined"
+                color="primary"
+                onChange={getArticleList} />
         </div>
     )
 }

@@ -120,7 +120,7 @@ router.get('/getArticleCreatorNames/:sortCriteria', async (req, res) => {
 
 // Beiträge mit Daten werden geladen
 router.get('/getArticlelist/:sortCriteria', (req, res) => {
-    Article.find({ }).sort({ [req.params.sortCriteria]: -1 })
+    Article.find({ }).sort({ [req.params.sortCriteria]: -1 }).limit(5).skip((req.query.currentPage - 1) * 5)
         .then((data) => {
             console.log("Articlelist data: ", data);
             res.json(data);
@@ -135,6 +135,15 @@ router.get('/getArticleById', (req, res) => {
         .then((data) => {
             console.log("Articledata: ", data);
             res.json(data);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });
+});
+
+router.get('/getArticleCount', (req, res) => {
+    Article.countDocuments({ })
+        .then((articleCount) => {
+            res.json(articleCount);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });

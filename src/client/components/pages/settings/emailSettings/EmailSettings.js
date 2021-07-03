@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // own-component imports
 import SettingsMenu from '../../../widgets/outputs/settingsmenu/SettingsMenu';
@@ -13,6 +13,7 @@ import {
 // third-party imports
 import { useParams } from "react-router-dom";
 import firebase from 'firebase/app';
+import axios from 'axios';
 
 import './EmailSettings.css';
 
@@ -30,6 +31,18 @@ function EmailSettings() {
     // Error Farbe für E-Mail ändern
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+
+    useEffect(() => {
+        axios.get('/getUserById', {
+            params: {
+                _id: id
+            }
+        }).then((userResponse) => {
+            setEmail(userResponse.data[0].email);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, [])
 
     const changeEmail = () => {
         const isEmailValid = checkEmail();
@@ -106,6 +119,7 @@ function EmailSettings() {
                     helperText={emailErrorText}
                     inputProps={{ maxLength: 50 }}
                     style={{ width: '270px' }}
+                    placeholder={email}
                     onChange={(event) => setEmail(event.target.value)}
                     autoFocus />
                 <TextField

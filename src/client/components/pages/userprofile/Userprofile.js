@@ -8,7 +8,7 @@ import SortingActions from '../../widgets/outputs/sortingactions/SortingActions'
 // material-ui imports
 import {
     Button,
-    ButtonGroup,
+    ButtonGroup
 } from '@material-ui/core';
 
 // third-party imports

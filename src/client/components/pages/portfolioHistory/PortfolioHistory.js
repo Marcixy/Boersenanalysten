@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import UserNavigationbar from '../../widgets/outputs/usernavigationbar/UserNavigationbar';
 import PortfolioArticleItem from '../../widgets/outputs/portfolioarticleitem/PortfolioArticleItem';
 
- // material-ui lab imports
+// material-ui lab imports
 import Timeline from '@material-ui/lab/Timeline';
 
 // third-party imports
