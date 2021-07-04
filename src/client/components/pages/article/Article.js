@@ -32,13 +32,11 @@ function Article() {
         const getData = () => {
             axios.get('/getArticleById', {
                 params: {
-                    id: id
+                    articleid: id
                 }
-            })
-            .then((articleResponse) => {
+            }).then((articleResponse) => {
                 const articleData = articleResponse.data[0];
                 setArticleData(articleData);
-                console.log("ArticleData: " + articleData);
                 setAnswerData(articleData.answers);
                 axios.get('/getAnswerCreatorNames', {
                     params: {
@@ -99,6 +97,8 @@ function Article() {
     const displayAnswerData = (answers) => {
         return answers.map((answer, index) => (
             <Answerlistitem
+                answerid={answer._id}
+                articleid={answer.articleid}
                 content={answer.content}
                 voting={answer.voting}
                 created={answer.created}
@@ -113,7 +113,7 @@ function Article() {
             <ItemActions
                 deleteDialogTitle="Beitrag löschen"
                 deleteDialogText="Wollen Sie den Beitrag wirklich löschen?"
-                deleteUrl="deleteArticle"
+                deleteUrl="deleteArticleAndUpdateUser"
                 id={articleData._id} />
         )
     }
@@ -131,7 +131,8 @@ function Article() {
                 <div className="article-content">
                     <Voting
                         articleid={articleData._id}
-                        axiosUrl="articleVotingUpdate"
+                        axiosUrl="updateArticleVoting"
+                        getByIdAxiosUrl="getArticleById"
                         voting={articleData.voting} />
                     <div className="article-content-right">
                         <p>{articleData.content}</p>

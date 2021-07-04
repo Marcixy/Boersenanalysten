@@ -19,41 +19,44 @@ function Voting(props) {
         setVoting(props.voting);
     }, [props.voting])
 
-    const upVoting = () => {
+    const updateVoting = (voting) => {
+        console.log("ArticleId: " + props.articleid);
+        console.log("AnswerId: " + props.answerid);
         axios({
             url: `/${props.axiosUrl}/${props.articleid}`,
             method: 'post',
+            params: {
+                voting: voting,
+                answerid: props.answerid
+            }
         }).then(() => {
-            axios.get('/getArticleById', {
+            //axios.get('/getArticleById', {
+            axios.get(`/${props.getByIdAxiosUrl}`, {
                 params: {
-                    id: props.articleid
+                    articleid: props.articleid,
+                    answerid: props.answerid
                 }
-            })
-            .then((response) => {
+            }).then((response) => {
+                console.log(response.data[0].voting);
                 const voting = response.data[0].voting;
                 setVoting(voting);
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 console.error("Articledata are not loaded", error);
             });
         }).catch((error) => {
             console.log(error);
         })
     }
-
-    const downVoting = () => {
-        console.log("Downvote");
-    }
     
     return (
         <div className="voting">
-            <IconButton onClick={upVoting}>
+            <IconButton onClick={() => updateVoting(1)}>
                 <ArrowDropUpIcon 
                     iconStyle={{width: '56px', height: '56px'}}
                     style={{width: '56px', height: '56px' }} />
             </IconButton>
             <p>{voting}</p>
-            <IconButton onClick={downVoting}>
+            <IconButton onClick={() => updateVoting(-1)}>
                 <ArrowDropDownIcon
                     iconStyle={{width: '56px', height: '56px'}}
                     style={{width: '56px', height: '56px' }} />

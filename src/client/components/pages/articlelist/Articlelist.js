@@ -124,13 +124,15 @@ function Articlelist() {
             <div>
                 {displayArticleData(articleData)}
             </div>
-            <Pagination
-                classes={{ ul: classes.ul }}
-                count={paginationCount}
-                page={page}
-                variant="outlined"
-                color="primary"
-                onChange={getArticleList} />
+            <div className="articlelist-pagination">
+                <Pagination
+                    classes={{ ul: classes.ul }}
+                    count={paginationCount}
+                    page={page}
+                    variant="outlined"
+                    color="primary"
+                    onChange={getArticleList} />
+            </div>
         </div>
     )
 }

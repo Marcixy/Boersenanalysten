@@ -12,8 +12,10 @@ function Answerlistitem(props) {
     return (
         <div className="answer-list-item" key={props.index}>
             <Voting
+                answerid={props.answerid}
                 articleid={props.articleid}
-                axiosUrl="answerVotingUpdate"
+                axiosUrl="updateAnswerVoting"
+                getByIdAxiosUrl="getAnswerById"
                 voting={props.voting} />
             <div className="answer-content-right">
                 <p>{props.content}</p>

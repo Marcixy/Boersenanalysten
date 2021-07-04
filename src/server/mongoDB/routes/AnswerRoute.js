@@ -8,6 +8,8 @@ const User = require('../models/User');
 
 // =============== Routes ===================
 
+// =============== POST ===================
+
 // Neue Antwort wird erstellt
 router.post('/createAnswer/:articleid', (req, res) => {
     const answerData = req.body;
@@ -49,6 +51,35 @@ router.post('/createAnswer/:articleid', (req, res) => {
     });
 });
 
+// Antwort wird up- und downgevotet
+router.post('/updateAnswerVoting/:articleid', (req, res) => {
+    console.log(req.params.articleid)
+    Article.find({"_id": req.params.articleid})
+      .then((articleData) => {
+          console.log(req.query.answerid)
+          for (let i = 0; i < articleData[0].answers.length; i++) {
+            if (articleData[0].answers[i]._id.equals(req.query.answerid)) {
+                console.log("Antworten: " + articleData[0].answers[i]);
+                // TODO hier weitermachen updateAnswer funktioniert noch nicht
+                Answer.updateOne({_id: req.query.answerid},
+                {
+                    $inc: { 
+                        voting: 1,
+                    },
+                }).then(() => {
+                    res.json({ msg: "Update Answer Voting was successful" });
+                }).catch((error) => {
+                    res.status(500).json({ msg: "Internal server error: " + error });
+                })
+            }
+        }
+    }).catch((error) => {
+        res.status(500).json({ msg: "Internal server error: " + error });
+    });
+});
+
+// =============== GET ===================
+
 // Die Benutzernamen von den Antworten eines Beitrages werden geladen
 router.get('/getAnswerCreatorNames', (req, res) => {
     Article.find({"_id": req.query.id})
@@ -68,22 +99,18 @@ router.get('/getAnswerCreatorNames', (req, res) => {
         });
 });
 
-// Antwort wird up- und downgevotet
-router.post('/answerVotingUpdate/:articleid', (req, res) => {
-  /* TODO muss noch implementiert werden!
-  Article.updateOne({_id: req.params.articleid},
-  {
-      $inc: { 
-          voting: 1,
-      },
-  },
-  function (error) {
-      if (error) {
-          res.status(500).json({ msg: "Internal server error" });
-      } else {
-          res.json({ msg: "Successfully voting update" });
-      }
-  });*/
+// Ein einzelne Antwort wird anhand der articleid und answerid geladen
+router.get('/getAnswerById', (req, res) => {
+    Article.find({"_id": req.query.articleid})
+        .then((articleData) => {
+            for (let i = 0; i < articleData[0].answers.length; i++) {
+                if (articleData[0].answers[i]._id.equals(req.query.answerid)) {
+                    res.json(articleData[0].answers);
+                }
+            }
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });
 });
 
 module.exports = router;

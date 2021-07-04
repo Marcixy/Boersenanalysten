@@ -11,13 +11,10 @@ const User = require('../models/User');
 
 // Neuer Beitrag wird erstellt
 router.post('/createArticle', (req, res) => {
-    console.log("Articledata: ", req.body);
     const articleData = req.body;
     const newArticle = Article(articleData);
     let arrayToUpdate = "";
-    newArticle.isPortfolioArticle === true ?
-        arrayToUpdate = "portfolioArticle" :
-        arrayToUpdate = "article";
+    newArticle.isPortfolioArticle === true ? arrayToUpdate = "portfolioArticle" : arrayToUpdate = "article";
     newArticle.save((error) => {
         if (error) {
             res.status(500).json({ msg: "Internal server error by create Article" });
@@ -30,70 +27,61 @@ router.post('/createArticle', (req, res) => {
                 $inc: { 
                     articleCounter: 1,
                 },
-            },
-            function (error) {
-                if (error) {
-                    res.status(500).json({ msg: "Internal server error by updating user " + arrayToUpdate + " array" });
-                } else {
-                    res.json(newArticle);
-                }
+            }).then(() => {
+                res.json(newArticle);
+            }).catch((error) => {
+                res.status(500).json({ msg: "Internal server error by updating user " + arrayToUpdate + " array. " + error });
             });
         }
     });
 });
 
 // Beitrag wird up- und downgevotet
-router.post('/articleVotingUpdate/:articleid', (req, res) => {
+router.post('/updateArticleVoting/:articleid', (req, res) => {
     Article.updateOne({_id: req.params.articleid},
     {
         $inc: { 
-            voting: 1,
+            voting: req.query.voting,
         },
-    },
-    function (error) {
-        if (error) {
-            res.status(500).json({ msg: "Internal server error: " + error });
-        } else {
-            res.json({ msg: "Successfully voting update" });
-        }
+    }).then(() => {
+        res.json({ msg: "Update Article Voting was successful." });
+    }).catch((error) => {
+        res.status(500).json({ msg: "Internal server error: " + error });
     });
 });
     
-// Beitrag wird gelöscht
-router.post('/deleteArticle/:articleid', (req, res) => {
+// Beitrag wird gelöscht und der Benutzer wird geupdatet
+router.post('/deleteArticleAndUpdateUser/:articleid', (req, res) => {
     let arrayToUpdate = "";
     // Benutzer Beitragsliste updaten mit (Portfolio-)Beitrags ObjectId wird
     // entfernt und Beitrags Zähler um 1 verringern.
     Article.find({"_id": req.params.articleid})
-    .then((articleData) => {
-        articleData[0].isPortfolioArticle === true ?
-            arrayToUpdate = "portfolioArticle" :
-            arrayToUpdate = "article";
-        User.findOneAndUpdate({"_id": articleData[0].creator},
-        {
-            $pull: {
-                [`${arrayToUpdate}`]: articleData[0]._id
-            },
-            $inc: {
-                articleCounter: -1,
-            }
-        },
-        function (error) {
-            if (error) {
-                res.status(500).json({ msg: "Internal server error" + error });
-            } else {
-                console.log("Update Article was successful");
-            }
+        .then((articleData) => {
+            articleData[0].isPortfolioArticle === true ?
+                arrayToUpdate = "portfolioArticle" :
+                arrayToUpdate = "article";
+            User.findOneAndUpdate({"_id": articleData[0].creator},
+            {
+                $pull: {
+                    [`${arrayToUpdate}`]: articleData[0]._id
+                },
+                $inc: {
+                    articleCounter: -1,
+                }
+            }).then(() => {
+                res.json({ msg: "Update Article was successful." });
+            }).catch((error) => {
+                res.status(500).json({ msg: "Internal server error: " + error });
+            });
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
         });
-    });
-    // Beitrag wird gelöscht
-    Article.deleteOne({"_id": req.params.articleid},
-        function (error) {
-            if (error) {
-                res.status(500).json({ msg: "Internal server error" });
-            } else {
-                res.json({ msg: "Delete Article was successfully" });
-            }
+    // Beitrag wird nachdem der Benutzer geupdatet wurde gelöscht
+    Article.deleteOne({"_id": req.params.articleid})
+        .then((response) => {
+            res.json({ msg: "Delete Article was successfully. " + response });
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
         });
 });
 
@@ -118,28 +106,27 @@ router.get('/getArticleCreatorNames/:sortCriteria', async (req, res) => {
         });    
 });
 
-// Beiträge mit Daten werden geladen
+// Beitragsliste mit Daten werden nach einem Sortierkriterium geladen
 router.get('/getArticlelist/:sortCriteria', (req, res) => {
     Article.find({ }).sort({ [req.params.sortCriteria]: -1 }).limit(5).skip((req.query.currentPage - 1) * 5)
         .then((data) => {
-            console.log("Articlelist data: ", data);
             res.json(data);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });
 });
 
-// Ein Beitrag wird anhand der _id geladen
+// Ein einzelner Beitrag wird anhand der _id geladen
 router.get('/getArticleById', (req, res) => {
-    Article.find({"_id": req.query.id})
+    Article.find({"_id": req.query.articleid})
         .then((data) => {
-            console.log("Articledata: ", data);
             res.json(data);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });
 });
 
+// Anzahl der Beiträge wird geladen
 router.get('/getArticleCount', (req, res) => {
     Article.countDocuments({ })
         .then((articleCount) => {

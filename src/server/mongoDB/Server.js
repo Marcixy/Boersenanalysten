@@ -25,7 +25,8 @@ app.use('/', userRoute, articleRoute, answerRoute);
 app.listen(PORT, function () {
     require('mongoose').connect(MONGODB_URL, { 
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify: false
         }).then(() => {
             console.log(`Server started successfully on port ${PORT}`);
         }).catch((error) => {
