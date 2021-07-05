@@ -53,26 +53,13 @@ router.post('/createAnswer/:articleid', (req, res) => {
 
 // Antwort wird up- und downgevotet
 router.post('/updateAnswerVoting/:articleid', (req, res) => {
-    console.log(req.params.articleid)
-    Article.find({"_id": req.params.articleid})
-      .then((articleData) => {
-          console.log(req.query.answerid)
-          for (let i = 0; i < articleData[0].answers.length; i++) {
-            if (articleData[0].answers[i]._id.equals(req.query.answerid)) {
-                console.log("Antworten: " + articleData[0].answers[i]);
-                // TODO hier weitermachen updateAnswer funktioniert noch nicht
-                Answer.updateOne({_id: req.query.answerid},
-                {
-                    $inc: { 
-                        voting: 1,
-                    },
-                }).then(() => {
-                    res.json({ msg: "Update Answer Voting was successful" });
-                }).catch((error) => {
-                    res.status(500).json({ msg: "Internal server error: " + error });
-                })
-            }
+    Article.findOneAndUpdate({"_id": req.params.articleid, "answers._id": req.query.answerid},
+    {
+        $inc: {
+            "answers.$.voting": req.query.voting,
         }
+    }).then(() => {
+        res.json({ msg: "Update Answer Voting was successful." });
     }).catch((error) => {
         res.status(500).json({ msg: "Internal server error: " + error });
     });
