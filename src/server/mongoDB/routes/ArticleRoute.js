@@ -119,8 +119,8 @@ router.get('/getArticlelist/:sortCriteria', (req, res) => {
 // Ein einzelner Beitrag wird anhand der _id geladen
 router.get('/getArticleById', (req, res) => {
     Article.find({"_id": req.query.articleid})
-        .then((data) => {
-            res.json(data);
+        .then((articleData) => {
+            res.json(articleData);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });

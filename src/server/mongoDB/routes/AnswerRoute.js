@@ -92,7 +92,7 @@ router.get('/getAnswerById', (req, res) => {
         .then((articleData) => {
             for (let i = 0; i < articleData[0].answers.length; i++) {
                 if (articleData[0].answers[i]._id.equals(req.query.answerid)) {
-                    res.json(articleData[0].answers);
+                    res.json(articleData[0].answers[i]);
                 }
             }
         }).catch((error) => {

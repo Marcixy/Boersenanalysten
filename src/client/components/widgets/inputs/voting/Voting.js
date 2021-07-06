@@ -20,8 +20,6 @@ function Voting(props) {
     }, [props.voting])
 
     const updateVoting = (voting) => {
-        console.log("ArticleId: " + props.articleid);
-        console.log("AnswerId: " + props.answerid);
         axios({
             url: `/${props.axiosUrl}/${props.articleid}`,
             method: 'post',
@@ -30,15 +28,18 @@ function Voting(props) {
                 answerid: props.answerid
             }
         }).then(() => {
-            //axios.get('/getArticleById', {
             axios.get(`/${props.getByIdAxiosUrl}`, {
                 params: {
                     articleid: props.articleid,
                     answerid: props.answerid
                 }
             }).then((response) => {
-                console.log(response.data[0].voting);
-                const voting = response.data[0].voting;
+                let voting = "";
+                if (props.answerid === undefined) {
+                    voting = response.data[0].voting;
+                } else {
+                    voting = response.data.voting;
+                }
                 setVoting(voting);
             }).catch((error) => {
                 console.error("Articledata are not loaded", error);
