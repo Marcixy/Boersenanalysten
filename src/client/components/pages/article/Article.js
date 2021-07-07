@@ -131,7 +131,7 @@ function Article() {
                 <div className="article-content">
                     <Voting
                         articleid={articleData._id}
-                        axiosUrl="updateArticleVoting"
+                        updateVotingAxiosUrl="updateArticleVoting"
                         getByIdAxiosUrl="getArticleById"
                         voting={articleData.voting} />
                     <div className="article-content-right">

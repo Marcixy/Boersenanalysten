@@ -33,7 +33,7 @@ const userSchema = new Schema({
         required: [true, 'Answer Counter must exist'],
         min: [0, 'User can not have less than {VALUE} answer counter'],
     },
-    description: {
+    aboutMe: {
         type: String,
         default: "",
     },

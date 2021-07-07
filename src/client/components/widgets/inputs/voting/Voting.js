@@ -21,7 +21,7 @@ function Voting(props) {
 
     const updateVoting = (voting) => {
         axios({
-            url: `/${props.axiosUrl}/${props.articleid}`,
+            url: `/${props.updateVotingAxiosUrl}/${props.articleid}`,
             method: 'post',
             params: {
                 voting: voting,
@@ -42,7 +42,7 @@ function Voting(props) {
                 }
                 setVoting(voting);
             }).catch((error) => {
-                console.error("Articledata are not loaded", error);
+                console.error("Data are not loaded. " + error);
             });
         }).catch((error) => {
             console.log(error);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // material-ui icon imports
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
@@ -10,10 +10,14 @@ import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 import './TextEditor.css';
 
-function TextEditor({ contentError, contentErrorText, parentCallbackEditorContent }) {
+function TextEditor({ editorText = "", contentError, contentErrorText, parentCallbackEditorContent }) {
+
+    useEffect(() => {
+        document.getElementById('editor-content-id').innerHTML = editorText;
+    }, [editorText])
 
     const setEditorContent = () => {
-        parentCallbackEditorContent(document.getElementById('editor-content').innerHTML);
+        parentCallbackEditorContent(document.getElementById('editor-content-id').innerHTML);
     }
 
     // Setzt die Eigenschaft die übergeben wird
@@ -32,7 +36,7 @@ function TextEditor({ contentError, contentErrorText, parentCallbackEditorConten
                 <button className="editor-button" onClick={() => editorButtonHandler('insertOrderedList')}><FormatListNumberedIcon /></button>
                 <button className="editor-button" onClick={() => editorButtonHandler('insertImage')}><ImageSearchIcon /></button>
                 <div className="editor-content"
-                    id="editor-content"
+                    id="editor-content-id"
                     contentEditable="true"
                     spellCheck="false"
                     onKeyUp={() => setEditorContent()}

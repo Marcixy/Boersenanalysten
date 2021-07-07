@@ -78,7 +78,8 @@ function Userprofile() {
             <UserNavigationbar userid={id} />
             <h2>Profil</h2>
             <p>{userData.username}</p>
-            <p>{userData.description}</p>
+            <p>Über mich und meine Anlagestrategie:</p>
+            <p>{userData.aboutMe}</p>
             <p>{userData.shareCounter} Aktienanteile</p>
             <p>{userData.articleCounter} Artikel</p>
             <p>{userData.answerCounter} Antworten</p>

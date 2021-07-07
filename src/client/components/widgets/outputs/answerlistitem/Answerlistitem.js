@@ -14,7 +14,7 @@ function Answerlistitem(props) {
             <Voting
                 answerid={props.answerid}
                 articleid={props.articleid}
-                axiosUrl="updateAnswerVoting"
+                updateVotingAxiosUrl="updateAnswerVoting"
                 getByIdAxiosUrl="getAnswerById"
                 voting={props.voting} />
             <div className="answer-content-right">

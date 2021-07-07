@@ -38,24 +38,23 @@ function Navigationbar() {
     };
 
     useEffect(() => {
-        firebaseConfig.getUserState().then(() => {
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (user) {
-                    axios.get('/getUserByFirebaseid', {
-                        params: {
-                            firebaseid: user.uid
-                        }
-                    }).then((userResponse) => {
-                        setUserData(userResponse.data[0]);
-                        setUserIsLoggedIn(true);
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                } else {
-                    setUserIsLoggedIn(false);
-                }
-            });
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                axios.get('/getUserByFirebaseid', {
+                    params: {
+                        firebaseid: user.uid
+                    }
+                }).then((userResponse) => {
+                    setUserData(userResponse.data[0]);
+                    setUserIsLoggedIn(true);
+                }).catch((error) => {
+                    console.log(error);
+                });
+            } else {
+                setUserIsLoggedIn(false);
+            }
         });
+        return () => unsubscribe();
     }, [])
 
     const signOut = () => {
@@ -72,8 +71,8 @@ function Navigationbar() {
     if (userIsLoggedIn === true) {
         RightNavigationbar = (
             <div className="user-right-navigationbar">
-                <span>{userData.username}</span>
-                <Link to={{pathname: `/userprofile/${userData._id}`}}>
+                <span>{userData?.username}</span>
+                <Link to={{pathname: `/userprofile/${userData?._id}`}}>
                     <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
                 </Link>
                 <Link to="/message">

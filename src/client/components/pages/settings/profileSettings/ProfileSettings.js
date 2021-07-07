@@ -19,13 +19,13 @@ import './ProfileSettings.css';
 
 function ProfileSettings() {
     const [username, setUsername] = useState("");
-    const [description, setDescription] = useState("");
+    const [aboutMe, setAboutMe] = useState("");
 
     const [usernameErrorText, setUsernameErrorText] = useState("");
-    const [descriptionErrorText, setDescriptionErrorText] = useState("");
+    const [aboutMeErrorText, setAboutMeErrorText] = useState("");
     
     const [usernameError, setUsernameError] = useState(false);
-    const [descriptionError, setDescriptionError] = useState(false);
+    const [aboutMeError, setAboutMeError] = useState(false);
 
     const { id } = useParams();
 
@@ -36,19 +36,62 @@ function ProfileSettings() {
             }
         }).then((userResponse) => {
             setUsername(userResponse.data[0].username);
+            setAboutMe(userResponse.data[0].aboutMe);
         }).catch((error) => {
             console.log(error);
-        })
+        });
     }, [])
 
-    const changeProfile = () => {
-        // TODO
+    const updateProfile = () => {
+        const isUsernameValid = checkUsername();
+        const isAboutMeValid = checkAboutMe();
+        if (isUsernameValid === true && isAboutMeValid === true) {
+            axios({
+                url: '/updateProfile',
+                method: 'post',
+                data: {
+                    id: id,
+                    username: username,
+                    aboutMe: aboutMe
+                }
+            }).then(() => {
+                window.location.reload();
+            }).catch((error) => {
+                console.error("Update Userprofile was not successfully. " + error);
+            });
+        }
+    }
+
+    const checkUsername = () => {
+        if (username === "") {
+            setUsernameError(true);
+            setUsernameErrorText("Bitte gib einen Benutzername ein.");
+            return false;
+        } else if (username.length < 5) {
+            setUsernameError(true);
+            setUsernameErrorText("Der Benutzername muss mindestens 5 Zeichen lang sein.");
+            return false;
+        }
+        setUsernameError(false);
+        setUsernameErrorText("");
+        return true;
+    }
+
+    const checkAboutMe = () => {
+        if (aboutMe.length > 500) {
+            setAboutMeError(true);
+            setAboutMeErrorText("Über mich darf maximal 500 Zeichen lang sein.");
+            return false;
+        }
+        setAboutMeError(false);
+        setAboutMeErrorText("");
+        return true;
     }
 
     // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
     // Zugriff zu bekommen.
     const callbackEditorContent = (editorContent) => {
-        setDescription(editorContent);
+        setAboutMe(editorContent);
     }
 
     return (
@@ -67,13 +110,14 @@ function ProfileSettings() {
                     onChange={(event) => setUsername(event.target.value)} 
                     autoFocus/>
                 <TextEditor
-                    contentError={ descriptionError }
-                    contentErrorText={ descriptionErrorText }
+                    editorText={ aboutMe }
+                    contentError={ aboutMeError }
+                    contentErrorText={ aboutMeErrorText }
                     parentCallbackEditorContent={ callbackEditorContent } />
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => changeProfile()}>Speichern</Button>
+                    onClick={() => updateProfile()}>Speichern</Button>
             </div>
         </div>
     )
