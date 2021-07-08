@@ -15,7 +15,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
     const answerData = req.body;
     const newAnswer = Answer(answerData);
     // Neue Antwort für Beitrag erstellen
-    Article.findOneAndUpdate({_id: req.params.articleid},
+    Article.findOneAndUpdate({"_id": req.params.articleid},
     {
         $push: {
             answers: newAnswer,
@@ -28,7 +28,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
         if (error) {
             res.status(500).json({ msg: "Internal server error" + error });
         } else {
-            console.log("New answer is successful created");
+            console.log("New answer was successful created");
         }
     });
     // Benutzer Antwortenliste updaten mit Antwort ObjectId und
@@ -36,7 +36,24 @@ router.post('/createAnswer/:articleid', (req, res) => {
     User.updateOne({"_id": answerData.creator}, 
     {
         $addToSet: {
-            [`answers`]: newAnswer._id
+            [`answers`]: req.params.articleid
+        },
+        $inc: { 
+            answerCounter: 1,
+        },
+    },
+    function (error) {
+        if (error) {
+            res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
+        } else {
+            console.log("Updating user was successful");
+            //res.json({ msg: "Create Answer was successful" });
+        }
+    });
+    User.updateOne({"_id": answerData.creator, "answers._id": req.params.articleid}, 
+    {
+        $addToSet: {
+            [`answers.$[0]._id`]: answerData._id
         },
         $inc: { 
             answerCounter: 1,
