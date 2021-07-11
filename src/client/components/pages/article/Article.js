@@ -75,6 +75,7 @@ function Article() {
                 firebaseid: firebase.auth().currentUser.uid
             }
         }).then((userResponse) => {
+            console.log("userResponse: " + userResponse.data[0]._id);
             axios({
                 url: `/createAnswer/${articleData._id}`,
                 method: 'post',

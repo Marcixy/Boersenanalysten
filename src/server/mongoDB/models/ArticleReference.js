@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// User Schema
+// Article Reference Schema
 const Schema = mongoose.Schema;
 const articleReferenceSchema = new Schema({
     articleid: {
