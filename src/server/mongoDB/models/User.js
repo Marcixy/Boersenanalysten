@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const ArticleReference = require('../models/ArticleReference');
+
 // User Schema
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
@@ -45,10 +47,7 @@ const userSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Article',
     }],
-    answers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Answer',
-    }],
+    answers: [ArticleReference.schema],
     upvotings: [{
         type: mongoose.Schema.Types.ObjectId,
     }],

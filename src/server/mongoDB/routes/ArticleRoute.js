@@ -38,7 +38,7 @@ router.post('/createArticle', (req, res) => {
 
 // Beitrag wird up- und downgevotet
 router.post('/updateArticleVoting/:articleid', (req, res) => {
-    Article.updateOne({_id: req.params.articleid},
+    Article.updateOne({"_id": req.params.articleid},
     {
         $inc: { 
             voting: req.query.voting,
