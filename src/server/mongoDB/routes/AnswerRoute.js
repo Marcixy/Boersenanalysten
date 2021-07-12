@@ -14,7 +14,6 @@ const ArticleReference = require('../models/ArticleReference');
 // Neue Antwort wird erstellt
 router.post('/createAnswer/:articleid', (req, res) => {
     const answerData = req.body;
-    console.log(req.body);
     const newAnswer = Answer(answerData);
     // Neue Antwort für Beitrag erstellen
     Article.findOneAndUpdate({"_id": req.params.articleid},
@@ -33,24 +32,17 @@ router.post('/createAnswer/:articleid', (req, res) => {
             console.log("New answer was successful created");
         }
     });
-    console.log("newAnswer.creator 2: " + newAnswer.creator);
     User.findOne({"_id": newAnswer.creator}, function (error, userData) {
         if (error) {
             res.status(500).json({ msg: "Internal server error" + error });
         } else {
-            console.log("UserData: " + userData);
             // Benutzer Antwortenliste updaten mit Antwort ObjectId und
             // Antworten Zähler um 1 erhöhen.
             let isNewArticle = true;
             const newArticleReference = ArticleReference(answerData)
             for (let i = 0; i < userData.answers.length; i++) {
-                console.log("req.params.articleid " + req.params.articleid);
-                console.log("newAnswer.answers[i].articleid " + userData.answers[i].articleid);
                 if (userData.answers[i].articleid.equals(req.params.articleid)) {
-                    console.log("ArticleId gefunden!!! " + i + "newAnswerId: " + newAnswer._id);
                     isNewArticle = false;
-                    const answeridsLength = userData.answers[i].answerids.length;
-                    console.log("answeridsLength: " + answeridsLength);
                     User.updateOne({"_id": answerData.creator}, 
                     {
                         $push: {
@@ -69,7 +61,6 @@ router.post('/createAnswer/:articleid', (req, res) => {
                             res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
                         } else {
                             console.log("Updating user was successful");
-                            //res.json({ msg: "Create Answer was successful" });
                         }
                     });
                 } 
@@ -108,7 +99,6 @@ router.post('/createAnswer/:articleid', (req, res) => {
                                 res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
                             } else {
                                 console.log("Updating user was successful");
-                                //res.json({ msg: "Create Answer was successful" });
                                 res.json({ msg: "Create Answer was successful" });
                             }
                         });
@@ -117,25 +107,6 @@ router.post('/createAnswer/:articleid', (req, res) => {
             }
         }
     });
-    
-    
-    
-    /*User.updateOne({"_id": answerData.creator, "answers.$.articleid": req.params.articleid}, 
-    {
-        $addToSet: {
-            [`answers.$.articleid`]: answerData._id
-        },
-        $inc: { 
-            answerCounter: 1,
-        },
-    },
-    function (error) {
-        if (error) {
-            res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
-        } else {
-            res.json({ msg: "Create Answer was successful" });
-        }
-    });*/
 });
 
 // Antwort wird up- und downgevotet
