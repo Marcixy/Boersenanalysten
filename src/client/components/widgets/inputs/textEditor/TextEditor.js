@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 // material-ui icon imports
 import FormatBoldIcon from '@material-ui/icons/FormatBold';

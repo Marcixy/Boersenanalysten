@@ -29,7 +29,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
         if (error) {
             res.status(500).json({ msg: "Internal server error" + error });
         } else {
-            console.log("New answer was successful created");
+            console.log("New answer was successful pushed");
         }
     });
     User.findOne({"_id": newAnswer.creator}, function (error, userData) {

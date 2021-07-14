@@ -88,7 +88,7 @@ router.post('/deleteArticleAndUpdateUser/:articleid', (req, res) => {
 // =============== GET ===================
 
 // Der Erstellername eines Beitrags wird geladen
-router.get('/getArticleCreatorNames/:sortCriteria', async (req, res) => {
+router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
     Article.find({ }).sort({ [req.params.sortCriteria]: -1 })
         .then(async (articleData) => {
             var articleCreatorNames = [];

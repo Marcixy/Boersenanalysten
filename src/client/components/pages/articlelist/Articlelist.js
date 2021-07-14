@@ -72,7 +72,6 @@ function Articlelist() {
 
     const getArticleList = (event, currentPage) => {
         setPage(currentPage);
-        console.log("Page: " + currentPage);
         axios.get(`/getArticlelist/${sortCriteria}`, {
             params: {
                 currentPage: currentPage
@@ -113,7 +112,7 @@ function Articlelist() {
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography>
-                        TODO
+                        TODO Filter implementieren
                         </Typography>
                     </AccordionDetails>
                 </Accordion>

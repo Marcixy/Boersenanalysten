@@ -4,7 +4,6 @@ const router = express.Router();
 
 const User = require('../models/User');
 const Article = require('../models/Article');
-const Answer = require('../models/Answer');
 
 // =============== Routes ===================
 
@@ -102,28 +101,24 @@ router.get('/getUserPortfolioArticles', async (req, res) => {
         });
 })
 
-// TODO hier weitermachen
-router.get('/getUserAnswers/', (req, res) => {
-    console.log("ID: " + req.query._id);
+// Alle Beiträge anzeigen bei denen der Benutzer eine Antwort erstellt hat
+router.get('/getUserAnswers', (req, res) => {
     User.find({"_id": req.query._id})
-    .then((userData) => {
-        console.log("Answers Data: " + userData[0].answers[0]);
-        Answer.find({"_id": userData[0].answers[0]})
-        .then((answerData) => {
-            console.log("Answers Data: ", answerData);
-            Article.find({"_id": answerData[0].articleid})
-            .then((articleData) => {
-                console.log("Article: ", articleData);
-                res.json(articleData);
-            }).catch((error) => {
-                res.status(500).json({ msg: error });
-            });
+        .then(async (userData) => {
+            var articleDataArray = [];
+            for (let i = 0; i < userData[0].answers.length; i++) {
+                await Article.find({"_id": userData[0].answers[i].articleid})
+                .then((articleData) => {
+                    console.log("Data: " + articleData[0]);
+                    articleDataArray.push(articleData[0]);
+                }).catch((error) => {
+                    res.status(500).json({ msg: error });
+                });
+            }
+            res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });
         });
-    }).catch((error) => {
-        res.status(500).json({ msg: error });
-    });
 })
 
 module.exports = router;

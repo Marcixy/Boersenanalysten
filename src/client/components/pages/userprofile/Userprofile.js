@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own-component imports
 import UserNavigationbar from '../../widgets/outputs/usernavigationbar/UserNavigationbar';
 import UserArticlelist from '../../pages/userprofile/userArticlelist/UserArticlelist';
+import UserAnswerlist from '../../pages/userprofile/userAnswerlist/UserAnswerlist';
 import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
 
 // material-ui imports
@@ -24,18 +25,6 @@ function Userprofile() {
     const { id } = useParams();
 
     useEffect(() => {
-        // TODO hier weitermachen und Benutzerantworten laden
-        axios.get('/getUserAnswers', {
-            params: {
-                _id: id
-            }
-        }).then((userResponse) => {
-            const userData = userResponse.data[0];
-            setUserData(userData);
-        }).catch((error) => {
-            console.log(error);
-        });
-
         axios.get('/getUserById', {
             params: {
                 _id: id
@@ -54,8 +43,8 @@ function Userprofile() {
                 return <UserArticlelist
                     sortCriteria={sortCriteria} />
             case "answers":
-                // TODO
-                break;
+                return <UserAnswerlist
+                    sortCriteria={sortCriteria} />
             case "upVotings":
                 // TODO
                 break;
