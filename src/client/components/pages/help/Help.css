@@ -1,3 +1,24 @@
 .help-page {
+    color: white;
+    margin: 50px auto 0 auto;
     min-height: 100vh;
+    width: 50%;
+}
+
+.help-page h2 {
+    font-size: 2.2em;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.help-page h3 {
+    font-size: 1.3em;
+}
+
+.help-page p {
+    text-align: justify;
+}
+
+.help-page #help-page-header-text {
+    text-align: center;
 }
