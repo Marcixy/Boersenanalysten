@@ -24,8 +24,9 @@ function Article() {
     const [answerData, setAnswerData] = useState([]);
     const [answerCreatorNames, setAnswerCreatorNames] = useState([]);
     const [editorContent, setEditorContent] = useState("");
+    const [userFirebaseid, setUserFirebaseid] = useState("");
     const [isArticleCreator, setIsArticleCreator] = useState(false);
-
+    
     const { id } = useParams();
 
     useEffect(() => {
@@ -58,6 +59,7 @@ function Article() {
                         } else {
                             setIsArticleCreator(false);
                         }
+                        setUserFirebaseid(user.uid);
                     }).catch((error) => {
                         console.log(error);
                     })
@@ -134,7 +136,8 @@ function Article() {
                         articleid={articleData._id}
                         updateVotingAxiosUrl="updateArticleVoting"
                         getByIdAxiosUrl="getArticleById"
-                        voting={articleData.voting} />
+                        voting={articleData.voting} 
+                        voterid={userFirebaseid} />
                     <div className="article-content-right">
                         <p>{articleData.content}</p>
                         <TagList tagList={articleData.tags} />

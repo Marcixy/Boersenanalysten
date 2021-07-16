@@ -121,4 +121,8 @@ router.get('/getUserAnswers', (req, res) => {
         });
 })
 
+router.get('/getUserVotings', (req, res) => {
+    // TODO
+})
+
 module.exports = router;

@@ -25,7 +25,8 @@ function Voting(props) {
             method: 'post',
             params: {
                 voting: voting,
-                answerid: props.answerid
+                answerid: props.answerid,
+                voterid: props.voterid
             }
         }).then(() => {
             axios.get(`/${props.getByIdAxiosUrl}`, {

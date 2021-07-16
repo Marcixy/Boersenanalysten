@@ -3,9 +3,10 @@ const express = require('express');
 const router = express.Router();
 
 const Article = require('../models/Article');
+const ArticleReference = require('../models/ArticleReference');
 const Answer = require('../models/Answer');
 const User = require('../models/User');
-const ArticleReference = require('../models/ArticleReference');
+
 
 // =============== Routes ===================
 
@@ -32,7 +33,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
             console.log("New answer was successful pushed");
         }
     });
-    User.findOne({"_id": newAnswer.creator}, function (error, userData) {
+    User.findOne({"_id": newAnswer.creator}, function(error, userData) {
         if (error) {
             res.status(500).json({ msg: "Internal server error" + error });
         } else {
@@ -67,7 +68,6 @@ router.post('/createAnswer/:articleid', (req, res) => {
             }
             if (isNewArticle === true) {
                 const answersLength = userData.answers.length;
-                console.log("answersLength " + answersLength);
                 User.updateOne({"_id": answerData.creator}, 
                 {
                     $push: {
