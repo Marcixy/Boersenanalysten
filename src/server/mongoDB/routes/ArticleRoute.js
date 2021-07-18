@@ -51,16 +51,42 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
             if (error) {
                 res.status(500).json({ msg: "Internal server error" + error });
             } else {
-                console.log("Test");
+                let isNewArticle = true;
                 // TODO let arrayToUpdate = "";
                 // TODO req.query.voting === 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
                 const newArticleReference = ArticleReference({articleid: req.params.articleid, answerids: []})
-                console.log(newArticleReference);
-                for (let i = 0; i <= userData.upvotings.length; i++) {
-                    if (userData.upvotings.length === 0) {
+                console.log("req.params.articleid: " + req.params.articleid)
+                if (userData.upvotings.length === 0) {
+                    User.updateOne({"firebaseid": req.query.voterid}, 
+                        {
+                            $addToSet: {
+                                upvotings: newArticleReference,
+                            }
+                        },
+                        {
+                            arrayFilters: [{ "i.articleid": req.params.articleid }],
+                            new: true
+                        },
+                        function (error) {
+                            if (error) {
+                                res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
+                            } else {
+                                console.log("Updating user was successful");
+                            }
+                        });
+                }
+                else {
+                    for (let i = 0; i < userData.upvotings.length; i++) {
+                        console.log("userData.upvotings[i].articleid: " + userData.upvotings[i].articleid)
+                        if (userData.upvotings[i].articleid.equals(req.params.articleid)) {
+                            isNewArticle = false;
+                            break;
+                        } 
+                    }
+                    if (isNewArticle === true) {
                         User.updateOne({"firebaseid": req.query.voterid}, 
                         {
-                            $push: {
+                             $push: {
                                 upvotings: newArticleReference,
                             }
                         },
@@ -75,30 +101,6 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
                                 console.log("Updating user was successful");
                             }
                         });
-                    }
-                    else {
-                        /*if (userData.upvotings[i].articleid.equals(req.params.articleid)) {
-                            User.updateOne({"firebaseid": req.query.voterid}, 
-                            {
-                                $push: {
-                                    upvotings: newArticleReference,
-                                },
-                                $inc: {
-                                    answerCounter: 1,
-                                },
-                            },
-                            { 
-                                arrayFilters: [{ "i.articleid": req.params.articleid }],
-                                new: true
-                            },
-                            function (error) {
-                                if (error) {
-                                    res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
-                                } else {
-                                    console.log("Updating user was successful");
-                                }
-                            });
-                        }*/
                     }
                 }
             }
@@ -196,3 +198,26 @@ router.get('/getArticleCount', (req, res) => {
 });
 
 module.exports = router;
+
+
+/*else {
+                            if (userData.upvotings[i].articleid.equals(req.params.articleid)) {
+                                User.updateOne({"firebaseid": req.query.voterid}, 
+                                {
+                                    $push: {
+                                        upvotings: newArticleReference,
+                                    },
+                                },
+                                { 
+                                    arrayFilters: [{ "i.articleid": req.params.articleid }],
+                                    new: true
+                                },
+                                function (error) {
+                                    if (error) {
+                                        res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
+                                    } else {
+                                        console.log("Updating user was successful");
+                                    }
+                                });
+                            }
+                        }*/

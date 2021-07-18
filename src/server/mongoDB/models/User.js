@@ -48,12 +48,8 @@ const userSchema = new Schema({
         ref: 'Article',
     }],
     answers: [ArticleReference.schema],
-    upvotings: [{
-        type: mongoose.Schema.Types.ObjectId,
-    }],
-    downvotings: [{
-        type: mongoose.Schema.Types.ObjectId,
-    }],
+    upvotings: [ArticleReference.schema],
+    downvotings: [ArticleReference.schema],
     tags: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag',

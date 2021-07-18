@@ -41,6 +41,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
             // Antworten Zähler um 1 erhöhen.
             let isNewArticle = true;
             const newArticleReference = ArticleReference(answerData)
+            console.log("newArticleReference: " + newArticleReference);
             for (let i = 0; i < userData.answers.length; i++) {
                 if (userData.answers[i].articleid.equals(req.params.articleid)) {
                     isNewArticle = false;
