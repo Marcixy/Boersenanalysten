@@ -52,15 +52,15 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
                 res.status(500).json({ msg: "Internal server error" + error });
             } else {
                 let isNewArticle = true;
-                // TODO let arrayToUpdate = "";
-                // TODO req.query.voting === 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
+                let arrayToUpdate = "";
+                // === funktioniert hier nicht!
+                req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
                 const newArticleReference = ArticleReference({articleid: req.params.articleid, answerids: []})
-                console.log("req.params.articleid: " + req.params.articleid)
-                if (userData.upvotings.length === 0) {
+                if (eval('userData.' + arrayToUpdate + '.length') === 0) {
                     User.updateOne({"firebaseid": req.query.voterid}, 
                         {
                             $addToSet: {
-                                upvotings: newArticleReference,
+                                [`${arrayToUpdate}`]: newArticleReference,
                             }
                         },
                         {
@@ -76,9 +76,8 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
                         });
                 }
                 else {
-                    for (let i = 0; i < userData.upvotings.length; i++) {
-                        console.log("userData.upvotings[i].articleid: " + userData.upvotings[i].articleid)
-                        if (userData.upvotings[i].articleid.equals(req.params.articleid)) {
+                    for (let i = 0; i < eval('userData.' + arrayToUpdate + '.length'); i++) {   
+                        if (eval('userData.' + arrayToUpdate + '[i].articleid.equals(req.params.articleid)')) {
                             isNewArticle = false;
                             break;
                         } 
@@ -87,7 +86,7 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
                         User.updateOne({"firebaseid": req.query.voterid}, 
                         {
                              $push: {
-                                upvotings: newArticleReference,
+                                [`${arrayToUpdate}`]: newArticleReference,
                             }
                         },
                         { 
