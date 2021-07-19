@@ -70,25 +70,29 @@ function Navigationbar() {
     let RightNavigationbar;
     if (userIsLoggedIn === true) {
         RightNavigationbar = (
-            <div className="user-right-navigationbar">
-                <span>{userData?.username}</span>
-                <Link to={{pathname: `/userprofile/${userData?._id}`}}>
-                    <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
-                </Link>
-                <Link to="/message">
-                    <IconButton variant="contained" size="small"><MessageIcon /></IconButton>
-                </Link>
-                <Link to="/help">
-                    <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
-                </Link>
-                <IconButton variant="contained" size="small" onClick={() => handleOpenLogoutDialog()}><ExitToAppIcon /></IconButton>
-                <ChoiceDialog 
-                    dialogOpen={ openLogoutDialog }
-                    handleCloseDialog={ handleCloseLogoutDialog }
-                    title="Ausloggen"
-                    content="Wollen Sie sich wirklich ausloggen?"
-                    onYesButton={ signOut }
-                    onNoButton={ handleCloseLogoutDialog } />
+            <div className="user-navigationbar">
+                <div className="userinfo-navigationbar">
+                    <span>{userData?.shareCounter} {userData?.username}</span>
+                </div>
+                <div className="user-right-navigationbar">
+                    <Link to={{pathname: `/userprofile/${userData?._id}`}}>
+                        <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
+                    </Link>
+                    <Link to="/message">
+                        <IconButton variant="contained" size="small"><MessageIcon /></IconButton>
+                    </Link>
+                    <Link to="/help">
+                        <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
+                    </Link>
+                    <IconButton variant="contained" size="small" onClick={() => handleOpenLogoutDialog()}><ExitToAppIcon /></IconButton>
+                    <ChoiceDialog 
+                        dialogOpen={ openLogoutDialog }
+                        handleCloseDialog={ handleCloseLogoutDialog }
+                        title="Ausloggen"
+                        content="Wollen Sie sich wirklich ausloggen?"
+                        onYesButton={ signOut }
+                        onNoButton={ handleCloseLogoutDialog } />
+                </div>
             </div>
         )
     } else {

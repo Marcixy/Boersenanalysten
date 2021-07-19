@@ -22,21 +22,29 @@
     list-style: none;
 }
 
-.navigationbar ul li:hover {
-    color: #757de8;
+.user-navigationbar {
+    color: white;
+    display: flex;
 }
 
-.user-right-navigationbar span {
+.user-navigationbar button span {
     color: white;
+}
+
+.user-navigationbar button span:hover {
+    color: #3f51b5;
+}
+
+.user-navigationbar a button {
+    color: white;
+}
+
+.userinfo-navigationbar {
+    padding: 17px 16px 0 0;
 }
 
 .user-right-navigationbar button {
-    color: white;
     margin: 14px 18px 0 0;
-}
-
-.user-right-navigationbar button:hover {
-    color: #3f51b5;
 }
 
 .visitor-right-navigationbar a {
