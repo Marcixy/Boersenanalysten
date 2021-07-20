@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import UserNavigationbar from '../../widgets/outputs/usernavigationbar/UserNavigationbar';
 import UserArticlelist from '../../pages/userprofile/userArticlelist/UserArticlelist';
 import UserAnswerlist from '../../pages/userprofile/userAnswerlist/UserAnswerlist';
+import UserVotinglist from '../../pages/userprofile/userVotinglist/UserVotinglist';
 import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
 
 // material-ui imports
@@ -37,6 +38,7 @@ function Userprofile() {
         });
     }, [])
 
+    // TODO UserVotinglist up- oder downvoting mitgeben
     const displayList = () => {
         switch (listType) {
             case "articles":
@@ -46,11 +48,11 @@ function Userprofile() {
                 return <UserAnswerlist
                     sortCriteria={sortCriteria} />
             case "upVotings":
-                // TODO
-                break;
+                return <UserVotinglist
+                    sortCriteria={sortCriteria} />
             case "downVotings":
-                // TODO
-                break;
+                return <UserVotinglist
+                    sortCriteria={sortCriteria} />
             default:
                 console.log("List Type: " + listType + " wird nicht unterstützt.");
         }

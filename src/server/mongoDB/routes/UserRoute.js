@@ -109,7 +109,6 @@ router.get('/getUserAnswers', (req, res) => {
             for (let i = 0; i < userData[0].answers.length; i++) {
                 await Article.find({"_id": userData[0].answers[i].articleid})
                 .then((articleData) => {
-                    console.log("Data: " + articleData[0]);
                     articleDataArray.push(articleData[0]);
                 }).catch((error) => {
                     res.status(500).json({ msg: error });
@@ -122,7 +121,21 @@ router.get('/getUserAnswers', (req, res) => {
 })
 
 router.get('/getUserVotings', (req, res) => {
-    // TODO
+    User.find({"_id": req.query._id})
+        .then(async (userData) => {
+            var articleDataArray = [];
+            for (let i = 0; i < userData[0].upvotings.length; i++) {
+                await Article.find({"_id": userData[0].upvotings[i].articleid})
+                .then((articleData) => {
+                    articleDataArray.push(articleData[0]);
+                }).catch((error) => {
+                    res.status(500).json({ msg: error });
+                });
+            }
+            res.json(articleDataArray);
+        }).catch((error) => {
+            res.status(500).json({ msg: error });
+        });
 })
 
 module.exports = router;

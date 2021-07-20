@@ -197,26 +197,3 @@ router.get('/getArticleCount', (req, res) => {
 });
 
 module.exports = router;
-
-
-/*else {
-                            if (userData.upvotings[i].articleid.equals(req.params.articleid)) {
-                                User.updateOne({"firebaseid": req.query.voterid}, 
-                                {
-                                    $push: {
-                                        upvotings: newArticleReference,
-                                    },
-                                },
-                                { 
-                                    arrayFilters: [{ "i.articleid": req.params.articleid }],
-                                    new: true
-                                },
-                                function (error) {
-                                    if (error) {
-                                        res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
-                                    } else {
-                                        console.log("Updating user was successful");
-                                    }
-                                });
-                            }
-                        }*/
