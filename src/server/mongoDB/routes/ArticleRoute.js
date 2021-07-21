@@ -168,7 +168,7 @@ router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
 
 // Beitragsliste mit Daten werden nach einem Sortierkriterium geladen
 router.get('/getArticlelist/:sortCriteria', (req, res) => {
-    Article.find({ }).sort({ [req.params.sortCriteria]: -1 }).limit(5).skip((req.query.currentPage - 1) * 5)
+    Article.find({ }).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
         .then((data) => {
             res.json(data);
         }).catch((error) => {

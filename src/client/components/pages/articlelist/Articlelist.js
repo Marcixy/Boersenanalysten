@@ -48,7 +48,7 @@ function Articlelist() {
         getArticleList(page, page);
         axios.get('/getArticleCount')
         .then((articleCountResponse) => {
-            setPaginationCount(Math.ceil(articleCountResponse.data / 5));
+            setPaginationCount(Math.ceil(articleCountResponse.data / 10));
         }).catch((error) => {
             console.error("Articlecount is not loaded", error);
         });
@@ -82,10 +82,11 @@ function Articlelist() {
             axios.get(`/getArticleCreatorNames/${sortCriteria}`)
             .then((response) => {
                 setArticleCreatorNames(response.data);
-            })
+            });
         }).catch((error) => {
             console.error("Articledata are not loaded", error);
         });
+        window.scrollTo(0, 0);
     }
 
     // Verbindung zu SortActions Komponente um auf die aktuelle Sortierungs-

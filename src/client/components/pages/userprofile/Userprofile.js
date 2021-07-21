@@ -49,10 +49,12 @@ function Userprofile() {
                     sortCriteria={sortCriteria} />
             case "upVotings":
                 return <UserVotinglist
-                    sortCriteria={sortCriteria} />
+                    sortCriteria={sortCriteria}
+                    upOrDownvoting="Upvoting" />
             case "downVotings":
                 return <UserVotinglist
-                    sortCriteria={sortCriteria} />
+                    sortCriteria={sortCriteria}
+                    upOrDownvoting="Downvoting" />
             default:
                 console.log("List Type: " + listType + " wird nicht unterstützt.");
         }

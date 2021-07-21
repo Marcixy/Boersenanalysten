@@ -33,10 +33,7 @@ function UserVotinglist(props) {
                 id={article._id}
                 index={index}
                 title={article.title}
-                tags={article.tags}
-                voting={article.voting}
-                creatorId={article.creator}
-                created={article.createdAt} />
+                upOrDownvoting={props.upOrDownvoting} />
         ));
     }
 

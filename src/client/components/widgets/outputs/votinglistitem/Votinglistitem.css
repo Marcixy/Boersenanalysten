@@ -9,20 +9,12 @@
     padding: 32px 16px 0 32px;
 }
 
+.voting-list-item-left {
+    color: #00cc00;
+    padding: 19px 0 0 24px;
+}
+
 .voting-list-item-right {
     flex-grow: 2;
-    padding-left: 24px;
-}
-
-.voting-list-item-creation-date {
-    text-align: end;
-}
-
-.voting-list-item-creation-date a {
-    color: #3f51b5;
-    text-decoration: none;
-}
-
-.voting-list-item-creation-date a:hover {
-    color: #303F9F;
+    padding-left: 40px;
 }
