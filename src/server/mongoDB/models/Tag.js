@@ -12,6 +12,10 @@ const tagSchema = new Schema({
         default: 0,
         required: [true, "Article counter must exist"],
         min: [0, 'Article counter must greater or equal 0'],
+    },
+    status: {
+        type: String,
+        required: [true, "Tag status must exist"],
     }
 },
 {

@@ -118,6 +118,9 @@ function Navigationbar() {
                     <Link to="/articlelist">
                         <li>Beiträge</li>
                     </Link>
+                    <Link to="/taglist">
+                        <li>Tags</li>
+                    </Link>
                 </ul>
             </nav>
             { RightNavigationbar }

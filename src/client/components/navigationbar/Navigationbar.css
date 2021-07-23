@@ -16,9 +16,13 @@
     text-decoration: none;
 }
 
+.navigationbar ul {
+    display: flex;
+}
+
 .navigationbar ul li {
     font-size: 1.1rem;
-    margin-top: 16px; 
+    margin-right: 24px;
     list-style: none;
 }
 

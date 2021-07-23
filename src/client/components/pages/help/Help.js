@@ -12,7 +12,7 @@ function Help() {
 
             <h3>Up- und Downvoting von Beiträgen & Antworten</h3>
 
-            <h3>Tags hinzufügen zum strukturieren</h3>
+            <h3>Aktienanteile sammeln für neue Tags</h3>
 
             <h3>Alle Beiträge filtern und die besten Beiträge finden</h3>
 
