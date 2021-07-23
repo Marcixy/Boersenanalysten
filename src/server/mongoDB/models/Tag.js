@@ -13,6 +13,10 @@ const tagSchema = new Schema({
         required: [true, "Article counter must exist"],
         min: [0, 'Article counter must greater or equal 0'],
     },
+    creatorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, "Tag CreatorId must exist"],
+    },
     status: {
         type: String,
         required: [true, "Tag status must exist"],
