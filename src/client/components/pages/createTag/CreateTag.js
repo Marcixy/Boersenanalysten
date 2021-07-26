@@ -37,6 +37,7 @@ function CreateTag() {
                     data: {
                         tagname: tagname,
                         creatorId: userData._id,
+                        description: 'TODO',
                         status: 'In Prüfung'
                     }
                 }).then(() => {

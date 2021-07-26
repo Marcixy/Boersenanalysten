@@ -11,7 +11,6 @@ const User = require('../models/User');
 
 router.post('/createTag', (req, res) => {
     const tagData = req.body;
-    console.log(tagData);
     const newTag = Tag(tagData);
     newTag.save((error) => {
         if (error) {
@@ -29,6 +28,17 @@ router.post('/createTag', (req, res) => {
             });
         }
     });
+});
+
+// =============== GET ===================
+
+router.get('/getTaglist', (req, res) => {
+    Tag.find({ }).limit(25).skip((req.query.currentPage - 1) * 25)
+        .then((tagData) => {
+            res.json(tagData);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });
 });
 
 module.exports = router;

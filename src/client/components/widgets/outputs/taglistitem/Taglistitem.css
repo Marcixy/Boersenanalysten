@@ -1,0 +1,6 @@
+.tag-list-item {
+    border: 1px solid #333333;
+    flex-grow: 1;
+    padding: 16px;
+    margin: 12px;
+}

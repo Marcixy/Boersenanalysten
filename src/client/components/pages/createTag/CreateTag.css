@@ -4,3 +4,7 @@
     min-height: 100vh;
     width: 50%;
 }
+
+.create-tag-page input {
+    color: white;
+}

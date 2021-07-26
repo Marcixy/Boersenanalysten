@@ -7,6 +7,10 @@ const tagSchema = new Schema({
         type: String,
         required: [true, 'Tag name must exist'],
     },
+    description: {
+        type: String,
+        required: [true, 'Tag description must exist'],
+    },
     articleCounter: {
         type: Number,
         default: 0,
