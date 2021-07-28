@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Taglistitem from '../../widgets/outputs/taglistitem/Taglistitem';
-import { getTaglist } from '../../utils/axiosFunctions/tagFunctions/TagFunctions';
+import { getTaglist } from '../../utils/axios/tag/TagFunctions';
 
 // material-ui imports
 import {
@@ -11,7 +11,6 @@ import {
 
 // third-party imports
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 import './Taglist.css';
 
@@ -19,22 +18,11 @@ function Taglist() {
     const [tagList, setTagList] = useState([]);
 
     useEffect(() => {
-        getTaglist().then((data) => {
-            console.log("Taglist: " + data);
-            setTagList(data);
-        });
-        //setTagList(taglist.data);
-        
-        /*axios.get(`/getTaglist/`, {
-            params: {
-
-            }
-        }).then((tagListResponse) => {
-            const tagList = tagListResponse.data;
-            setTagList(tagList);
+        getTaglist().then((tagResponse) => {
+            setTagList(tagResponse);
         }).catch((error) => {
             console.error("Taglist are not loaded", error);
-        });*/
+        });
         window.scrollTo(0, 0);
     }, [])
 

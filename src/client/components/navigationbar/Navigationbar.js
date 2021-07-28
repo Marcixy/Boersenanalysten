@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
 import firebaseConfig from '../../../server/firebase/Config';
+import { getUserByFirebaseid } from '../utils/axios/user/UserFunctions';
 
 // material-ui imports
 import { 
@@ -19,7 +20,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
-import axios from 'axios';
 
 import './Navigationbar.css';
 
@@ -40,12 +40,8 @@ function Navigationbar() {
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                axios.get('/getUserByFirebaseid', {
-                    params: {
-                        firebaseid: user.uid
-                    }
-                }).then((userResponse) => {
-                    setUserData(userResponse.data[0]);
+                getUserByFirebaseid().then((userResponse) => {
+                    setUserData(userResponse[0]);
                     setUserIsLoggedIn(true);
                 }).catch((error) => {
                     console.log(error);

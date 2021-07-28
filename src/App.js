@@ -44,7 +44,7 @@ function App() {
       <Route exact path="/help" component={ Help } />
       <Route exact path="/message" component={ Message } />
       <Route exact path="/createArticle" component={ CreateArticle } />
-      <Route exact path="/article/:id" component={ Article } />
+      <Route exact path="/article/:articleId" component={ Article } />
       <Route exact path="/forgotPassword" component={ ForgotPassword } />
       <Route exact path="/portfolioHistory/:id" component={ PortfolioHistory } />
       <Route exact path="/profileSettings/:id" component={ ProfileSettings } />

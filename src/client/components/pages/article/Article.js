@@ -6,6 +6,12 @@ import ItemActions from '../../widgets/outputs/itemactions/ItemActions';
 import TagList from '../../widgets/outputs/taglist/Taglist';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import Voting from '../../widgets/inputs/voting/Voting';
+import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
+import { getArticleById } from '../../utils/axios/article/ArticleFunctions';
+import {
+    getAnswerCreatorNames,
+    createAnswer
+} from '../../utils/axios/answer/AnswerFunctions';
 
 // material-ui imports
 import {
@@ -15,7 +21,6 @@ import {
 // third-party imports
 import { useParams } from "react-router-dom";
 import firebase from 'firebase/app';
-import axios from 'axios';
 
 import './Article.css';
 
@@ -27,66 +32,37 @@ function Article() {
     const [userFirebaseid, setUserFirebaseid] = useState("");
     const [isArticleCreator, setIsArticleCreator] = useState(false);
     
-    const { id } = useParams();
+    const { articleId } = useParams();
 
     useEffect(() => {
-        const getData = () => {
-            axios.get('/getArticleById', {
-                params: {
-                    articleid: id
-                }
-            }).then((articleResponse) => {
-                const articleData = articleResponse.data[0];
-                setArticleData(articleData);
-                setAnswerData(articleData.answers);
-                axios.get('/getAnswerCreatorNames', {
-                    params: {
-                        id: articleData._id
+        getArticleById(articleId).then((articleResponse) => {
+            setArticleData(articleResponse[0]);
+            setAnswerData(articleResponse[0].answers);
+            getAnswerCreatorNames(articleResponse[0]._id).then((answerCreatorNameResponse) => {
+                setAnswerCreatorNames(answerCreatorNameResponse);
+            }).catch((error) => {
+                console.log(error);
+            });
+            firebase.auth().onAuthStateChanged(function(user) {
+                getUserByFirebaseid().then((userResponse) => {
+                    if (articleResponse[0].creator === userResponse[0]._id) {
+                        setIsArticleCreator(true);
+                    } else {
+                        setIsArticleCreator(false);
                     }
-                }).then((response) => {
-                    setAnswerCreatorNames(response.data);
+                    setUserFirebaseid(user.uid);
                 }).catch((error) => {
                     console.log(error);
-                });
-                firebase.auth().onAuthStateChanged(function(user) {
-                    axios.get('/getUserByFirebaseid', {
-                        params: {
-                            firebaseid: user.uid
-                        }
-                    }).then((userResponse) => {
-                        if (articleData.creator === userResponse.data[0]._id) {
-                            setIsArticleCreator(true);
-                        } else {
-                            setIsArticleCreator(false);
-                        }
-                        setUserFirebaseid(user.uid);
-                    }).catch((error) => {
-                        console.log(error);
-                    })
                 })
-            }).catch((error) => {
-                console.error("Articledata are not loaded", error);
-            });
-        }
-        getData();
-    }, [id])
+            })
+        }).catch((error) => {
+            console.error("Articledata are not loaded", error);
+        });
+    }, [articleId])
 
-    const createAnswer = () => {
-        axios.get('/getUserByFirebaseid', {
-            params: {
-                firebaseid: firebase.auth().currentUser.uid
-            }
-        }).then((userResponse) => {
-            console.log("userResponse: " + userResponse.data[0]._id);
-            axios({
-                url: `/createAnswer/${articleData._id}`,
-                method: 'post',
-                data: {
-                    content: editorContent,
-                    creator: userResponse.data[0]._id,
-                    articleid: articleData._id
-                }
-            }).then(() => {
+    const createNewAnswer = () => {
+        getUserByFirebaseid().then((userResponse) => {
+            createAnswer(articleId, editorContent, userResponse[0]._id).then(() => {
                 console.log("Answer successfully created");
             }).catch((error) => {
                 console.error("Answer is not successfully created", error);
@@ -117,7 +93,7 @@ function Article() {
                 deleteDialogTitle="Beitrag löschen"
                 deleteDialogText="Wollen Sie den Beitrag wirklich löschen?"
                 deleteUrl="deleteArticleAndUpdateUser"
-                id={articleData._id} />
+                id={articleData?._id} />
         )
     }
 
@@ -130,17 +106,17 @@ function Article() {
     return (
         <div className="article-page">
             <div className="article-page-content">
-                <h1>{articleData.title}</h1>
+                <h1>{articleData?.title}</h1>
                 <div className="article-content">
                     <Voting
-                        articleid={articleData._id}
+                        articleid={articleData?._id}
                         updateVotingAxiosUrl="updateArticleVoting"
                         getByIdAxiosUrl="getArticleById"
-                        voting={articleData.voting} 
+                        voting={articleData?.voting} 
                         voterid={userFirebaseid} />
                     <div className="article-content-right">
-                        <p>{articleData.content}</p>
-                        <TagList tagList={articleData.tags} />
+                        <p>{articleData?.content}</p>
+                        <TagList tagList={articleData?.tags} />
                         {articleActions}
                     </div>
                 </div>
@@ -151,7 +127,7 @@ function Article() {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => createAnswer()}>Antwort erstellen</Button>
+                    onClick={() => createNewAnswer()}>Antwort erstellen</Button>
             </div>
         </div>
     )

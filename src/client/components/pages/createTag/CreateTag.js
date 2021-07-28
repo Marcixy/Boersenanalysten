@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+// own imports
+import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
+import { createTag } from '../../utils/axios/tag/TagFunctions';
+
 // material-ui imports
 import {
     Box,
@@ -9,8 +13,6 @@ import {
 
 // third-party imports
 import { useHistory } from 'react-router-dom';
-import firebase from 'firebase/app';
-import axios from 'axios';
 
 import './CreateTag.css';
 
@@ -22,25 +24,10 @@ function CreateTag() {
 
     const toTaglist = useHistory();
 
-    const createTag = () => {
+    const createNewTag = () => {
         if (checkTag() === true) {
-            axios.get('/getUserByFirebaseid', {
-                params: {
-                    firebaseid: firebase.auth().currentUser.uid
-                }
-            }).then((response) => {
-                const userData = response.data[0];
-                console.log(userData);
-                axios({
-                    url: '/createTag',
-                    method: 'post',
-                    data: {
-                        tagname: tagname,
-                        creatorId: userData._id,
-                        description: 'TODO',
-                        status: 'In Prüfung'
-                    }
-                }).then(() => {
+            getUserByFirebaseid().then((userResponse) => {
+                createTag(tagname, userResponse[0]._id).then(() => {
                     console.log("Tag successfully created");
                     toTaglist.push('/taglist');
                 }).catch((error) => {
@@ -49,6 +36,7 @@ function CreateTag() {
                 });
             }).catch((error) => {
                 console.error("Userdata are not loaded", error);
+                alert("Serverfehler: Tag konnte nicht erstellt werden bitte versuchen Sie es später erneut.");
             });
         }
     }
@@ -84,7 +72,7 @@ function CreateTag() {
                 variant="contained"
                 color="primary"
                 id="createTagButton"
-                onClick={() => createTag()}>Tag erstellen</Button>
+                onClick={() => createNewTag()}>Tag erstellen</Button>
         </div>
     )
 }

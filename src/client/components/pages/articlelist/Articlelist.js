@@ -3,6 +3,11 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import Articlelistitem from '../../widgets/outputs/articlelistitem/Articlelistitem';
 import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
+import { 
+    getArticleCount,
+    getArticlelist,
+    getArticleCreatorNames
+} from '../../utils/axios/article/ArticleFunctions';
 
 // material-ui imports
 import {
@@ -23,7 +28,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 // third-party imports
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 import './Articlelist.css';
 
@@ -46,9 +50,8 @@ function Articlelist() {
 
     useEffect(() => {
         getArticleList(page, page);
-        axios.get('/getArticleCount')
-        .then((articleCountResponse) => {
-            setPaginationCount(Math.ceil(articleCountResponse.data / 10));
+        getArticleCount().then((articleCountResponse) => {
+            setPaginationCount(Math.ceil(articleCountResponse / 10)); 
         }).catch((error) => {
             console.error("Articlecount is not loaded", error);
         });
@@ -72,16 +75,10 @@ function Articlelist() {
 
     const getArticleList = (event, currentPage) => {
         setPage(currentPage);
-        axios.get(`/getArticlelist/${sortCriteria}`, {
-            params: {
-                currentPage: currentPage
-            }
-        }).then((response) => {
-            const articleData = response.data;
-            setArticleData(articleData);
-            axios.get(`/getArticleCreatorNames/${sortCriteria}`)
-            .then((response) => {
-                setArticleCreatorNames(response.data);
+        getArticlelist(sortCriteria, currentPage).then((articlelistResponse) => {
+            setArticleData(articlelistResponse);
+            getArticleCreatorNames(sortCriteria).then((response) => {
+                setArticleCreatorNames(response);
             });
         }).catch((error) => {
             console.error("Articledata are not loaded", error);
