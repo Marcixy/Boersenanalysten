@@ -28,15 +28,8 @@ function CreateTag() {
         if (checkTag() === true) {
             getUserByFirebaseid().then((userResponse) => {
                 createTag(tagname, userResponse[0]._id).then(() => {
-                    console.log("Tag successfully created");
                     toTaglist.push('/taglist');
-                }).catch((error) => {
-                    console.error("Tag is not successfully created", error);
-                    alert("Serverfehler: Tag konnte nicht erstellt werden bitte versuchen Sie es später erneut.");
                 });
-            }).catch((error) => {
-                console.error("Userdata are not loaded", error);
-                alert("Serverfehler: Tag konnte nicht erstellt werden bitte versuchen Sie es später erneut.");
             });
         }
     }

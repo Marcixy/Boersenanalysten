@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// material-ui imports
+import { Chip } from '@material-ui/core';
+
 import './Taglistitem.css';
 
 function Taglistitem(props) {
@@ -18,7 +21,11 @@ function Taglistitem(props) {
 
     return (
         <div className="tag-list-item" key={props.index}>
-            <p>{props.tagname}</p>
+            <Chip 
+                className="tag-title"
+                size="small"
+                color="primary"
+                label={props.tagname} />
             <p>{props.description}</p>
             <p>{props.articleCounter}</p>
             <p>{props.status}</p>

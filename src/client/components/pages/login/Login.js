@@ -31,8 +31,7 @@ function Login() {
         const isEmailValid = checkEmail();
         const isPasswordValid = checkPassword();
         if (isEmailValid === true && isPasswordValid === true) {
-            firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
+            firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
                 toArticlelist.push("/articlelist");
             }).catch((error) => {
                 switch (error.code) {

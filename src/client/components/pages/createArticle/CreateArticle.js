@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 // own imports
 import TagInput from '../../widgets/inputs/tagInput/TagInput';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
+import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
+import { createArticle } from '../../utils/axios/article/ArticleFunctions';
 
 // material-ui imports
 import {
@@ -15,8 +17,6 @@ import {
 
 // third-party imports
 import { useHistory } from 'react-router-dom';
-import firebase from 'firebase/app';
-import axios from 'axios';
 
 import './CreateArticle.css';
 
@@ -39,37 +39,18 @@ function CreateArticle() {
     
     const toArticle = useHistory();
 
-    const createArticle = () => {
+    const createNewArticle = () => {
         const isTitleValid = checkTitle();
         const isContentValid = checkContent();
         const isTagsValid = checkTags();
         if (isTitleValid === true && isContentValid === true && isTagsValid === true) {
-            axios.get('/getUserByFirebaseid', {
-                params: {
-                    firebaseid: firebase.auth().currentUser.uid
-                }
-            }).then((response) => {
-                const userData = response.data[0];
-                axios({
-                    url: '/createArticle',
-                    method: 'post',
-                    data: {
-                        title: title,
-                        content: content,
-                        tags: tags,
-                        creator: userData._id,
-                        isPortfolioArticle: isPortfolioArticle
-                    }
-                }).then((articleResponse) => {
+            getUserByFirebaseid().then((userResponse) => {
+                const userData = userResponse[0];
+                createArticle(title, content, tags, userData._id, isPortfolioArticle).then((articleResponse) => {
                     console.log("Article successfully created");
-                    toArticle.push(`/article/${articleResponse.data._id}`);
-                }).catch((error) => {
-                    console.error("Article is not successfully created", error);
-                    alert("Serverfehler: Beitrag konnte nicht erstellt werden bitte versuchen Sie es später erneut.");
+                    toArticle.push(`/article/${articleResponse._id}`);
                 });
-            }).catch((error) => {
-                console.error("Userdata are not loaded", error);
-            })
+            });
         }
     }
 
@@ -166,7 +147,7 @@ function CreateArticle() {
                 variant="contained"
                 color="primary"
                 id="createAnswerButton"
-                onClick={() => createArticle()}>Beitrag erstellen</Button>
+                onClick={() => createNewArticle()}>Beitrag erstellen</Button>
         </div>
     )
 }

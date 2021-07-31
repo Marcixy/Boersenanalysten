@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+// own-component imports
+import { registerUser } from '../../utils/axios/user/UserFunctions';
+
 // material-ui imports
 import {
     Button,
@@ -9,7 +12,6 @@ import {
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
-import axios from 'axios';
 
 import './Register.css';
 
@@ -31,26 +33,15 @@ function Register() {
 
     const toArticlelist = useHistory();
 
-    const registerUser = () =>  {
+    const registerNewUser = () =>  {
         const isEmailValid = checkEmail();
         const isUsernameValid = checkUsername();
         const isPasswordValid = checkPassword();
         if (isEmailValid === true && isUsernameValid === true && isPasswordValid === true) {
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                axios({
-                    url: '/registerUser',
-                    method: 'post',
-                    data: {
-                        firebaseid: firebase.auth().currentUser.uid,
-                        email: email,
-                        username: username
-                    }
-                }).then(() => {
+            firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+                registerUser(email, username).then(() => {
                     console.log("User successfully registered");
                     toArticlelist.push("/articlelist");
-                }).catch((error) => {
-                    console.error("User is not successfully registered", error);
                 });
             }).catch((error) => {
                 switch (error.code) {
@@ -139,7 +130,7 @@ function Register() {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => registerUser()}>Registrieren</Button>
+                    onClick={() => registerNewUser()}>Registrieren</Button>
                 <Link to="/login">
                     Zum Login
                 </Link>

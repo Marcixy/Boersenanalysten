@@ -14,5 +14,8 @@ export async function createTag(tagname, userId) {
             description: 'TODO',
             status: 'In Prüfung'
         }
+    }).catch((error) => {
+        console.error("Create Tag failed", error);
+        alert("Tag konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.");
     });
 }

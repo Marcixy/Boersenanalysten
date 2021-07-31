@@ -55,22 +55,14 @@ function Article() {
                     console.log(error);
                 })
             })
-        }).catch((error) => {
-            console.error("Articledata are not loaded", error);
         });
     }, [articleId])
 
     const createNewAnswer = () => {
         getUserByFirebaseid().then((userResponse) => {
-            createAnswer(articleId, editorContent, userResponse[0]._id).then(() => {
-                console.log("Answer successfully created");
-            }).catch((error) => {
-                console.error("Answer is not successfully created", error);
-            })
+            createAnswer(articleId, editorContent, userResponse[0]._id);
             window.location.reload();
-        }).catch((error) => {
-            console.error("Userdata are not loaded", error);
-        })
+        });
     }
 
     const displayAnswerData = (answers) => {

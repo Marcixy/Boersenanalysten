@@ -80,8 +80,6 @@ function Articlelist() {
             getArticleCreatorNames(sortCriteria).then((response) => {
                 setArticleCreatorNames(response);
             });
-        }).catch((error) => {
-            console.error("Articledata are not loaded", error);
         });
         window.scrollTo(0, 0);
     }
