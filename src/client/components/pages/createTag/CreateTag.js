@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 // own imports
+import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
 import { createTag } from '../../utils/axios/tag/TagFunctions';
 
@@ -18,16 +19,20 @@ import './CreateTag.css';
 
 function CreateTag() {
     const [tagname, setTagname] = useState("");
+    const [tagDescription, setTagDescription] = useState("");
+
     const [tagErrorText, setTagErrorText] = useState("");
+    const [tagDescriptionErrorText, setTagDescriptionErrorText] = useState("");
 
     const [tagError, setTagError] = useState(false);
+    const [tagDescriptionError, setTagDescriptionError] = useState(false);
 
     const toTaglist = useHistory();
 
     const createNewTag = () => {
         if (checkTag() === true) {
             getUserByFirebaseid().then((userResponse) => {
-                createTag(tagname, userResponse[0]._id).then(() => {
+                createTag(tagname, tagDescription, userResponse[0]._id).then(() => {
                     toTaglist.push('/taglist');
                 });
             });
@@ -45,6 +50,12 @@ function CreateTag() {
         return true;
     }
 
+    // Verbindung zu TextEditor Komponente um auf die eingegebene Tag Beschreibung 
+    // Zugriff zu bekommen.
+    const callbackTagDescription = (tagDescription) => {
+        setTagDescription(tagDescription);
+    }
+
     return (
         <div className="create-tag-page">
             <h2>Neuen Tag erstellen</h2>
@@ -60,6 +71,11 @@ function CreateTag() {
                     onChange={(event) => setTagname(event.target.value)}
                     fullWidth
                     autoFocus />
+                <TextEditor 
+                    contentError={ tagDescriptionError }
+                    contentErrorText={ tagDescriptionErrorText }
+                    parentCallbackEditorContent={ callbackTagDescription } 
+                    isMenuebarVisible = { false } />   
             </Box>
             <Button
                 variant="contained"

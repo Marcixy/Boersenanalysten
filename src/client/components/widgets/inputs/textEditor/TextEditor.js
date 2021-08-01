@@ -10,11 +10,17 @@ import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 import './TextEditor.css';
 
-function TextEditor({ editorText = "", contentError, contentErrorText, parentCallbackEditorContent }) {
+function TextEditor({ editorText = "", isMenuebarVisible = true, contentError, contentErrorText, parentCallbackEditorContent }) {
 
     useEffect(() => {
         document.getElementById('editor-content-id').innerHTML = editorText;
-    }, [editorText])
+        const editorButtons = document.getElementById("editor-buttons");
+        if (isMenuebarVisible === true) {
+            editorButtons.style.display = "block";
+        } else {
+            editorButtons.style.display = "none";
+        }
+    }, [editorText, isMenuebarVisible])
 
     const setEditorContent = () => {
         parentCallbackEditorContent(document.getElementById('editor-content-id').innerHTML);
@@ -28,13 +34,15 @@ function TextEditor({ editorText = "", contentError, contentErrorText, parentCal
 
     return (
         <div className="text-editor">
-            <div className="editor-menuebar">
-                <button className="editor-button" onClick={() => editorButtonHandler('bold')}><FormatBoldIcon /></button>
-                <button className="editor-button" onClick={() => editorButtonHandler('italic')}><FormatItalicIcon /></button>
-                <button className="editor-button" onClick={() => editorButtonHandler('underline')}><FormatUnderlinedIcon /></button>
-                <button className="editor-button" onClick={() => editorButtonHandler('insertUnorderedList')}><FormatListBulletedIcon /></button>
-                <button className="editor-button" onClick={() => editorButtonHandler('insertOrderedList')}><FormatListNumberedIcon /></button>
-                <button className="editor-button" onClick={() => editorButtonHandler('insertImage')}><ImageSearchIcon /></button>
+            <div className="editor-menuebar" >
+                <div id="editor-buttons">
+                    <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('bold')}><FormatBoldIcon /></button>
+                    <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('italic')}><FormatItalicIcon /></button>
+                    <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('underline')}><FormatUnderlinedIcon /></button>
+                    <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('insertUnorderedList')}><FormatListBulletedIcon /></button>
+                    <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('insertOrderedList')}><FormatListNumberedIcon /></button>
+                    <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('insertImage')}><ImageSearchIcon /></button>
+                </div>
                 <div className="editor-content"
                     id="editor-content-id"
                     contentEditable="true"
