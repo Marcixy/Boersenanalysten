@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import TextEditor from '../../../widgets/inputs/textEditor/TextEditor';
 import SettingsMenu from '../../../widgets/outputs/settingsmenu/SettingsMenu';
 import UserNavigationbar from '../../../widgets/outputs/usernavigationbar/UserNavigationbar';
+import { getUserById } from '../../../utils/axios/user/UserFunctions';
 
 // material-ui imports
 import {
@@ -30,15 +31,9 @@ function ProfileSettings() {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/getUserById', {
-            params: {
-                _id: id
-            }
-        }).then((userResponse) => {
-            setUsername(userResponse.data[0].username);
-            setAboutMe(userResponse.data[0].aboutMe);
-        }).catch((error) => {
-            console.log(error);
+        getUserById(id).then((userResponse) => {
+            setUsername(userResponse[0].username);
+            setAboutMe(userResponse[0].aboutMe);
         });
     }, [])
 

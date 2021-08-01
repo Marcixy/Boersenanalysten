@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Answerlistitem from '../../../widgets/outputs/answerlistitem/Answerlistitem';
+import { getUserAnswers } from '../../../utils/axios/user/UserFunctions';
 
 // third-party imports
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 
 import './UserAnswerlist.css';
 
@@ -15,17 +15,11 @@ function UserAnswerlist(props) {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/getUserAnswers', {
-            params: {
-                _id: id
-            }
-        }).then((response) => {
-            const articlelist = response.data;
+        getUserAnswers(id).then((answerResponse) => {
+            const articlelist = answerResponse;
             setArticlelist(articlelist);
-        }).catch((error) => {
-            console.log(error);
         });
-    }, [id]) 
+    }, [id])
 
     const displayArticleData = (articles) => {
         return articles.map((article, index) => (

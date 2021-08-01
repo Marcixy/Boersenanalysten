@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Articlelistitem from '../../../widgets/outputs/articlelistitem/Articlelistitem';
+import { getUserArticles } from '../../../utils/axios/user/UserFunctions';
 
 // third-party imports
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 
 import './UserArticlelist.css';
 
@@ -15,12 +15,8 @@ function UserArticlelist(props) {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`/getUserArticles/${props.sortCriteria}`, {
-            params: {
-                _id: id
-            }
-        }).then((response) => {
-            const articlelist = response.data;
+        getUserArticles(id, props.sortCriteria).then((articleResponse) => {
+            const articlelist = articleResponse;
             setArticlelist(articlelist);
         }).catch((error) => {
             console.error("Article List are not loaded", error);

@@ -6,6 +6,7 @@ import UserArticlelist from '../../pages/userprofile/userArticlelist/UserArticle
 import UserAnswerlist from '../../pages/userprofile/userAnswerlist/UserAnswerlist';
 import UserVotinglist from '../../pages/userprofile/userVotinglist/UserVotinglist';
 import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
+import { getUserById } from '../../utils/axios/user/UserFunctions';
 
 // material-ui imports
 import {
@@ -15,7 +16,6 @@ import {
 
 // third-party imports
 import { useParams } from "react-router-dom";
-import axios from 'axios';
 
 import './Userprofile.css';
 
@@ -26,19 +26,12 @@ function Userprofile() {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/getUserById', {
-            params: {
-                _id: id
-            }
-        }).then((userResponse) => {
-            const userData = userResponse.data[0];
+        getUserById(id).then((userResponse) => {
+            const userData = userResponse[0];
             setUserData(userData);
-        }).catch((error) => {
-            console.log(error);
         });
     }, [])
 
-    // TODO UserVotinglist up- oder downvoting mitgeben
     const displayList = () => {
         switch (listType) {
             case "articles":

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Votinglistitem from '../../../widgets/outputs/votinglistitem/Votinglistitem';
+import { getUserVotings } from '../../../utils/axios/user/UserFunctions';
 
 // third-party imports
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 
 import './UserVotinglist.css';
 
@@ -15,15 +15,9 @@ function UserVotinglist(props) {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/getUserVotings', {
-            params: {
-                _id: id
-            }
-        }).then((response) => {
-            const articlelist = response.data;
+        getUserVotings(id).then((votingResponse) => {
+            const articlelist = votingResponse;
             setArticlelist(articlelist);
-        }).catch((error) => {
-            console.log(error);
         });
     }, [id]) 
 
