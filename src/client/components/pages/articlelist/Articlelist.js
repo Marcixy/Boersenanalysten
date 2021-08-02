@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import Articlelistitem from '../../widgets/outputs/articlelistitem/Articlelistitem';
 import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
+import Pagination from '../../widgets/outputs/pagination/Pagination';
 import { 
     getArticleCount,
     getArticlelist,
@@ -19,9 +20,6 @@ import {
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-// material-ui lab imports
-import Pagination from '@material-ui/lab/Pagination';
 
 // material-ui icon imports
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -119,7 +117,18 @@ function Articlelist() {
             <div>
                 {displayArticleData(articleData)}
             </div>
-            <div className="articlelist-pagination">
+            <Pagination
+                    paginationCount={ paginationCount }
+                    page= { page }
+                    onChange={ getArticleList } />
+            
+        </div>
+    )
+}
+
+export default Articlelist;
+
+/*<div className="articlelist-pagination">
                 <Pagination
                     classes={{ ul: classes.ul }}
                     count={paginationCount}
@@ -127,9 +136,4 @@ function Articlelist() {
                     variant="outlined"
                     color="primary"
                     onChange={getArticleList} />
-            </div>
-        </div>
-    )
-}
-
-export default Articlelist;
+            </div>*/

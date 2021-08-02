@@ -75,7 +75,7 @@ router.get('/getUserByFirebaseid', (req, res) => {
 router.get('/getUserArticles/:sortCriteria', async (req, res) => {
     await User.find({"_id": req.query._id})
         .then((userData) => {
-            Article.find({"_id": userData[0].article}).sort({ [req.params.sortCriteria]: -1 })
+            Article.find({"_id": userData[0].article}).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
             .then((articleData) => {
                 res.json(articleData);
             }).catch((error) => {

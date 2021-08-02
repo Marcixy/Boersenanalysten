@@ -15,7 +15,7 @@ function UserArticlelist(props) {
     const { id } = useParams();
 
     useEffect(() => {
-        getUserArticles(id, props.sortCriteria).then((articleResponse) => {
+        getUserArticles(id, props.sortCriteria, props.currentPage).then((articleResponse) => {
             const articlelist = articleResponse;
             setArticlelist(articlelist);
         }).catch((error) => {

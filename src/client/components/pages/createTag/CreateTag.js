@@ -72,6 +72,7 @@ function CreateTag() {
                     fullWidth
                     autoFocus />
                 <TextEditor 
+                    title={ "Beschreibung" }
                     contentError={ tagDescriptionError }
                     contentErrorText={ tagDescriptionErrorText }
                     parentCallbackEditorContent={ callbackTagDescription } 

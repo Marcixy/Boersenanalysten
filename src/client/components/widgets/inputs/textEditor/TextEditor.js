@@ -10,7 +10,7 @@ import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 import './TextEditor.css';
 
-function TextEditor({ editorText = "", isMenuebarVisible = true, contentError, contentErrorText, parentCallbackEditorContent }) {
+function TextEditor({ editorText = "", isMenuebarVisible = true, title = "", contentError, contentErrorText, parentCallbackEditorContent }) {
 
     useEffect(() => {
         document.getElementById('editor-content-id').innerHTML = editorText;
@@ -35,6 +35,7 @@ function TextEditor({ editorText = "", isMenuebarVisible = true, contentError, c
     return (
         <div className="text-editor">
             <div className="editor-menuebar" >
+                <h3>{title}</h3>
                 <div id="editor-buttons">
                     <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('bold')}><FormatBoldIcon /></button>
                     <button id="editor-button" className="editor-button" onClick={() => editorButtonHandler('italic')}><FormatItalicIcon /></button>

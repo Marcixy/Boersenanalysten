@@ -49,10 +49,11 @@ export async function getUserAnswers(userId) {
     return answers.data;
 }
 
-export async function getUserArticles(userId, sortCriteria) {
+export async function getUserArticles(userId, sortCriteria, currentPage) {
     const articles = await axios.get(`/getUserArticles/${sortCriteria}`, {
         params: {
-            _id: userId
+            _id: userId,
+            currentPage: currentPage
         }
     }).catch((error) => {
         console.error("Articles are not loaded", error);
