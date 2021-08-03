@@ -73,18 +73,30 @@ router.get('/getUserByFirebaseid', (req, res) => {
 
 // Alle Beiträge eines Benutzers werden geladen
 router.get('/getUserArticles/:sortCriteria', async (req, res) => {
-    await User.find({"_id": req.query._id})
-        .then((userData) => {
-            Article.find({"_id": userData[0].article}).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
-            .then((articleData) => {
-                res.json(articleData);
-            }).catch((error) => {
-                res.status(500).json({ msg: error });
-            });
+    await User.find({"_id": req.query._id}).then((userData) => {
+        Article.find({"_id": userData[0].article}).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
+        .then((articleData) => {
+            res.json(articleData);
         }).catch((error) => {
             res.status(500).json({ msg: error });
         });
-})
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
+});
+
+// Anzahl der Benutzer Beiträge wird geladen
+router.get('/getUserArticleCount', async (req, res) => {
+    console.log(req.query._id)
+    User.aggregate([
+        { $match: {"_id": req.query._id}},
+        { $unwind: "article"},
+        { $group: { "_id": { "_id": '$_id' }, count: { $sum: 1 }}}],
+        function(error, count) {
+            console.log("Number of Articles: " + count);
+            res.json(count);
+    });
+});
 
 // Alle Portfoliobeiträge eines Benutzers bekommen
 router.get('/getUserPortfolioArticles', async (req, res) => {
@@ -99,7 +111,7 @@ router.get('/getUserPortfolioArticles', async (req, res) => {
         }).catch((error) => {
             res.status(500).json({ msg: error });
         });
-})
+});
 
 // Alle Beiträge anzeigen bei denen der Benutzer eine Antwort erstellt hat
 router.get('/getUserAnswers', (req, res) => {
@@ -118,7 +130,7 @@ router.get('/getUserAnswers', (req, res) => {
         }).catch((error) => {
             res.status(500).json({ msg: error });
         });
-})
+});
 
 router.get('/getUserVotings', (req, res) => {
     User.find({"_id": req.query._id})
@@ -136,6 +148,6 @@ router.get('/getUserVotings', (req, res) => {
         }).catch((error) => {
             res.status(500).json({ msg: error });
         });
-})
+});
 
 module.exports = router;

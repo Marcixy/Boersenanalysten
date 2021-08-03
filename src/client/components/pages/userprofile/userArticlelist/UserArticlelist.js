@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Articlelistitem from '../../../widgets/outputs/articlelistitem/Articlelistitem';
-import { getUserArticles } from '../../../utils/axios/user/UserFunctions';
+import Pagination from '../../../widgets/outputs/pagination/Pagination';
+import {
+    getUserArticles,
+    getUserArticleCount
+} from '../../../utils/axios/user/UserFunctions';
 
 // third-party imports
 import { useParams } from 'react-router-dom';
@@ -11,17 +15,32 @@ import './UserArticlelist.css';
 
 function UserArticlelist(props) {
     const [articlelist, setArticlelist] = useState([]);
+    const [paginationCount, setPaginationCount] = useState("");
+    const [page, setPage] = useState(1);
 
     const { id } = useParams();
 
     useEffect(() => {
-        getUserArticles(id, props.sortCriteria, props.currentPage).then((articleResponse) => {
+        getUserArticleList(page, page);
+        getUserArticleCount(id).then((articleCountResponse) => {
+            console.log("articleCountResponse " + articleCountResponse);
+            setPaginationCount(Math.ceil(articleCountResponse / 10)); 
+        }).catch((error) => {
+            console.error("Articlecount is not loaded", error);
+        });
+    }, [id, props.sortCriteria]) 
+
+    const getUserArticleList = (event, currentPage) => {
+        console.log("Current Page: " + currentPage);
+        setPage(currentPage);
+        getUserArticles(id, props.sortCriteria, currentPage).then((articleResponse) => {
             const articlelist = articleResponse;
             setArticlelist(articlelist);
         }).catch((error) => {
             console.error("Article List are not loaded", error);
         });
-    }, [id, props.sortCriteria]) 
+        window.scrollTo(0, 0);
+    }
 
     const displayArticleData = (articles) => {
         return articles.map((article, index) => (
@@ -41,6 +60,10 @@ function UserArticlelist(props) {
     return (
         <div className="user-articlelist">
             {displayArticleData(articlelist)}
+            <Pagination
+                paginationCount={ paginationCount }
+                page= { page }
+                onChange={ getUserArticleList } />
         </div>
     )
 }

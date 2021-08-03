@@ -19,8 +19,6 @@ import {
     Typography
 } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
-
 // material-ui icon imports
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -29,17 +27,7 @@ import { Link } from 'react-router-dom';
 
 import './Articlelist.css';
 
-const useStyles = makeStyles(() => ({
-    ul: {
-      "& .MuiPaginationItem-root": {
-        color: "#fff"
-      }
-    }
-  }));
-
 function Articlelist() {
-    const classes = useStyles();
-
     const [sortCriteria, setSortCriteria] = useState("createdAt");
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
@@ -118,22 +106,11 @@ function Articlelist() {
                 {displayArticleData(articleData)}
             </div>
             <Pagination
-                    paginationCount={ paginationCount }
-                    page= { page }
-                    onChange={ getArticleList } />
-            
+                paginationCount={ paginationCount }
+                page= { page }
+                onChange={ getArticleList } />
         </div>
     )
 }
 
 export default Articlelist;
-
-/*<div className="articlelist-pagination">
-                <Pagination
-                    classes={{ ul: classes.ul }}
-                    count={paginationCount}
-                    page={page}
-                    variant="outlined"
-                    color="primary"
-                    onChange={getArticleList} />
-            </div>*/

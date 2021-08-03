@@ -62,6 +62,17 @@ export async function getUserArticles(userId, sortCriteria, currentPage) {
     return articles.data;
 }
 
+export async function getUserArticleCount(userId) {
+    const userArticleCount = await axios.get('/getUserArticleCount', {
+        params: {
+            _id: userId,
+        }
+    }).catch((error) => {
+        console.error("Article Count are not loaded", error);
+    });
+    return userArticleCount.data;
+}
+
 export async function getUserVotings(userId) {
     const votings = await axios.get(`/getUserVotings`, {
         params: {
