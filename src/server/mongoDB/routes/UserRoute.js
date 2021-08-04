@@ -88,14 +88,30 @@ router.get('/getUserArticles/:sortCriteria', async (req, res) => {
 // Anzahl der Benutzer Beiträge wird geladen
 router.get('/getUserArticleCount', async (req, res) => {
     console.log(req.query._id)
-    User.aggregate([
-        { $match: {"_id": req.query._id}},
-        { $unwind: "article"},
-        { $group: { "_id": { "_id": '$_id' }, count: { $sum: 1 }}}],
+    User.aggregate()
+        .match({_id: req.query._id})
+        .project({ article: { $size: "$article"}
+    }).exec(function(error, article) {
+        console.log(article.length);
+    });
+    //const count = User.aggregate([{$match: { _id: req.query._id}}, {$project: {article: {$size: '$article'}}}])
+    /*const count = User.aggregate([
+        {
+            $article: {
+                item: 1,
+                numberOfColors: { $cond: { $if: { $isArray: "$article"}, then: {$size: "$article"}, else: "NA"}}
+            }
+        }
+    ])*/
+    //console.log(count);
+    /*User.aggregate([
+        { $match: { "_id": req.query._id }},
+        { $unwind: "$article"},
+        { $group: { _id: "$_id", count: { $sum: 1 }}}],
         function(error, count) {
             console.log("Number of Articles: " + count);
             res.json(count);
-    });
+    });*/
 });
 
 // Alle Portfoliobeiträge eines Benutzers bekommen
