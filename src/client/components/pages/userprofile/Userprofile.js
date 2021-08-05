@@ -62,12 +62,11 @@ function Userprofile() {
     return (
         <div className="userprofile-page">
             <UserNavigationbar userid={id} />
-            <h2>Profil</h2>
             <p>{userData.username}</p>
             <p>Über mich und meine Anlagestrategie:</p>
             <p>{userData.aboutMe}</p>
             <p>{userData.shareCounter} Aktienanteile</p>
-            <p>{userData.articleCounter} Artikel</p>
+            <p>{userData.articleCounter} {userData.articleCounter === 1 ? "Beitrag" : "Beiträge"}</p>
             <p>{userData.answerCounter} Antworten</p>
             <p>{userData.location}</p>
             <div className="user-articlelist-header">
