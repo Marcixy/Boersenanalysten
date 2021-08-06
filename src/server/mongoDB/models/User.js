@@ -46,10 +46,20 @@ const userSchema = new Schema({
     article: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Article',
+        index: true,
     }],
-    answers: [ArticleReference.schema],
-    upvotings: [ArticleReference.schema],
-    downvotings: [ArticleReference.schema],
+    answers: [{
+        type: ArticleReference.schema,
+        index: true,
+    }],
+    upvotings: [{
+        type: ArticleReference.schema,
+        index: true,
+    }],
+    downvotings: [{
+        type: ArticleReference.schema,
+        index: true,
+    }],
     tags: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag',
@@ -57,6 +67,22 @@ const userSchema = new Schema({
 },
 {
     timestamps: true
+});
+
+userSchema.virtual('articleCount').get(function () {
+    return this.article.length;
+});
+
+userSchema.virtual('answerCount').get(function () {
+    return this.answers.length;
+});
+
+userSchema.virtual('upVotingCount').get(function () {
+    return this.upvotings.length;
+});
+
+userSchema.virtual('downVotingCount').get(function () {
+    return this.downvotings.length;
 });
 
 // Model

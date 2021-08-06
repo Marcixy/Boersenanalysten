@@ -23,15 +23,13 @@ function UserArticlelist(props) {
     useEffect(() => {
         getUserArticleList(page, page);
         getUserArticleCount(id).then((articleCountResponse) => {
-            console.log("articleCountResponse " + articleCountResponse);
             setPaginationCount(Math.ceil(articleCountResponse / 10)); 
         }).catch((error) => {
-            console.error("Articlecount is not loaded", error);
+            console.error("Article count is not loaded", error);
         });
     }, [id, props.sortCriteria]) 
 
     const getUserArticleList = (event, currentPage) => {
-        console.log("Current Page: " + currentPage);
         setPage(currentPage);
         getUserArticles(id, props.sortCriteria, currentPage).then((articleResponse) => {
             const articlelist = articleResponse;
@@ -59,7 +57,7 @@ function UserArticlelist(props) {
 
     return (
         <div className="user-articlelist">
-            {displayArticleData(articlelist)}
+            { displayArticleData(articlelist) }
             <Pagination
                 paginationCount={ paginationCount }
                 page= { page }

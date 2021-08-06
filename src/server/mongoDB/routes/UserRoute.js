@@ -89,17 +89,8 @@ router.get('/getUserArticles/:sortCriteria', async (req, res) => {
 router.get('/getUserArticleCount', async (req, res) => {
     var mongoose = require('mongoose');
     var userId = mongoose.Types.ObjectId(req.query._id);
-    await User.aggregate(
-        [
-            {
-                $match: {_id: userId}
-            },
-            {
-                $project: {articleCount: {$size: '$article'}}
-            },
-        ]
-    ).then((user) => {
-        res.json(user[0].articleCount);
+    await User.findById(userId).populate('articles').then((user) => {
+        res.json(user.article.length);
     }).catch((error) => {
         res.status(500).json({ msg: error });
     });
@@ -139,6 +130,17 @@ router.get('/getUserAnswers', (req, res) => {
         });
 });
 
+// Anzahl der Benutzer Antworten wird geladen
+router.get('/getUserAnswerCount', async (req, res) => {
+    var mongoose = require('mongoose');
+    var userId = mongoose.Types.ObjectId(req.query._id);
+    await User.findById(userId).populate('answers').then((user) => {
+        res.json(user.answers.length);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
+});
+
 router.get('/getUserVotings', (req, res) => {
     User.find({"_id": req.query._id})
         .then(async (userData) => {
@@ -155,6 +157,28 @@ router.get('/getUserVotings', (req, res) => {
         }).catch((error) => {
             res.status(500).json({ msg: error });
         });
+});
+
+// Anzahl der Benutzer Up Votings wird geladen
+router.get('/getUserUpVotingCount', async (req, res) => {
+    var mongoose = require('mongoose');
+    var userId = mongoose.Types.ObjectId(req.query._id);
+    await User.findById(userId).populate('upvotings').then((user) => {
+        res.json(user.upvotings.length);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
+});
+
+// Anzahl der Benutzer Down Votings wird geladen
+router.get('/getUserDownVotingCount', async (req, res) => {
+    var mongoose = require('mongoose');
+    var userId = mongoose.Types.ObjectId(req.query._id);
+    await User.findById(userId).populate('downvotings').then((user) => {
+        res.json(user.downvotings.length);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
 });
 
 module.exports = router;

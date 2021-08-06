@@ -10,6 +10,8 @@ function Help() {
 
             <h3>Fragen & Antworten, keine Ablenkungen</h3>
 
+            <h3>Die Meinung von anderen Mitgliedern einholen</h3>
+
             <h3>Up- und Downvoting von Beiträgen & Antworten</h3>
 
             <h3>Aktienanteile sammeln für neue Tags</h3>

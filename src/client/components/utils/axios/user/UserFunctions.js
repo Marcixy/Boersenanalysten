@@ -49,6 +49,17 @@ export async function getUserAnswers(userId) {
     return answers.data;
 }
 
+export async function getUserAnswerCount(userId) {
+    const userAnswerCount = await axios.get('/getUserAnswerCount', {
+        params: {
+            _id: userId,
+        }
+    }).catch((error) => {
+        console.error("Answer Count are not loaded", error);
+    });
+    return userAnswerCount.data;
+}
+
 export async function getUserArticles(userId, sortCriteria, currentPage) {
     const articles = await axios.get(`/getUserArticles/${sortCriteria}`, {
         params: {
@@ -83,6 +94,28 @@ export async function getUserVotings(userId) {
         alert("Votings konnten nicht geladen werden. Bitte versuchen Sie es später erneut.");
     });
     return votings.data;
+}
+
+export async function getUserUpVotingCount(userId) {
+    const userUpVotingCount = await axios.get('/getUserUpVotingCount', {
+        params: {
+            _id: userId,
+        }
+    }).catch((error) => {
+        console.error("Up Voting Count are not loaded", error);
+    });
+    return userUpVotingCount.data;
+}
+
+export async function getUserDownVotingCount(userId) {
+    const userDownVotingCount = await axios.get('/getUserDownVotingCount', {
+        params: {
+            _id: userId,
+        }
+    }).catch((error) => {
+        console.error("Down Voting Count are not loaded", error);
+    });
+    return userDownVotingCount.data;
 }
 
 export async function registerUser(email, username) {
