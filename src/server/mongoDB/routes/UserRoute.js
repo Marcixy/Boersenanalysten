@@ -142,17 +142,44 @@ router.get('/getUserAnswerCount', async (req, res) => {
 });
 
 router.get('/getUserVotings', (req, res) => {
+    console.log("Current Page: " + req.query.currentPage);
     User.find({"_id": req.query._id})
         .then(async (userData) => {
             var articleDataArray = [];
-            for (let i = 0; i < userData[0].upvotings.length; i++) {
-                await Article.find({"_id": userData[0].upvotings[i].articleid})
-                .then((articleData) => {
-                    articleDataArray.push(articleData[0]);
-                }).catch((error) => {
-                    res.status(500).json({ msg: error });
-                });
+            if (req.query.votingType === "Upvoting") {
+                /*console.log(userData[0].upvotings);
+                await Article.find({"_id": userData[0].upvotings }).sort({ "createdAt": -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
+                    .then((articleData) => {
+                        console.log(articleData[0]);
+                        if (articleData[0] !== undefined) {
+                            articleDataArray.push(articleData[0]);
+                        }
+                    }).catch((error) => {
+                        res.status(500).json({ msg: error });
+                    });*/
+                for (let i = 0; i < 10; i++) {
+                    console.log("userData[0].upvotings.articleid: " + userData[0].upvotings[i].articleid);
+                    await Article.find({"_id": userData[0].upvotings[i].articleid}).sort({ "createdAt": -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
+                    .then((articleData) => {
+                        console.log(articleData[0]);
+                        if (articleData[0] !== undefined) {
+                            articleDataArray.push(articleData[0]);
+                        }
+                    }).catch((error) => {
+                        res.status(500).json({ msg: error });
+                    });
+                }
+            } else if (req.query.votingType === "Downvoting") {
+                for (let i = 0; i < userData[0].downvotings.length; i++) {
+                    await Article.find({"_id": userData[0].downvotings[i].articleid}).sort({ "createdAt": -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
+                    .then((articleData) => {
+                        articleDataArray.push(articleData[0]);
+                    }).catch((error) => {
+                        res.status(500).json({ msg: error });
+                    });
+                }
             }
+            console.log(articleDataArray);
             res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });

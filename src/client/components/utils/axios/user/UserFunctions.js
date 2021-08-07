@@ -84,10 +84,12 @@ export async function getUserArticleCount(userId) {
     return userArticleCount.data;
 }
 
-export async function getUserVotings(userId) {
+export async function getUserVotings(userId, currentPage, votingType) {
     const votings = await axios.get(`/getUserVotings`, {
         params: {
-            _id: userId
+            _id: userId,
+            currentPage: currentPage,
+            votingType: votingType
         }
     }).catch((error) => {
         console.error("Votings are not loaded", error);

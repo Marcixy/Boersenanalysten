@@ -27,26 +27,26 @@ function UserVotinglist(props) {
             getUserUpVotingCount(id).then((votingCountResponse) => {
                 setPaginationCount(Math.ceil(votingCountResponse / 10)); 
             }).catch((error) => {
-                console.error("Voting count is not loaded", error);
+                console.error("Up Voting count is not loaded", error);
             });
         } else if (props.upOrDownvoting === "Downvoting") {
             getUserDownVotingCount(id).then((votingCountResponse) => {
                 setPaginationCount(Math.ceil(votingCountResponse / 10)); 
             }).catch((error) => {
-                console.error("Voting count is not loaded", error);
+                console.error("Down Voting count is not loaded", error);
             });
         }
-    }, [id])
+    }, [id, props.upOrDownvoting, page])
 
     const getUserVotingList = (event, currentPage) => {
         setPage(currentPage);
-        getUserVotings(id).then((votingResponse) => {
+        getUserVotings(id, currentPage, props.upOrDownvoting).then((votingResponse) => {
             const articlelist = votingResponse;
             setArticlelist(articlelist);
         }).catch((error) => {
             console.error("Voting List are not loaded", error);
         });
-        window.scrollTo(0, 0);;
+        window.scrollTo(0, 0);
     }
 
     const displayArticleData = (articles) => {
