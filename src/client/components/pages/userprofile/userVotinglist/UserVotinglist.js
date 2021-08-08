@@ -5,8 +5,7 @@ import Votinglistitem from '../../../widgets/outputs/votinglistitem/Votinglistit
 import Pagination from '../../../widgets/outputs/pagination/Pagination';
 import { 
     getUserVotings,
-    getUserUpVotingCount,
-    getUserDownVotingCount
+    getUserVotingCount
 } from '../../../utils/axios/user/UserFunctions';
 
 // third-party imports
@@ -23,19 +22,12 @@ function UserVotinglist(props) {
 
     useEffect(() => {
         getUserVotingList(page, page);
-        if (props.upOrDownvoting === "Upvoting") {
-            getUserUpVotingCount(id).then((votingCountResponse) => {
-                setPaginationCount(Math.ceil(votingCountResponse / 10)); 
-            }).catch((error) => {
-                console.error("Up Voting count is not loaded", error);
-            });
-        } else if (props.upOrDownvoting === "Downvoting") {
-            getUserDownVotingCount(id).then((votingCountResponse) => {
-                setPaginationCount(Math.ceil(votingCountResponse / 10)); 
-            }).catch((error) => {
-                console.error("Down Voting count is not loaded", error);
-            });
-        }
+        getUserVotingCount(id, "upvotings").then((votingCountResponse) => {
+            setPaginationCount(Math.ceil(votingCountResponse / 10)); 
+        });
+        getUserVotingCount(id, "downvotings").then((votingCountResponse) => {
+            setPaginationCount(Math.ceil(votingCountResponse / 10)); 
+        });
     }, [id, props.upOrDownvoting, page])
 
     const getUserVotingList = (event, currentPage) => {

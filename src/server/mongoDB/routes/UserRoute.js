@@ -186,23 +186,18 @@ router.get('/getUserVotings', (req, res) => {
         });
 });
 
-// Anzahl der Benutzer Up Votings wird geladen
-router.get('/getUserUpVotingCount', async (req, res) => {
+// Anzahl der Benutzer (Up- oder Down) Votings wird geladen
+router.get('/getUserVotingCount', async (req, res) => {
     var mongoose = require('mongoose');
     var userId = mongoose.Types.ObjectId(req.query._id);
-    await User.findById(userId).populate('upvotings').then((user) => {
-        res.json(user.upvotings.length);
-    }).catch((error) => {
-        res.status(500).json({ msg: error });
-    });
-});
-
-// Anzahl der Benutzer Down Votings wird geladen
-router.get('/getUserDownVotingCount', async (req, res) => {
-    var mongoose = require('mongoose');
-    var userId = mongoose.Types.ObjectId(req.query._id);
-    await User.findById(userId).populate('downvotings').then((user) => {
-        res.json(user.downvotings.length);
+    await User.findById(userId).populate(req.query.votingType).then((user) => {
+        if (req.query.votingType === "upvotings") {
+            res.json(user.upvotings.length);
+        } else if (req.query.votingType === "downvotings") {
+            res.json(user.downvotings.length);
+        } else {
+            res.status(500).json({ msg: "Only upvotings and downvotings type exist." });
+        }
     }).catch((error) => {
         res.status(500).json({ msg: error });
     });

@@ -6,7 +6,12 @@ import UserArticlelist from '../../pages/userprofile/userArticlelist/UserArticle
 import UserAnswerlist from '../../pages/userprofile/userAnswerlist/UserAnswerlist';
 import UserVotinglist from '../../pages/userprofile/userVotinglist/UserVotinglist';
 import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
-import { getUserById } from '../../utils/axios/user/UserFunctions';
+import { 
+    getUserById,
+    getUserAnswerCount,
+    getUserArticleCount,
+    getUserVotingCount,
+ } from '../../utils/axios/user/UserFunctions';
 
 // material-ui imports
 import {
@@ -21,6 +26,10 @@ import './Userprofile.css';
 
 function Userprofile() {
     const [userData, setUserData] = useState([]);
+    const [userAnswerCount, setUserAnswerCount] = useState(0);
+    const [userArticleCount, setUserArticleCount] = useState(0);
+    const [upVotingCount, setUpVotingCount] = useState(0);
+    const [downVotingCount, setDownVotingCount] = useState(0);
     const [listType, setListType] = useState("articles");
     const [sortCriteria, setSortCriteria] = useState("createdAt");
     const { id } = useParams();
@@ -29,6 +38,18 @@ function Userprofile() {
         getUserById(id).then((userResponse) => {
             const userData = userResponse[0];
             setUserData(userData);
+        });
+        getUserArticleCount(id).then((articleCountResponse) => {
+            setUserArticleCount(articleCountResponse); 
+        });
+        getUserAnswerCount(id).then((answerCountResponse) => {
+            setUserAnswerCount(answerCountResponse); 
+        });
+        getUserVotingCount(id, "upvotings").then((upVotingCountResponse) => {
+            setUpVotingCount(upVotingCountResponse); 
+        });
+        getUserVotingCount(id, "downvotings").then((downVotingCountResponse) => {
+            setDownVotingCount(downVotingCountResponse); 
         });
     }, [])
 
@@ -66,8 +87,10 @@ function Userprofile() {
             <p>Über mich und meine Anlagestrategie:</p>
             <p>{userData.aboutMe}</p>
             <p>{userData.shareCounter} Aktienanteile</p>
-            <p>{userData.articleCounter} {userData.articleCounter === 1 ? "Beitrag" : "Beiträge"}</p>
-            <p>{userData.answerCounter} Antworten</p>
+            <p>{userArticleCount} {userArticleCount === 1 ? "Beitrag" : "Beiträge"}</p>
+            <p>{userAnswerCount} {userAnswerCount === 1 ? "Antwort" : "Antworten"}</p>
+            <p>{upVotingCount} {upVotingCount === 1 ? "Upvoting" : "Upvotings"}</p>
+            <p>{downVotingCount} {downVotingCount === 1 ? "Downvoting" : "Downvotings"}</p>
             <p>{userData.location}</p>
             <div className="user-articlelist-header">
                 <div className="user-articlelist-filter">

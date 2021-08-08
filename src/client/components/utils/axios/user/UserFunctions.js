@@ -98,26 +98,16 @@ export async function getUserVotings(userId, currentPage, votingType) {
     return votings.data;
 }
 
-export async function getUserUpVotingCount(userId) {
-    const userUpVotingCount = await axios.get('/getUserUpVotingCount', {
+export async function getUserVotingCount(userId, votingType) {
+    const userVotingCount = await axios.get('/getUserVotingCount', {
         params: {
             _id: userId,
+            votingType: votingType
         }
     }).catch((error) => {
-        console.error("Up Voting Count are not loaded", error);
+        console.error(`{$votingType} Count are not loaded`, error);
     });
-    return userUpVotingCount.data;
-}
-
-export async function getUserDownVotingCount(userId) {
-    const userDownVotingCount = await axios.get('/getUserDownVotingCount', {
-        params: {
-            _id: userId,
-        }
-    }).catch((error) => {
-        console.error("Down Voting Count are not loaded", error);
-    });
-    return userDownVotingCount.data;
+    return userVotingCount.data;
 }
 
 export async function registerUser(email, username) {

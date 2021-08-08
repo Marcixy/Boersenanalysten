@@ -24,8 +24,6 @@ function UserArticlelist(props) {
         getUserArticleList(page, page);
         getUserArticleCount(id).then((articleCountResponse) => {
             setPaginationCount(Math.ceil(articleCountResponse / 10)); 
-        }).catch((error) => {
-            console.error("Article count is not loaded", error);
         });
     }, [id, props.sortCriteria]) 
 

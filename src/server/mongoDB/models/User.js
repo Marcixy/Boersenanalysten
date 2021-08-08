@@ -23,18 +23,6 @@ const userSchema = new Schema({
         required: [true, 'Share Counter must exist'],
         min: [0, 'User can not have less than {VALUE} share counter'],
     },
-    articleCounter: {
-        type: Number,
-        default: 0,
-        required: [true, 'Article Counter must exist'],
-        min: [0, 'User can not have less than {VALUE} article counter'],
-    },
-    answerCounter: {
-        type: Number,
-        default: 0,
-        required: [true, 'Answer Counter must exist'],
-        min: [0, 'User can not have less than {VALUE} answer counter'],
-    },
     aboutMe: {
         type: String,
         default: "",
