@@ -37,11 +37,9 @@ router.post('/createAnswer/:articleid', (req, res) => {
         if (error) {
             res.status(500).json({ msg: "Internal server error" + error });
         } else {
-            // Benutzer Antwortenliste updaten mit Antwort ObjectId und
-            // Antworten Zähler um 1 erhöhen.
+            // Benutzer Antwortenliste updaten mit neuer Antwort ObjectId
             let isNewArticle = true;
             const newArticleReference = ArticleReference(answerData)
-            console.log("newArticleReference: " + newArticleReference);
             for (let i = 0; i < userData.answers.length; i++) {
                 if (userData.answers[i].articleid.equals(req.params.articleid)) {
                     isNewArticle = false;
@@ -49,10 +47,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
                     {
                         $push: {
                             "answers.$[i].answerids": newAnswer._id,
-                        },
-                        $inc: {
-                            answerCounter: 1,
-                        },
+                        }
                     },
                     { 
                         arrayFilters: [{ "i.articleid": req.params.articleid }],
@@ -73,10 +68,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
                 {
                     $push: {
                         answers: newArticleReference,
-                    },
-                    $inc: {
-                        answerCounter: 1,
-                    },
+                    }
                 },
                 function (error) {
                     if (error) {
@@ -86,10 +78,7 @@ router.post('/createAnswer/:articleid', (req, res) => {
                         {
                             $push: {
                                 "answers.$[answersLength].answerids": newAnswer._id,
-                            },
-                            $inc: {
-                                answerCounter: 1,
-                            },
+                            }
                         },
                         { 
                             arrayFilters: [{ "answersLength.articleid": req.params.articleid }],
