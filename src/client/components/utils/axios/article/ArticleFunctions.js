@@ -12,8 +12,16 @@ export async function getArticleById(articleId) {
     return article.data;
 }
 
-export async function getArticleCreatorNames(sortCriteria) {
-    return (await axios.get(`/getArticleCreatorNames/${sortCriteria}`)).data;
+export async function getArticleCreatorNames(sortCriteria, currentPage) {
+    const articleCreatorNames = await axios.get(`/getArticleCreatorNames/${sortCriteria}`, {
+        params: {
+            currentPage: currentPage
+        }
+    }).catch((error) => {
+        console.error("Article Creator Names are not loaded", error);
+        alert("Beitragsersteller konnten nicht geladen werden.");
+    });
+    return articleCreatorNames.data;
 }
 
 export async function getArticlelist(sortCriteria, currentPage) {

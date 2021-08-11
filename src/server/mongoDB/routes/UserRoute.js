@@ -143,32 +143,42 @@ router.get('/getUserAnswerCount', async (req, res) => {
 
 router.get('/getUserVotings', (req, res) => {
     console.log("Current Page: " + req.query.currentPage);
+    console.log("Voting Type: " + req.query.votingType);
     User.find({"_id": req.query._id})
         .then(async (userData) => {
             var articleDataArray = [];
             if (req.query.votingType === "Upvoting") {
-                /*console.log(userData[0].upvotings);
-                await Article.find({"_id": userData[0].upvotings }).sort({ "createdAt": -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
-                    .then((articleData) => {
-                        console.log(articleData[0]);
-                        if (articleData[0] !== undefined) {
-                            articleDataArray.push(articleData[0]);
-                        }
-                    }).catch((error) => {
-                        res.status(500).json({ msg: error });
-                    });*/
-                for (let i = 0; i < 10; i++) {
-                    console.log("userData[0].upvotings.articleid: " + userData[0].upvotings[i].articleid);
-                    await Article.find({"_id": userData[0].upvotings[i].articleid}).sort({ "createdAt": -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
-                    .then((articleData) => {
-                        console.log(articleData[0]);
-                        if (articleData[0] !== undefined) {
-                            articleDataArray.push(articleData[0]);
-                        }
-                    }).catch((error) => {
-                        res.status(500).json({ msg: error });
-                    });
+                let upVotingMaxPagination = 0;
+                let upVotingLength = 0;
+                await User.findById(req.query._id).populate('upvotings').then((user) => {
+                    upVotingMaxPagination = Math.ceil(user.upvotings.length / 10);
+                    upVotingLength = user.upvotings.length;
+                });
+                if (upVotingMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
+                    console.log("upVotingLength 123: " + upVotingLength)
+                    for (let i = (req.query.currentPage - 1) * 10; i < upVotingLength; i++) {
+                        await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
+                            //console.log(articleData[0]);
+                            if (articleData[0] !== undefined) {
+                                articleDataArray.push(articleData[0]);
+                            } 
+                        }).catch((error) => {
+                            res.status(500).json({ msg: error });
+                        });
+                    }
+                } else {
+                    for (let i = (req.query.currentPage - 1) * 10; i < ((req.query.currentPage - 1) * 10) + 10; i++) {
+                        await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
+                            //console.log(articleData[0]);
+                            if (articleData[0] !== undefined) {
+                                articleDataArray.push(articleData[0]);
+                            } 
+                        }).catch((error) => {
+                            res.status(500).json({ msg: error });
+                        });
+                    }
                 }
+                
             } else if (req.query.votingType === "Downvoting") {
                 for (let i = 0; i < userData[0].downvotings.length; i++) {
                     await Article.find({"_id": userData[0].downvotings[i].articleid}).sort({ "createdAt": -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
@@ -179,7 +189,7 @@ router.get('/getUserVotings', (req, res) => {
                     });
                 }
             }
-            console.log(articleDataArray);
+            //console.log(articleDataArray);
             res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });
@@ -192,6 +202,7 @@ router.get('/getUserVotingCount', async (req, res) => {
     var userId = mongoose.Types.ObjectId(req.query._id);
     await User.findById(userId).populate(req.query.votingType).then((user) => {
         if (req.query.votingType === "upvotings") {
+            console.log("Upvotings: " + user.upvotings.length);
             res.json(user.upvotings.length);
         } else if (req.query.votingType === "downvotings") {
             res.json(user.downvotings.length);

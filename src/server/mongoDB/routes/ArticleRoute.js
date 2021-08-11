@@ -149,7 +149,7 @@ router.post('/deleteArticleAndUpdateUser/:articleid', (req, res) => {
 
 // Der Erstellername eines Beitrags wird geladen
 router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
-    Article.find({ }).sort({ [req.params.sortCriteria]: -1 })
+    Article.find({ }).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
         .then(async (articleData) => {
             var articleCreatorNames = [];
             for (let i = 0; i < articleData.length; i++) {

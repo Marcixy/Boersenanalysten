@@ -63,7 +63,7 @@ function Articlelist() {
         setPage(currentPage);
         getArticlelist(sortCriteria, currentPage).then((articlelistResponse) => {
             setArticleData(articlelistResponse);
-            getArticleCreatorNames(sortCriteria).then((response) => {
+            getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
                 setArticleCreatorNames(response);
             });
         });
