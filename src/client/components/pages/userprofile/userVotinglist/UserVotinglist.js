@@ -22,13 +22,21 @@ function UserVotinglist(props) {
 
     useEffect(() => {
         getUserVotingList(page, page);
-        getUserVotingCount(id, "upvotings").then((votingCountResponse) => {
-            setPaginationCount(Math.ceil(votingCountResponse / 10));
-        });
-        /*getUserVotingCount(id, "downvotings").then((votingCountResponse) => {
-            setPaginationCount(Math.ceil(votingCountResponse / 10)); 
-        });*/
-    }, [id, props.upOrDownvoting, page])
+    }, [page])
+
+    useEffect(() => {
+        setPage(1);
+        getUserVotingList(page, 1);
+        if (props.upOrDownvoting === "Upvoting") {
+            getUserVotingCount(id, "upvotings").then((votingCountResponse) => {
+                setPaginationCount(Math.ceil(votingCountResponse / 10));
+            });
+        } else if (props.upOrDownvoting === "Downvoting") {
+            getUserVotingCount(id, "downvotings").then((votingCountResponse) => {
+                setPaginationCount(Math.ceil(votingCountResponse / 10)); 
+            });
+        }
+    }, [id, props.upOrDownvoting])
 
     const getUserVotingList = (event, currentPage) => {
         setPage(currentPage);

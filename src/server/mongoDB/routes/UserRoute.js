@@ -142,8 +142,6 @@ router.get('/getUserAnswerCount', async (req, res) => {
 });
 
 router.get('/getUserVotings', (req, res) => {
-    console.log("Current Page: " + req.query.currentPage);
-    console.log("Voting Type: " + req.query.votingType);
     User.find({"_id": req.query._id})
         .then(async (userData) => {
             var articleDataArray = [];
@@ -155,10 +153,8 @@ router.get('/getUserVotings', (req, res) => {
                     upVotingLength = user.upvotings.length;
                 });
                 if (upVotingMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
-                    console.log("upVotingLength 123: " + upVotingLength)
                     for (let i = (req.query.currentPage - 1) * 10; i < upVotingLength; i++) {
                         await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
-                            //console.log(articleData[0]);
                             if (articleData[0] !== undefined) {
                                 articleDataArray.push(articleData[0]);
                             } 
@@ -169,7 +165,6 @@ router.get('/getUserVotings', (req, res) => {
                 } else {
                     for (let i = (req.query.currentPage - 1) * 10; i < ((req.query.currentPage - 1) * 10) + 10; i++) {
                         await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
-                            //console.log(articleData[0]);
                             if (articleData[0] !== undefined) {
                                 articleDataArray.push(articleData[0]);
                             } 
@@ -178,18 +173,36 @@ router.get('/getUserVotings', (req, res) => {
                         });
                     }
                 }
-                
             } else if (req.query.votingType === "Downvoting") {
-                for (let i = 0; i < userData[0].downvotings.length; i++) {
-                    await Article.find({"_id": userData[0].downvotings[i].articleid}).sort({ "createdAt": -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
-                    .then((articleData) => {
-                        articleDataArray.push(articleData[0]);
-                    }).catch((error) => {
-                        res.status(500).json({ msg: error });
-                    });
+                let downVotingMaxPagination = 0;
+                let downVotingLength = 0;
+                await User.findById(req.query._id).populate('downvotings').then((user) => {
+                    downVotingMaxPagination = Math.ceil(user.downvotings.length / 10);
+                    downVotingLength = user.downvotings.length;
+                });
+                console.log("downVotingMaxPagination: " + downVotingMaxPagination);
+                if (downVotingMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
+                    for (let i = (req.query.currentPage - 1) * 10; i < downVotingLength; i++) {
+                        await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
+                            if (articleData[0] !== undefined) {
+                                articleDataArray.push(articleData[0]);
+                            } 
+                        }).catch((error) => {
+                            res.status(500).json({ msg: error });
+                        });
+                    }
+                } else {
+                    for (let i = (req.query.currentPage - 1) * 10; i < ((req.query.currentPage - 1) * 10) + 10; i++) {
+                        await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
+                            if (articleData[0] !== undefined) {
+                                articleDataArray.push(articleData[0]);
+                            } 
+                        }).catch((error) => {
+                            res.status(500).json({ msg: error });
+                        });
+                    }
                 }
             }
-            //console.log(articleDataArray);
             res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });
