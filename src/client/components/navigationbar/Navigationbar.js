@@ -68,7 +68,9 @@ function Navigationbar() {
         RightNavigationbar = (
             <div className="user-navigationbar">
                 <div className="userinfo-navigationbar">
-                    <span>{userData?.shareCounter} {userData?.username}</span>
+                    <Link to={{pathname: `/userprofile/${userData?._id}`}}>
+                        <span>{userData?.shareCounter} {userData?.username}</span>
+                    </Link>
                 </div>
                 <div className="user-right-navigationbar">
                     <Link to={{pathname: `/userprofile/${userData?._id}`}}>

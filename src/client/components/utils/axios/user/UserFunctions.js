@@ -124,3 +124,17 @@ export async function registerUser(email, username) {
         alert("Registrierung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.");
     });
 }
+
+export async function updateShareCounter(incValue, userid) {
+    await axios({
+        url: '/updateShareCounter',
+        method: 'post',
+        data: {
+            userid: userid,
+            incValue: incValue,
+        }
+    }).catch((error) => {
+        console.error("update share counter failed", error);
+        alert("Aktienanteile konnten nicht aktualisiert werden.");
+    });
+}

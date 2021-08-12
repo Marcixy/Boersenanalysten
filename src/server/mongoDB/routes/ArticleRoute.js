@@ -53,8 +53,7 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
             } else {
                 let isNewArticle = true;
                 let arrayToUpdate = "";
-                // === funktioniert hier nicht!
-                req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
+                req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";    // === funktioniert hier nicht!
                 const newArticleReference = ArticleReference({articleid: req.params.articleid, answerids: []})
                 if (eval('userData.' + arrayToUpdate + '.length') === 0) {
                     User.updateOne({"firebaseid": req.query.voterid}, 

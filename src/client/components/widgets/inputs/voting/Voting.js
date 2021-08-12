@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // material-ui imports
 import { IconButton } from '@material-ui/core';
+import { updateShareCounter } from '../../../utils/axios/user/UserFunctions';
 
 // material-ui icon imports
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
@@ -19,7 +20,8 @@ function Voting(props) {
         setVoting(props.voting);
     }, [props.voting])
 
-    const updateVoting = (voting) => {
+    const updateVoting = (voting, incValue) => {
+        updateShareCounter(incValue, props.creatorid);
         axios({
             url: `/${props.updateVotingAxiosUrl}/${props.articleid}`,
             method: 'post',
@@ -52,13 +54,13 @@ function Voting(props) {
     
     return (
         <div className="voting">
-            <IconButton onClick={() => updateVoting(1)}>
+            <IconButton onClick={() => updateVoting(1, 10)}>
                 <ArrowDropUpIcon 
                     iconStyle={{width: '56px', height: '56px'}}
                     style={{width: '56px', height: '56px' }} />
             </IconButton>
             <p>{voting}</p>
-            <IconButton onClick={() => updateVoting(-1)}>
+            <IconButton onClick={() => updateVoting(-1, -3)}>
                 <ArrowDropDownIcon
                     iconStyle={{width: '56px', height: '56px'}}
                     style={{width: '56px', height: '56px' }} />

@@ -8,12 +8,13 @@ import { Link } from 'react-router-dom';
 
 import './Answer.css';
 
-function Answerlistitem(props) {
+function Answer(props) {
     return (
         <div className="answer" key={props.index}>
             <Voting
                 answerid={props.answerid}
                 articleid={props.articleid}
+                creatorid={props.creatorid}
                 updateVotingAxiosUrl="updateAnswerVoting"
                 getByIdAxiosUrl="getAnswerById"
                 voting={props.voting} />
@@ -21,7 +22,7 @@ function Answerlistitem(props) {
                 <p>{props.content}</p>
                 <p>{props.created}</p>
                 {/* TODO in eigene Komponente auslagern und auch in Articlelistitem aufrufen */}
-                <Link to={{pathname: `/userprofile/${props.creatorId}`}}>
+                <Link to={{pathname: `/userprofile/${props.creatorid}`}}>
                     <span>{props.creator}</span>
                 </Link>
                 {props.creatorShareCounter}
@@ -30,4 +31,4 @@ function Answerlistitem(props) {
     )
 }
 
-export default Answerlistitem;
+export default Answer;

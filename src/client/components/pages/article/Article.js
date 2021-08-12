@@ -74,7 +74,7 @@ function Article() {
                 voting={answer.voting}
                 created={answer.created}
                 creator={answerCreatorNames[index]}
-                creatorId={answer.creator} />
+                creatorid={answer.creator} />
         ));
     }
 
@@ -102,6 +102,7 @@ function Article() {
                 <div className="article-content">
                     <Voting
                         articleid={articleData?._id}
+                        creatorid={articleData?.creator}
                         updateVotingAxiosUrl="updateArticleVoting"
                         getByIdAxiosUrl="getArticleById"
                         voting={articleData?.voting} 

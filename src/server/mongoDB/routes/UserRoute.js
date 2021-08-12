@@ -38,37 +38,48 @@ router.post('/updateProfile', (req, res) => {
     });
 });
 
+router.post('/updateShareCounter', (req, res) => {
+    const userData = req.body;
+    User.findOneAndUpdate({"_id": userData.userid},
+    {
+        $inc: {
+            shareCounter: userData.incValue,
+        }
+    }).then((userData) => {
+        res.json(userData);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
+});
+
 // =============== GET ===================
 
 // Benutzerprofile laden
 router.get('/getUserprofiles', (req, res) => {
-    User.find({ })
-        .then((userData) => {
-            res.json(userData);
-        }).catch((error) => {
-            res.status(500).json({ msg: error });
-        });
+    User.find({ }).then((userData) => {
+        res.json(userData);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
 });
 
 
 // Ein Benutzerprofil wird anhand der _id geladen
 router.get('/getUserById', (req, res) => {
-    User.find({"_id": req.query._id})
-        .then((userData) => {
-            res.json(userData);
-        }).catch((error) => {
-            res.status(500).json({ msg: error });
-        });
+    User.find({"_id": req.query._id}).then((userData) => {
+        res.json(userData);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
 });
 
 // Ein Benutzerprofil wird anhand der firebaseid geladen
 router.get('/getUserByFirebaseid', (req, res) => {
-    User.find({"firebaseid": req.query.firebaseid})
-        .then((userData) => {
-            res.json(userData);
-        }).catch((error) => {
-            res.status(500).json({ msg: error });
-        });
+    User.find({"firebaseid": req.query.firebaseid}).then((userData) => {
+        res.json(userData);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
 });
 
 // Alle Beiträge eines Benutzers werden geladen
