@@ -9,10 +9,13 @@ import { createArticle } from '../../utils/axios/article/ArticleFunctions';
 // material-ui imports
 import {
     Box,
+    Radio,
     Button,
-    Checkbox,
-    FormControlLabel,
-    TextField
+    TextField,
+    FormLabel,
+    RadioGroup,
+    FormControl,
+    FormControlLabel 
 } from '@material-ui/core';
 
 // third-party imports
@@ -25,7 +28,7 @@ function CreateArticle() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState([]);
-    const [isPortfolioArticle, setIsPortfolioArticle] = useState(false);
+    const [articleType, setArticleType] = useState("question");
 
     // Errortexte für Beitrag erstellen
     const [titleErrorText, setTitleErrorText] = useState("");
@@ -46,7 +49,7 @@ function CreateArticle() {
         if (isTitleValid === true && isContentValid === true && isTagsValid === true) {
             getUserByFirebaseid().then((userResponse) => {
                 const userData = userResponse[0];
-                createArticle(title, content, tags, userData._id, isPortfolioArticle).then((articleResponse) => {
+                createArticle(title, content, tags, userData._id, articleType).then((articleResponse) => {
                     console.log("Article successfully created");
                     toArticle.push(`/article/${articleResponse._id}`);
                 });
@@ -95,9 +98,9 @@ function CreateArticle() {
         return true;
     }
 
-    const handleIsPortfolioArticle = () => {
-        setIsPortfolioArticle(!isPortfolioArticle);
-    }
+    const handleArticleType = (event) => {
+        setArticleType(event.target.value);
+    };
 
     // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
     // Zugriff zu bekommen.
@@ -130,15 +133,14 @@ function CreateArticle() {
                 contentError={ contentError }
                 contentErrorText={ contentErrorText }
                 parentCallbackEditorContent={ callbackEditorContent } />
-            <FormControlLabel
-                id="is-portfolio-article-checkbox"
-                control={
-                    <Checkbox
-                        checked={isPortfolioArticle}
-                        color="primary"
-                        onChange={handleIsPortfolioArticle} />
-                }
-                label="Portfolio Beitrag" />
+            <FormControl component="fieldset">
+                <FormLabel style={{ color:"white" }} component="legend">Beitragstyp:</FormLabel>
+                <RadioGroup value={articleType} onChange={handleArticleType}>
+                    <FormControlLabel value="question" control={<Radio />} label="Frage" />
+                    <FormControlLabel value="opinion" control={<Radio />} label="Meinung" />
+                    <FormControlLabel value="portfolio" control={<Radio />} label="Portfolio Beitrag" />
+                </RadioGroup>
+            </FormControl>
             <TagInput
                 tagError={tagError}
                 tagErrorText={tagErrorText}

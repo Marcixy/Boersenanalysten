@@ -40,7 +40,7 @@ export async function getArticleCount() {
     return (await axios.get('/getArticleCount')).data;
 }
 
-export async function createArticle(title, content, tags, creatorId, isPortfolioArticle) {
+export async function createArticle(title, content, tags, creatorId, articleType) {
     const newArticle = await axios({
         url: '/createArticle',
         method: 'post',
@@ -49,7 +49,7 @@ export async function createArticle(title, content, tags, creatorId, isPortfolio
             content: content,
             tags: tags,
             creator: creatorId,
-            isPortfolioArticle: isPortfolioArticle
+            articleType: articleType
         }
     }).catch((error) => {
         console.error("Create Article failed", error);

@@ -49,6 +49,7 @@ function Articlelist() {
                 id={article._id}
                 index={index}
                 title={article.title}
+                articleType={article.articleType}
                 tags={article.tags}
                 voting={article.voting}
                 answerCounter={article.answerCounter}

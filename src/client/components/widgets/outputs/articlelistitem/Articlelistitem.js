@@ -31,7 +31,7 @@ function Articlelistitem(props) {
                 answerCounter={props.answerCounter}
                 views={props.views} />
             <div className="article-list-item-right">
-                <ArticleLink id={props.id} title={props.title} />
+                <ArticleLink id={props.id} title={props.title} articleType={props.articleType} />
                 <TagList tagList={props.tags} />
                 <div className="article-list-item-user-info">
                     {formattedCreationDate}<br />

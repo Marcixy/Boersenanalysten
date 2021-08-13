@@ -16,7 +16,7 @@ router.post('/createArticle', (req, res) => {
     const articleData = req.body;
     const newArticle = Article(articleData);
     let arrayToUpdate = "";
-    newArticle.isPortfolioArticle === true ? arrayToUpdate = "portfolioArticle" : arrayToUpdate = "article";
+    newArticle.articleType === "portfolio" ? arrayToUpdate = "portfolioArticle" : arrayToUpdate = "article";
     newArticle.save((error) => {
         if (error) {
             res.status(500).json({ msg: "Internal server error by create Article" });
@@ -116,9 +116,7 @@ router.post('/deleteArticleAndUpdateUser/:articleid', (req, res) => {
     // entfernt und Beitrags Zähler um 1 verringern.
     Article.find({"_id": req.params.articleid})
         .then((articleData) => {
-            articleData[0].isPortfolioArticle === true ?
-                arrayToUpdate = "portfolioArticle" :
-                arrayToUpdate = "article";
+            articleData[0].articleType === "portfolio" ? arrayToUpdate = "portfolioArticle" : arrayToUpdate = "article";
             User.findOneAndUpdate({"_id": articleData[0].creator},
             {
                 $pull: {

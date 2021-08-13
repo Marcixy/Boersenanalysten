@@ -24,7 +24,7 @@ function Answerlistitem(props) {
         <div className="answer-list-item" key={props.index}>
             <p>{props.voting}<br />Voting</p>
             <div className="answer-list-item-right">
-                <ArticleLink id={props.id} title={props.title} />
+                <ArticleLink id={props.id} title={props.title} articleType={props.articleType} />
                 <TagList tagList={props.tags} />
                 <div className="answer-list-item-creation-date">
                     {formattedCreationDate}<br />

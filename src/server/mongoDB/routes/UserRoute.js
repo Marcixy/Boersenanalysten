@@ -123,18 +123,36 @@ router.get('/getUserPortfolioArticles', async (req, res) => {
 });
 
 // Alle Beiträge anzeigen bei denen der Benutzer eine Antwort erstellt hat
-router.get('/getUserAnswers', (req, res) => {
+router.get('/getUserAnswers/:sortCriteria', (req, res) => {
     User.find({"_id": req.query._id})
         .then(async (userData) => {
             var articleDataArray = [];
-            for (let i = 0; i < userData[0].answers.length; i++) {
-                await Article.find({"_id": userData[0].answers[i].articleid})
+            console.log("SortCriteria: " + req.params.sortCriteria);
+            let answerMaxPagination = 0;
+            let answerLength = 0;
+            await User.findById(req.query._id).populate('answers').then((user) => {
+                answerMaxPagination = Math.ceil(user.answers.length / 10);
+                answerLength = user.answers.length;
+            });
+            if (answerMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
+                for (let i = (req.query.currentPage - 1) * 10; i < answerLength; i++) {
+                    await Article.find({"_id": userData[0].answers[i].articleid}).then((articleData) => {
+                        if (articleData[0] !== undefined) {
+                            articleDataArray.push(articleData[0]);
+                        } 
+                    }).catch((error) => {
+                        res.status(500).json({ msg: error });
+                    });
+                }
+            } 
+            /*for (let i = 0; i < userData[0].answers.length; i++) {
+                await Article.find({"_id": userData[0].answers[i].articleid}).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
                 .then((articleData) => {
                     articleDataArray.push(articleData[0]);
                 }).catch((error) => {
                     res.status(500).json({ msg: error });
                 });
-            }
+            }*/
             res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });

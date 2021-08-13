@@ -39,9 +39,9 @@ const articleSchema = new Schema({
         required: [true, 'Article views must exist'],
         min: [0, 'Article can not have less than 0 views'],
     },
-    isPortfolioArticle: {
-        type: Boolean,
-        required: [true, 'isPortfolioArticle must exist'],
+    articleType: {
+        type: String,
+        required: [true, 'Article type must exist'],
     },
     answers: [Answer.schema],
 },

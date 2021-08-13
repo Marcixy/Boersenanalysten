@@ -27,11 +27,11 @@ function UserAnswerlist(props) {
         }).catch((error) => {
             console.error("Answercount is not loaded", error);
         });
-    }, [id])
+    }, [id, page, props.sortCriteria])
 
     const getUserAnswerList = (event, currentPage) => {
         setPage(currentPage);
-        getUserAnswers(id).then((answerResponse) => {
+        getUserAnswers(id, props.sortCriteria, currentPage).then((answerResponse) => {
             const articlelist = answerResponse;
             setArticlelist(articlelist);
         }).catch((error) => {
@@ -46,6 +46,7 @@ function UserAnswerlist(props) {
                 id={article._id}
                 index={index}
                 title={article.title}
+                articleType={article.articleType}
                 tags={article.tags}
                 voting={article.voting}
                 creatorId={article.creator}

@@ -12,7 +12,7 @@ function Votinglistitem(props) {
                 <span style={ props.upOrDownvoting === "Upvoting" ? { color: 'green' } : { color: 'red' }}>{ props.upOrDownvoting }</span>
             </div>
             <div className="voting-list-item-right">
-                <ArticleLink id={props.id} title={props.title} />
+                <ArticleLink id={props.id} title={props.title} articleType={props.articleType} />
             </div>
         </div>
     )

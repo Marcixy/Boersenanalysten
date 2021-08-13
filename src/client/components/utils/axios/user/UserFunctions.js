@@ -37,10 +37,11 @@ export async function getUserPortfolioArticles(userId) {
     return portfolioArticle.data;
 }
 
-export async function getUserAnswers(userId) {
-    const answers = await axios.get(`/getUserAnswers`, {
+export async function getUserAnswers(userId, sortCriteria, currentPage) {
+    const answers = await axios.get(`/getUserAnswers/${sortCriteria}`, {
         params: {
-            _id: userId
+            _id: userId,
+            currentPage: currentPage
         }
     }).catch((error) => {
         console.error("Answers are not loaded", error);

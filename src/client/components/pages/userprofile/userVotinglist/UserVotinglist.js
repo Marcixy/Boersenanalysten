@@ -55,6 +55,7 @@ function UserVotinglist(props) {
                 id={article._id}
                 index={index}
                 title={article.title}
+                articleType={article.articleType}
                 upOrDownvoting={props.upOrDownvoting} />
         ));
     }
