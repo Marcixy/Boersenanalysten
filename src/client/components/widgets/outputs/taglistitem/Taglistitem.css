@@ -1,6 +1,7 @@
 .tag-list-item {
     border: 1px solid #333333;
+    flex-basis: 25%;
     flex-grow: 1;
-    padding: 16px;
     margin: 12px;
+    padding: 16px;
 }

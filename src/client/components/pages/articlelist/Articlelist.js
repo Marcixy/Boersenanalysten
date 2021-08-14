@@ -32,10 +32,10 @@ function Articlelist() {
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
     const [paginationCount, setPaginationCount] = useState("");
-    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        getArticleList(page, page);
+        getArticleList(null, currentPage);
         getArticleCount().then((articleCountResponse) => {
             setPaginationCount(Math.ceil(articleCountResponse / 10)); 
         }).catch((error) => {
@@ -61,7 +61,7 @@ function Articlelist() {
     }
 
     const getArticleList = (event, currentPage) => {
-        setPage(currentPage);
+        setCurrentPage(currentPage);
         getArticlelist(sortCriteria, currentPage).then((articlelistResponse) => {
             setArticleData(articlelistResponse);
             getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
@@ -108,7 +108,7 @@ function Articlelist() {
             </div>
             <Pagination
                 paginationCount={ paginationCount }
-                page= { page }
+                page= { currentPage }
                 onChange={ getArticleList } />
         </div>
     )

@@ -185,12 +185,11 @@ router.get('/getArticleById', (req, res) => {
 
 // Anzahl der Beiträge wird geladen
 router.get('/getArticleCount', (req, res) => {
-    Article.countDocuments({ })
-        .then((articleCount) => {
-            res.json(articleCount);
-        }).catch((error) => {
-            res.status(500).json({ msg: "Internal server error: " + error });
-        });
+    Article.countDocuments({ }).then((articleCount) => {
+        res.json(articleCount);
+    }).catch((error) => {
+        res.status(500).json({ msg: "Internal server error: " + error });
+    });
 });
 
 module.exports = router;

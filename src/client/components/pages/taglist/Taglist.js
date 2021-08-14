@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import Taglistitem from '../../widgets/outputs/taglistitem/Taglistitem';
-import { getTaglist } from '../../utils/axios/tag/TagFunctions';
+import Pagination from '../../widgets/outputs/pagination/Pagination';
+import { 
+    getTaglist,
+    getTagCount
+} from '../../utils/axios/tag/TagFunctions';
 
 // material-ui imports
 import {
@@ -16,15 +20,23 @@ import './Taglist.css';
 
 function Taglist() {
     const [tagList, setTagList] = useState([]);
+    const [paginationCount, setPaginationCount] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        getTaglist().then((tagResponse) => {
-            setTagList(tagResponse);
-        }).catch((error) => {
-            console.error("Taglist are not loaded", error);
+        getNewTagList(null, currentPage);
+    }, []);
+
+    const getNewTagList = (event, currentPage) => {
+        setCurrentPage(currentPage);
+        getTaglist(currentPage).then((tagList) => {
+            setTagList(tagList);
+        });
+        getTagCount().then((tagCount) => {
+            setPaginationCount(Math.ceil(tagCount / 10)); 
         });
         window.scrollTo(0, 0);
-    }, [])
+    }
 
     const displayTagList = (tags) => {
         return tags.map((tag, index) => (
@@ -40,17 +52,19 @@ function Taglist() {
 
     return (
         <div className="taglist-page">
-            <div className="articlelist-header">
+            <div className="taglist-header">
                 <h2>Tags</h2>
                 <Link to="/createTag">
-                    <Button
-                        variant="contained"
-                        color="primary">Tag erstellen</Button>
+                    <Button variant="contained" color="primary">Tag erstellen</Button>
                 </Link>
             </div>
             <div className="taglist-section">
                 {displayTagList(tagList)}
             </div>
+            <Pagination
+                paginationCount={ paginationCount }
+                page={ currentPage }
+                onChange={ getNewTagList } />
         </div>
     )
 }

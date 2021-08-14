@@ -33,12 +33,22 @@ router.post('/createTag', (req, res) => {
 // =============== GET ===================
 
 router.get('/getTaglist', (req, res) => {
-    Tag.find({ }).limit(25).skip((req.query.currentPage - 1) * 25)
+    console.log(req.query.currentPage - 1)
+    Tag.find({ }).limit(10).skip((req.query.currentPage - 1) * 10)
         .then((tagData) => {
             res.json(tagData);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });
+});
+
+// Anzahl der Tags wird geladen
+router.get('/getTagCount', (req, res) => {
+    Tag.countDocuments({ }).then((tagCount) => {
+        res.json(tagCount);
+    }).catch((error) => {
+        res.status(500).json({ msg: "Internal server error: " + error });
+    });
 });
 
 module.exports = router;
