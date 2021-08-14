@@ -21,15 +21,6 @@
     text-decoration: none;
 }
 
-.create-article-page fieldset .MuiFormGroup-root {
-    display: block;
-    margin-bottom: 12px;
-}
-
-.create-article-page fieldset .MuiFormGroup-root label {
-    margin-right: 36px;
-}
-
 #is-portfolio-article-checkbox {
     margin-bottom: 12px;
 }

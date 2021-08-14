@@ -3,19 +3,15 @@ import React, { useState } from 'react';
 // own imports
 import TagInput from '../../widgets/inputs/tagInput/TagInput';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
+import ArticleTypeSelection from '../../widgets/inputs/articleTypeSelection/ArticleTypeSelection';
 import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
 import { createArticle } from '../../utils/axios/article/ArticleFunctions';
 
 // material-ui imports
 import {
     Box,
-    Radio,
     Button,
-    TextField,
-    FormLabel,
-    RadioGroup,
-    FormControl,
-    FormControlLabel 
+    TextField
 } from '@material-ui/core';
 
 // third-party imports
@@ -133,14 +129,7 @@ function CreateArticle() {
                 contentError={ contentError }
                 contentErrorText={ contentErrorText }
                 parentCallbackEditorContent={ callbackEditorContent } />
-            <FormControl component="fieldset">
-                <FormLabel style={{ color:"white" }} component="legend">Beitragstyp:</FormLabel>
-                <RadioGroup value={articleType} onChange={handleArticleType}>
-                    <FormControlLabel value="question" control={<Radio />} label="Frage" />
-                    <FormControlLabel value="opinion" control={<Radio />} label="Meinung" />
-                    <FormControlLabel value="portfolio" control={<Radio />} label="Portfolio Beitrag" />
-                </RadioGroup>
-            </FormControl>
+            <ArticleTypeSelection />
             <TagInput
                 tagError={tagError}
                 tagErrorText={tagErrorText}

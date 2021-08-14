@@ -1,0 +1,12 @@
+.article-type-selection svg {
+    color: black;
+}
+
+.article-type-selection fieldset .MuiFormGroup-root {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.article-type-selection fieldset .MuiFormGroup-root label {
+    margin-right: 36px;
+}

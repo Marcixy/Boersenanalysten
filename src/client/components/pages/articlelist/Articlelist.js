@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Articlelistitem from '../../widgets/outputs/articlelistitem/Articlelistitem';
 import SortingActions from '../../widgets/outputs/sortingactions/SortingActions';
 import Pagination from '../../widgets/outputs/pagination/Pagination';
+import ArticleTypeSelection from '../../widgets/inputs/articleTypeSelection/ArticleTypeSelection';
+import TagInput from '../../widgets/inputs/tagInput/TagInput';
 import { 
     getArticleCount,
     getArticlelist,
@@ -12,6 +14,8 @@ import {
 
 // material-ui imports
 import {
+    Box,
+    TextField,
     Accordion,
     AccordionSummary,
     AccordionDetails,
@@ -28,10 +32,12 @@ import { Link } from 'react-router-dom';
 import './Articlelist.css';
 
 function Articlelist() {
+    const [title, setTitle] = useState("");
     const [sortCriteria, setSortCriteria] = useState("createdAt");
+    const [tags, setTags] = useState([]);
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
-    const [paginationCount, setPaginationCount] = useState("");
+    const [paginationCount, setPaginationCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
@@ -77,6 +83,12 @@ function Articlelist() {
         setSortCriteria(sortCriteria);
     }
 
+    // Verbindung zu TagInput Komponente um auf die eingegebenen Tags 
+    // Zugriff zu bekommen.
+    const callbackTagInput = (tagInput) => {
+        setTags(tagInput);
+    }
+
     return (
         <div className="articlelist-page">
             <div className="articlelist-header">
@@ -95,7 +107,22 @@ function Articlelist() {
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography>
-                        TODO Filter implementieren
+                        <Box mb={4}>
+                            <TextField
+                                label="Titel"
+                                type="text"
+                                variant="outlined"
+                                inputProps={{ maxLength: 100 }}
+                                onChange={(event) => setTitle(event.target.value)}
+                                fullWidth
+                                autoFocus />
+                        </Box>
+                        <ArticleTypeSelection />
+                        <TagInput
+                            parentCallbackTags={ callbackTagInput } />
+                        <Button
+                            variant="contained"
+                            color="primary">Suchen</Button>
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
@@ -108,7 +135,7 @@ function Articlelist() {
             </div>
             <Pagination
                 paginationCount={ paginationCount }
-                page= { currentPage }
+                page={ currentPage }
                 onChange={ getArticleList } />
         </div>
     )
