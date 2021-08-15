@@ -37,7 +37,7 @@ function Articlelist() {
     const [tags, setTags] = useState([]);
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
-    const [paginationCount, setPaginationCount] = useState(0);
+    const [paginationCount, setPaginationCount] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
