@@ -15,7 +15,7 @@ import './UserAnswerlist.css';
 
 function UserAnswerlist(props) {
     const [articlelist, setArticlelist] = useState([]);
-    const [paginationCount, setPaginationCount] = useState("");
+    const [paginationCount, setPaginationCount] = useState(0);
     const [page, setPage] = useState(1);
 
     const { id } = useParams();
@@ -41,7 +41,7 @@ function UserAnswerlist(props) {
     }
 
     const displayArticleData = (articles) => {
-        return articles.map((article, index) => (
+        return articles.length !== 0 ? articles.map((article, index) => (
             <Answerlistitem
                 id={article._id}
                 index={index}
@@ -51,7 +51,7 @@ function UserAnswerlist(props) {
                 voting={article.voting}
                 creatorId={article.creator}
                 created={article.createdAt} />
-        ));
+        )) : <p>Noch keine Antworten vorhanden.</p>;
     }
 
     return (

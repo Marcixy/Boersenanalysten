@@ -15,7 +15,7 @@ import './UserVotinglist.css';
 
 function UserVotinglist(props) {
     const [articlelist, setArticlelist] = useState([]);
-    const [paginationCount, setPaginationCount] = useState("");
+    const [paginationCount, setPaginationCount] = useState(0);
     const [page, setPage] = useState(1);
 
     const { id } = useParams();
@@ -50,14 +50,14 @@ function UserVotinglist(props) {
     }
 
     const displayArticleData = (articles) => {
-        return articles.map((article, index) => (
+        return articles.length !== 0 ? articles.map((article, index) => (
             <Votinglistitem
                 id={article._id}
                 index={index}
                 title={article.title}
                 articleType={article.articleType}
                 upOrDownvoting={props.upOrDownvoting} />
-        ));
+        )) : <p>Noch keine {props.upOrDownvoting}s vorhanden.</p>;
     }
 
     return (

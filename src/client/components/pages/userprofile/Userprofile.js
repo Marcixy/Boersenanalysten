@@ -16,10 +16,12 @@ import {
 // material-ui imports
 import {
     Button,
-    ButtonGroup
+    ButtonGroup,
+    Tooltip
 } from '@material-ui/core';
 
 // material-ui icon imports
+import HelpIcon from '@material-ui/icons/Help';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
@@ -121,7 +123,11 @@ function Userprofile() {
                     <p>{userData.location}</p>
                 </div>
                 <div className="userprofile-userstats">
-                    <p id="userprofile-shareCounter">{userData.shareCounter} {userData.shareCounter === 1 ? "Aktienanteil" : "Aktienanteile"}</p>
+                    <p id="userprofile-shareCounter">{userData.shareCounter} {userData.shareCounter === 1 ? "Aktienanteil" : "Aktienanteile"}
+                    <Tooltip title="TODO Beschreibung hinzufügen... ." placement="right" arrow>
+                        <HelpIcon id="userprofile-help-icon" fontSize="inherit" />
+                    </Tooltip>
+                    </p>
                     <p><AssignmentIcon />{userArticleCount} {userArticleCount === 1 ? "Beitrag" : "Beiträge"}</p>
                     <p><QuestionAnswerIcon />{userAnswerCount} {userAnswerCount === 1 ? "Antwort" : "Antworten"}</p>
                     <p><ArrowDropUpIcon />{upVotingCount} {upVotingCount === 1 ? "Upvoting" : "Upvotings"}</p>

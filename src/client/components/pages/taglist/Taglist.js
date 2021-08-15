@@ -20,7 +20,7 @@ import './Taglist.css';
 
 function Taglist() {
     const [tagList, setTagList] = useState([]);
-    const [paginationCount, setPaginationCount] = useState(1);
+    const [paginationCount, setPaginationCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {

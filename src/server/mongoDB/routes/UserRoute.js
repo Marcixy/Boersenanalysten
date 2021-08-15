@@ -170,6 +170,7 @@ router.get('/getUserAnswerCount', async (req, res) => {
     });
 });
 
+// TODO getUserVotings Funktion muss einem Refactoring unterzogen werden!
 router.get('/getUserVotings', (req, res) => {
     User.find({"_id": req.query._id})
         .then(async (userData) => {
@@ -209,7 +210,6 @@ router.get('/getUserVotings', (req, res) => {
                     downVotingMaxPagination = Math.ceil(user.downvotings.length / 10);
                     downVotingLength = user.downvotings.length;
                 });
-                console.log("downVotingMaxPagination: " + downVotingMaxPagination);
                 if (downVotingMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
                     for (let i = (req.query.currentPage - 1) * 10; i < downVotingLength; i++) {
                         await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
