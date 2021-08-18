@@ -10,7 +10,8 @@ import {
     getUserById,
     getUserAnswerCount,
     getUserArticleCount,
-    getUserVotingCount
+    getUserVotingCount,
+    getUserUpvotings
  } from '../../utils/axios/user/UserFunctions';
 
 // material-ui imports
@@ -43,6 +44,8 @@ function Userprofile() {
     const [sortCriteria, setSortCriteria] = useState("createdAt");
     const { id } = useParams();
 
+    const [test, setTest] = useState([]);
+
     useEffect(() => {
         getUserById(id).then((userResponse) => {
             const userData = userResponse[0];
@@ -59,6 +62,9 @@ function Userprofile() {
         });
         getUserVotingCount(id, "downvotings").then((downVotingCountResponse) => {
             setDownVotingCount(downVotingCountResponse); 
+        });
+        getUserUpvotings(id, "611ac9fd92b0bd2ef4a6e248").then((testResponse) => {
+            setTest(testResponse);
         });
     }, [])
 
@@ -123,8 +129,8 @@ function Userprofile() {
                     <p>{userData.location}</p>
                 </div>
                 <div className="userprofile-userstats">
-                    <p id="userprofile-shareCounter">{userData.shareCounter} {userData.shareCounter === 1 ? "Aktienanteil" : "Aktienanteile"}
-                    <Tooltip title="TODO Beschreibung hinzufügen... ." placement="right" arrow>
+                    <p id="userprofile-shareCounter">{userData.shareCounter} {userData.shareCounter === 1 ? "Aktie" : "Aktien"}
+                    <Tooltip title="Aktienanteile geben an wie hoch dein Ansehen in der Börsenanalysten Community ist. Erfahre mehr auf der Hilfeseite wie du mehr Aktienanteile bekommen kannst." placement="right" arrow>
                         <HelpIcon id="userprofile-help-icon" fontSize="inherit" />
                     </Tooltip>
                     </p>
@@ -137,10 +143,10 @@ function Userprofile() {
             <div className="user-articlelist-header">
                 <div className="user-articlelist-filter">
                     <ButtonGroup size="small" color="primary">
-                        <Button color={selectedFilterButton === 0 ? "secondary" : "primary"} onClick={() => onFilterButtonClick(0)}>Beiträge</Button>
-                        <Button color={selectedFilterButton === 1 ? "secondary" : "primary"} onClick={() => onFilterButtonClick(1)}>Antworten</Button>
-                        <Button color={selectedFilterButton === 2 ? "secondary" : "primary"} onClick={() => onFilterButtonClick(2)}>Up Votings</Button>
-                        <Button color={selectedFilterButton === 3 ? "secondary" : "primary"} onClick={() => onFilterButtonClick(3)}>Down Votings</Button>
+                        <Button variant={selectedFilterButton === 0 ? "contained" : "outlined"} onClick={() => onFilterButtonClick(0)}>Beiträge</Button>
+                        <Button variant={selectedFilterButton === 1 ? "contained" : "outlined"} onClick={() => onFilterButtonClick(1)}>Antworten</Button>
+                        <Button variant={selectedFilterButton === 2 ? "contained" : "outlined"} onClick={() => onFilterButtonClick(2)}>Up Votings</Button>
+                        <Button variant={selectedFilterButton === 3 ? "contained" : "outlined"} onClick={() => onFilterButtonClick(3)}>Down Votings</Button>
                     </ButtonGroup>
                 </div>
                 <SortingActions parentCallbackSortCriteria={callbackSortCriteria} />

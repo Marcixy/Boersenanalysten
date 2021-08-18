@@ -99,6 +99,20 @@ export async function getUserVotings(userId, currentPage, votingType) {
     return votings.data;
 }
 
+export async function getUserUpvotings(userId, articleid) {
+    const votings = await axios.get(`/getUserUpvotings`, {
+        params: {
+            _id: userId,
+            articleid: articleid
+        }
+    }).catch((error) => {
+        console.error("Upvotings are not loaded", error);
+        alert("Upvotings konnten nicht geladen werden. Bitte versuchen Sie es später erneut.");
+    });
+    return votings.data;
+}
+
+
 export async function getUserVotingCount(userId, votingType) {
     const userVotingCount = await axios.get('/getUserVotingCount', {
         params: {

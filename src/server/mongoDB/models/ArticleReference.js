@@ -11,6 +11,11 @@ const articleReferenceSchema = new Schema({
         type: Array,
         required: [true, 'Answers Array must exist'],
     },
+    articlevote: {
+        type: Boolean,
+        default: false,
+        required: [true, 'articlevote must exist']
+    }
 },
 {
     timestamps: true

@@ -50,7 +50,7 @@ function Articlelist() {
     }, [sortCriteria])
 
     const displayArticleData = (articles) => {
-        return articles.map((article, index) => (
+        return articles.length !== 0 ? articles.map((article, index) => (
             <Articlelistitem
                 id={article._id}
                 index={index}
@@ -63,7 +63,7 @@ function Articlelist() {
                 creator={articleCreatorNames[index]}
                 creatorId={article.creator}
                 created={article.createdAt} />
-        ));
+        )) : <p>Noch keine Beiträge vorhanden.</p>;
     }
 
     const getArticleList = (event, currentPage) => {
@@ -130,7 +130,7 @@ function Articlelist() {
             <div className="articlelist-sorting">
                 <SortingActions parentCallbackSortCriteria={callbackSortCriteria} />
             </div>
-            <div>
+            <div className="articlelist-articledata">
                 {displayArticleData(articleData)}
             </div>
             <Pagination

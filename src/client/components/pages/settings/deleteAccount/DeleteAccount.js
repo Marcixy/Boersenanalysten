@@ -18,6 +18,7 @@ function DeleteAccount() {
             <SettingsMenu userid={id} />
             <div className="password-settings-section">
                 <h2>Account löschen</h2>
+                <p>TODO</p>
             </div>
         </div>
     )

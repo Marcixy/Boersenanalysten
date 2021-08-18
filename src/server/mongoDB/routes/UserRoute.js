@@ -134,7 +134,7 @@ router.get('/getUserAnswers/:sortCriteria', (req, res) => {
                 answerMaxPagination = Math.ceil(user.answers.length / 10);
                 answerLength = user.answers.length;
             });
-            if (answerMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
+            if (answerMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht, deshalb ==
                 for (let i = (req.query.currentPage - 1) * 10; i < answerLength; i++) {
                     await Article.find({"_id": userData[0].answers[i].articleid}).then((articleData) => {
                         if (articleData[0] !== undefined) {
@@ -144,15 +144,7 @@ router.get('/getUserAnswers/:sortCriteria', (req, res) => {
                         res.status(500).json({ msg: error });
                     });
                 }
-            } 
-            /*for (let i = 0; i < userData[0].answers.length; i++) {
-                await Article.find({"_id": userData[0].answers[i].articleid}).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
-                .then((articleData) => {
-                    articleDataArray.push(articleData[0]);
-                }).catch((error) => {
-                    res.status(500).json({ msg: error });
-                });
-            }*/
+            }
             res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });
@@ -254,6 +246,32 @@ router.get('/getUserVotingCount', async (req, res) => {
     }).catch((error) => {
         res.status(500).json({ msg: error });
     });
+});
+
+// TODO hier weitermachen! Ist noch nicht fertig implementiert
+router.get('/getUserUpvotings', async (req, res) => {
+    let arrayWithUpvotingArticleAndAnswerIds = [];
+    console.log("Userid: " + req.query._id);
+    console.log("Articleid: " + req.query.articleid);
+    await User.findById(req.query._id).then(async (userData) => {
+        for (let i = 0; i < userData.upvotings.length; i++) {
+            console.log("userData.upvotings[i].articleid: " + userData.upvotings[i].articleid);
+            console.log("req.query.articleid: " + req.query.articleid);
+            if (userData.upvotings[i].articleid == req.query.articleid) {
+                console.log("Test");
+                if (userData.upvotings[i].articlevote === true) {
+                    arrayWithUpvotingArticleAndAnswerIds.push(userData.upvotings[i].articleid);
+                }
+                console.log("userData.upvotings[i].answerids.length: " + userData.upvotings[i].answerids.length);
+                for (let j = 0; j < userData.upvotings[i].answerids.length; j++) {
+                    arrayWithUpvotingArticleAndAnswerIds.push(userData.upvotings[i].answerids[j]._id);
+                }
+                break;
+            }
+        }
+    });
+    console.log("Array with Upvotings: " + arrayWithUpvotingArticleAndAnswerIds);
+    res.json(arrayWithUpvotingArticleAndAnswerIds);
 });
 
 module.exports = router;

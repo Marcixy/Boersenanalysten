@@ -9,6 +9,7 @@ const User = require('../models/User');
 
 // =============== POST ===================
 
+// Neuen Tag mit Tagname und Beschreibung erstellen und Benutzer (Ersteller) zuordnen.
 router.post('/createTag', (req, res) => {
     const tagData = req.body;
     const newTag = Tag(tagData);
@@ -32,8 +33,8 @@ router.post('/createTag', (req, res) => {
 
 // =============== GET ===================
 
+// Tagliste laden
 router.get('/getTaglist', (req, res) => {
-    console.log(req.query.currentPage - 1)
     Tag.find({ }).limit(10).skip((req.query.currentPage - 1) * 10)
         .then((tagData) => {
             res.json(tagData);

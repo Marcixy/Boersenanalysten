@@ -107,7 +107,28 @@ router.post('/updateAnswerVoting/:articleid', (req, res) => {
             "answers.$.voting": req.query.voting,
         }
     }).then(() => {
-        res.json({ msg: "Update Answer Voting was successful." });
+        let arrayToUpdate = "";
+        req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
+        console.log("arrayToUpdate: " + arrayToUpdate);
+        console.log("req.query.answerid: " + req.query.answerid);
+        for (let i = 0; i < eval('userData.' + arrayToUpdate + '.length'); i++) {
+            arrayToUpdate = arrayToUpdate + "[i].answerids";
+            // TODO hier weitermachen funktioniert noch nicht upvotings._id ist nicht vorhanden was anderes überlegen!
+            User.findOneAndUpdate({"_id": req.query.voterid, "upvotings._id": req.params.articleid},
+            {
+                $addToSet: {
+                    "upvotings.$.answerids": 
+                    {
+                        "_id": req.query.answerid
+                    }
+                }
+            }).then(() => {
+                res.json({ msg: "Update Answer Voting was successful." });
+            }).catch((error) => {
+                res.status(500).json({ msg: "Internal server error: " + error });
+            });
+            res.json({ msg: "Update Answer Voting was successful." });
+        }
     }).catch((error) => {
         res.status(500).json({ msg: "Internal server error: " + error });
     });
