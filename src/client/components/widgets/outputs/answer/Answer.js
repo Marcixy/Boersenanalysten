@@ -17,7 +17,8 @@ function Answer(props) {
                 creatorid={props.creatorid}
                 updateVotingAxiosUrl="updateAnswerVoting"
                 getByIdAxiosUrl="getAnswerById"
-                voting={props.voting} />
+                voting={props.voting}
+                voterid={props.voterid} />
             <div className="answer-content-right">
                 <p>{props.content}</p>
                 <p>{props.created}</p>

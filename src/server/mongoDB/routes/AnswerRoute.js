@@ -109,25 +109,39 @@ router.post('/updateAnswerVoting/:articleid', (req, res) => {
     }).then(() => {
         let arrayToUpdate = "";
         req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
-        console.log("arrayToUpdate: " + arrayToUpdate);
         console.log("req.query.answerid: " + req.query.answerid);
-        for (let i = 0; i < eval('userData.' + arrayToUpdate + '.length'); i++) {
-            arrayToUpdate = arrayToUpdate + "[i].answerids";
+        for (let i = 0; i < 1; i++) {
+            //arrayToUpdate = arrayToUpdate + "[i].answerids";
+            console.log("arrayToUpdate: " + arrayToUpdate);
+            console.log("req.params.articleid: " + req.params.articleid);
+            console.log("req.query.voterid: " + req.query.voterid);
+            console.log("req.query.answerid: " + req.query.answerid);
             // TODO hier weitermachen funktioniert noch nicht upvotings._id ist nicht vorhanden was anderes überlegen!
-            User.findOneAndUpdate({"_id": req.query.voterid, "upvotings._id": req.params.articleid},
+            User.findOneAndUpdate({"firebaseid": req.query.voterid, "upvotings.$[i].articleid": req.params.articleid},
             {
                 $addToSet: {
-                    "upvotings.$.answerids": 
-                    {
-                        "_id": req.query.answerid
-                    }
+                    "upvotings.$[i].answerids": req.query.answerid
                 }
-            }).then(() => {
+                },
+                {
+                    arrayFilters: [{ "i.articleid": req.params.articleid }],
+                    new: true
+                },
+                function (error) {
+                    if (error) {
+                        res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
+                    } else {
+                        console.log("Update Answer Voting was successful.");
+                        res.json({ msg: "Update Answer Voting was successful." });
+                    }
+                });
+            /*}).then(() => {
+                console.log("Test");
                 res.json({ msg: "Update Answer Voting was successful." });
             }).catch((error) => {
                 res.status(500).json({ msg: "Internal server error: " + error });
-            });
-            res.json({ msg: "Update Answer Voting was successful." });
+            });*/
+            //res.json({ msg: "Update Answer Voting was successful." });
         }
     }).catch((error) => {
         res.status(500).json({ msg: "Internal server error: " + error });

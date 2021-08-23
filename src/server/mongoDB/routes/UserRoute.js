@@ -127,7 +127,6 @@ router.get('/getUserAnswers/:sortCriteria', (req, res) => {
     User.find({"_id": req.query._id})
         .then(async (userData) => {
             var articleDataArray = [];
-            console.log("SortCriteria: " + req.params.sortCriteria);
             let answerMaxPagination = 0;
             let answerLength = 0;
             await User.findById(req.query._id).populate('answers').then((user) => {

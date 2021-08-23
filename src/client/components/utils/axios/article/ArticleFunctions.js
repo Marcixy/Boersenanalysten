@@ -9,7 +9,7 @@ export async function getArticleById(articleId) {
         console.error("Articledata are not loaded", error);
         alert("Beitrag konnte nicht geladen werden. Bitte versuchen Sie es später erneut.");
     });
-    return article.data;
+    return article?.data;
 }
 
 export async function getArticleCreatorNames(sortCriteria, currentPage) {
@@ -21,7 +21,7 @@ export async function getArticleCreatorNames(sortCriteria, currentPage) {
         console.error("Article Creator Names are not loaded", error);
         alert("Beitragsersteller konnten nicht geladen werden.");
     });
-    return articleCreatorNames.data;
+    return articleCreatorNames?.data;
 }
 
 export async function getArticlelist(sortCriteria, currentPage) {
@@ -33,7 +33,7 @@ export async function getArticlelist(sortCriteria, currentPage) {
         console.error("Articlelist are not loaded", error);
         alert("Beitragsliste konnte nicht geladen werden. Bitte versuchen Sie es später erneut.");
     });
-    return articlelist.data;
+    return articlelist?.data;
 }
 
 export async function getArticleCount() {

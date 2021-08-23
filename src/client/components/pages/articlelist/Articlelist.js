@@ -50,7 +50,7 @@ function Articlelist() {
     }, [sortCriteria])
 
     const displayArticleData = (articles) => {
-        return articles.length !== 0 ? articles.map((article, index) => (
+        return articles?.length !== 0 ? articles?.map((article, index) => (
             <Articlelistitem
                 id={article._id}
                 index={index}

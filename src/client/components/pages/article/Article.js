@@ -74,7 +74,8 @@ function Article() {
                 voting={answer.voting}
                 created={answer.created}
                 creator={answerCreatorNames[index]}
-                creatorid={answer.creator} />
+                creatorid={answer.creator}
+                voterid={userFirebaseid} />
         ));
     }
 
