@@ -129,7 +129,7 @@ function CreateArticle() {
                 contentError={ contentError }
                 contentErrorText={ contentErrorText }
                 parentCallbackEditorContent={ callbackEditorContent } />
-            <ArticleTypeSelection />
+            <ArticleTypeSelection displayTooltip="inline-block" />
             <TagInput
                 tagError={tagError}
                 tagErrorText={tagErrorText}

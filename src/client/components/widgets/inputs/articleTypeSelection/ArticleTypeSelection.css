@@ -10,3 +10,12 @@
 .article-type-selection fieldset .MuiFormGroup-root label {
     margin-right: 36px;
 }
+
+.article-type-header {
+    display: flex;
+}
+
+.article-type-header svg {
+    color: white;
+    margin-right: 14px;
+}

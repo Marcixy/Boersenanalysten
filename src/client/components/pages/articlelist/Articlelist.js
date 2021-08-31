@@ -117,7 +117,7 @@ function Articlelist() {
                                 fullWidth
                                 autoFocus />
                         </Box>
-                        <ArticleTypeSelection />
+                        <ArticleTypeSelection displayTooltip="none" />
                         <TagInput
                             parentCallbackTags={ callbackTagInput } />
                         <Button

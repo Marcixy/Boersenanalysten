@@ -6,12 +6,16 @@ import {
     FormLabel,
     RadioGroup,
     FormControl,
-    FormControlLabel 
+    FormControlLabel,
+    Tooltip
 } from '@material-ui/core';
+
+// material-ui icon imports
+import HelpIcon from '@material-ui/icons/Help';
 
 import './ArticleTypeSelection.css';
 
-function ArticleTypeSelection() {
+function ArticleTypeSelection(props) {
     const [articleType, setArticleType] = useState("question");
 
     const handleArticleType = (event) => {
@@ -21,11 +25,16 @@ function ArticleTypeSelection() {
     return (
         <div className="article-type-selection">
             <FormControl component="fieldset">
-                <FormLabel style={{ color:"white" }} component="legend">Beitragstyp:</FormLabel>
+                <div className="article-type-header">
+                    <Tooltip style={{display: props.displayTooltip}} title={<div>Frage: Stelle der Community eine Frage zum Thema Finanzen.<br />Meinung: Frage andere Mitglieder nach ihrer Meinung zu einer Aktie, ETF, Versicherung, etc.<br />Erklärung: Erkläre anderen Mitgliedern ein Thema rund um Finanzen.</div>} placement="right" arrow>
+                        <HelpIcon fontSize="inherit" />
+                    </Tooltip>
+                    <FormLabel style={{ color:"white" }} component="legend">Beitragstyp:</FormLabel>
+                </div>
                 <RadioGroup value={articleType} onChange={handleArticleType}>
                     <FormControlLabel value="question" control={<Radio />} label="Frage" />
                     <FormControlLabel value="opinion" control={<Radio />} label="Meinung" />
-                    <FormControlLabel value="portfolio" control={<Radio />} label="Portfolio Beitrag" />
+                    <FormControlLabel value="explanation" control={<Radio />} label="Erklärung" />
                 </RadioGroup>
             </FormControl>
         </div>

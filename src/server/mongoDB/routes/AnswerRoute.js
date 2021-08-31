@@ -110,38 +110,31 @@ router.post('/updateAnswerVoting/:articleid', (req, res) => {
         let arrayToUpdate = "";
         req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
         console.log("req.query.answerid: " + req.query.answerid);
-        for (let i = 0; i < 1; i++) {
+        for (let i = 1; i < 2; i++) {
             //arrayToUpdate = arrayToUpdate + "[i].answerids";
-            console.log("arrayToUpdate: " + arrayToUpdate);
+            console.log("i: " + i);
             console.log("req.params.articleid: " + req.params.articleid);
             console.log("req.query.voterid: " + req.query.voterid);
             console.log("req.query.answerid: " + req.query.answerid);
-            // TODO hier weitermachen funktioniert noch nicht upvotings._id ist nicht vorhanden was anderes überlegen!
+            var mongoose = require('mongoose');
+            // TODO hier weitermachen bei Stack Overflow nach dem Urlaub nachfragen, mit 1 statt $[i] funktioniert es, for Schleife ebenfalls beachten!
             User.findOneAndUpdate({"firebaseid": req.query.voterid, "upvotings.$[i].articleid": req.params.articleid},
             {
                 $addToSet: {
                     "upvotings.$[i].answerids": req.query.answerid
                 }
-                },
-                {
-                    arrayFilters: [{ "i.articleid": req.params.articleid }],
-                    new: true
-                },
-                function (error) {
-                    if (error) {
-                        res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
-                    } else {
-                        console.log("Update Answer Voting was successful.");
-                        res.json({ msg: "Update Answer Voting was successful." });
-                    }
-                });
-            /*}).then(() => {
-                console.log("Test");
-                res.json({ msg: "Update Answer Voting was successful." });
-            }).catch((error) => {
-                res.status(500).json({ msg: "Internal server error: " + error });
-            });*/
-            //res.json({ msg: "Update Answer Voting was successful." });
+            },
+            {
+                arrayFilters: [{ "i.articleid": req.params.articleid }],
+            },
+            function (error) {
+                if (error) {
+                    res.status(500).json({ msg: "Internal server error by updating user with new answer. " + error });
+                } else {
+                    console.log("Update Answer Voting was successful.");
+                    res.json({ msg: "Update Answer Voting was successful." });
+                }
+            });
         }
     }).catch((error) => {
         res.status(500).json({ msg: "Internal server error: " + error });
