@@ -6,14 +6,15 @@ import firebaseConfig from '../../../server/firebase/Config';
 import { getUserByFirebaseid } from '../utils/axios/user/UserFunctions';
 
 // material-ui imports
-import { 
+import {
+    Badge,
     Button,
-    IconButton,
+    IconButton
 } from '@material-ui/core';
 
 // material-ui icon imports
+import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
-import MessageIcon from '@material-ui/icons/Message';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
@@ -77,12 +78,18 @@ function Navigationbar() {
                         <IconButton variant="contained" size="small"><PersonIcon /></IconButton>
                     </Link>
                     <Link to="/message">
-                        <IconButton variant="contained" size="small"><MessageIcon /></IconButton>
+                        <Badge badgeContent={4} color="primary">
+                            <MailIcon />
+                        </Badge>
                     </Link>
                     <Link to="/help">
                         <IconButton variant="contained" size="small"><LiveHelpIcon /></IconButton>
                     </Link>
-                    <IconButton variant="contained" size="small" onClick={() => handleOpenLogoutDialog()}><ExitToAppIcon /></IconButton>
+                    <IconButton
+                        id="logout-button"
+                        variant="contained"
+                        size="small"
+                        onClick={() => handleOpenLogoutDialog()}><ExitToAppIcon /></IconButton>
                     <ChoiceDialog 
                         dialogOpen={ openLogoutDialog }
                         handleCloseDialog={ handleCloseLogoutDialog }

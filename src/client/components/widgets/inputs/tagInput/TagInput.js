@@ -4,8 +4,13 @@ import React, { useState } from 'react';
 import {
     Box,
     Chip,
-    TextField
+    TextField,
+    IconButton,
+    InputAdornment
 } from '@material-ui/core';
+
+// material-ui icon imports
+import AddIcon from '@material-ui/icons/Add';
 
 import './TagInput.css';
 
@@ -36,6 +41,15 @@ function TagInput({ tagError, tagErrorText, parentCallbackTags }) {
                     error={tagError}
                     helperText={tagErrorText}
                     inputProps={{ maxLength: 40 }}
+                    InputProps={{ endAdornment: (
+                        <InputAdornment>
+                          <IconButton>
+                            <AddIcon
+                                color="primary"
+                                onClick={() => addTag()}/>
+                          </IconButton>
+                        </InputAdornment>
+                    ) }}
                     onKeyDown={(event) => (event.key === "Enter" ? addTag(event) : null)}
                     fullWidth />
             </Box>

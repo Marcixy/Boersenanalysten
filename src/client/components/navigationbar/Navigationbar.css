@@ -47,8 +47,20 @@
     padding: 17px 16px 0 0;
 }
 
-.user-right-navigationbar button {
+.user-right-navigationbar span {
+    margin-top: 14px;
+}
+
+.user-right-navigationbar .MuiBadge-badge {
+    margin-top: 0;
+}
+
+.user-right-navigationbar a {
     margin: 14px 18px 0 0;
+}
+
+#logout-button {
+    margin-right: 16px;
 }
 
 .visitor-right-navigationbar a {
