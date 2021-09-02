@@ -79,7 +79,7 @@ function Navigationbar() {
                     </Link>
                     <Link to="/message">
                         <Badge badgeContent={4} color="primary">
-                            <MailIcon />
+                            <MailIcon id="user-right-navigationbar-mail-icon" />
                         </Badge>
                     </Link>
                     <Link to="/help">

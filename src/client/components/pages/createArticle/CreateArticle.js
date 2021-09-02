@@ -38,6 +38,11 @@ function CreateArticle() {
     
     const toArticle = useHistory();
 
+    // Callbacks: Verbindung zu Child Komponenten um auf die Eingaben Zugriff zu bekommen.
+    const callbackTagInput = (tagInput) => { setTags(tagInput); }
+    const callbackEditorContent = (editorContent) => { setContent(editorContent); }
+    const callbackArticleType = (articleType) => { setArticleType(articleType); }
+
     const createNewArticle = () => {
         const isTitleValid = checkTitle();
         const isContentValid = checkContent();
@@ -94,22 +99,6 @@ function CreateArticle() {
         return true;
     }
 
-    const handleArticleType = (event) => {
-        setArticleType(event.target.value);
-    };
-
-    // Verbindung zu TextEditor Komponente um auf den eingegebenen Editor Content 
-    // Zugriff zu bekommen.
-    const callbackEditorContent = (editorContent) => {
-        setContent(editorContent);
-    }
-
-    // Verbindung zu TagInput Komponente um auf die eingegebenen Tags 
-    // Zugriff zu bekommen.
-    const callbackTagInput = (tagInput) => {
-        setTags(tagInput);
-    }
-
     return (
         <div className="create-article-page">
             <h2>Beitrag erstellen</h2>
@@ -129,7 +118,11 @@ function CreateArticle() {
                 contentError={ contentError }
                 contentErrorText={ contentErrorText }
                 parentCallbackEditorContent={ callbackEditorContent } />
-            <ArticleTypeSelection displayTooltip="inline-block" />
+            <ArticleTypeSelection
+                displayTooltip="inline-block"
+                displayRadioButtonAll="none"
+                selectedRadioButton="question"
+                parentCallbackArticleType={ callbackArticleType } />
             <TagInput
                 tagError={tagError}
                 tagErrorText={tagErrorText}

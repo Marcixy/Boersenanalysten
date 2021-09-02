@@ -20,8 +20,8 @@ function ArticleLink(props) {
             case "opinion":
                 setArticleType("[Meinung]");
                 break;
-            case "portfolio":
-                setArticleType("[Portfolio]");
+            case "explanation":
+                setArticleType("[Erklärung]");
                 break;
             default:
                 console.log("Article Type wird nicht unterstützt.");

@@ -165,12 +165,28 @@ router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
 
 // Beitragsliste mit Daten werden nach einem Sortierkriterium geladen
 router.get('/getArticlelist/:sortCriteria', (req, res) => {
-    Article.find({ }).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
+    console.log("req.query.titleFilter: " + req.query.titleFilter);
+    console.log("req.query.articleTypeFilter: " + req.query.articleTypeFilter);
+    // TODO hier weitermachen und nur bei Filter Beitragstyp Alle hinzufügen und danach Tagfilter implementieren!
+    if (req.query.articleTypeFilter === "all") {
+        Article.find({ }).find({ title: { $regex: req.query.titleFilter }})
+        .sort({ [req.params.sortCriteria]: -1 })
+        .limit(10).skip((req.query.currentPage - 1) * 10)
         .then((articleData) => {
             res.json(articleData);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });
+    } else {
+        Article.find({ }).find({ title: { $regex: req.query.titleFilter }, articleType: req.query.articleTypeFilter })
+        .sort({ [req.params.sortCriteria]: -1 })
+        .limit(10).skip((req.query.currentPage - 1) * 10)
+        .then((articleData) => {
+            res.json(articleData);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });
+    }
 });
 
 // Ein einzelner Beitrag wird anhand der _id geladen

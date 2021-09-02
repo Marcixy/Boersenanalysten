@@ -32,13 +32,19 @@ import { Link } from 'react-router-dom';
 import './Articlelist.css';
 
 function Articlelist() {
-    const [title, setTitle] = useState("");
+    const [titleFilter, setTitleFilter] = useState("");
+    const [articleTypeFilter, setArticleTypeFilter] = useState("all");
     const [sortCriteria, setSortCriteria] = useState("createdAt");
     const [tags, setTags] = useState([]);
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
     const [paginationCount, setPaginationCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+
+    // Callbacks: Verbindung zu Child Komponenten um auf die Eingaben Zugriff zu bekommen.
+    const callbackSortCriteria = (sortCriteria) => { setSortCriteria(sortCriteria); }
+    const callbackTagInput = (tagInput) => { setTags(tagInput); }
+    const callbackArticleType = (articleType) => { setArticleTypeFilter(articleType); }
 
     useEffect(() => {
         getArticleList(null, currentPage);
@@ -68,25 +74,13 @@ function Articlelist() {
 
     const getArticleList = (event, currentPage) => {
         setCurrentPage(currentPage);
-        getArticlelist(sortCriteria, currentPage).then((articlelistResponse) => {
+        getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter).then((articlelistResponse) => {
             setArticleData(articlelistResponse);
             getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
                 setArticleCreatorNames(response);
             });
         });
         window.scrollTo(0, 0);
-    }
-
-    // Verbindung zu SortActions Komponente um auf die aktuelle Sortierungs-
-    // einstellung Zugriff zu bekommen.
-    const callbackSortCriteria = (sortCriteria) => {
-        setSortCriteria(sortCriteria);
-    }
-
-    // Verbindung zu TagInput Komponente um auf die eingegebenen Tags 
-    // Zugriff zu bekommen.
-    const callbackTagInput = (tagInput) => {
-        setTags(tagInput);
     }
 
     return (
@@ -113,16 +107,21 @@ function Articlelist() {
                                 type="text"
                                 variant="outlined"
                                 inputProps={{ maxLength: 100 }}
-                                onChange={(event) => setTitle(event.target.value)}
+                                onChange={(event) => setTitleFilter(event.target.value)}
                                 fullWidth
                                 autoFocus />
                         </Box>
-                        <ArticleTypeSelection displayTooltip="none" />
+                        <ArticleTypeSelection
+                            displayTooltip="none"
+                            displayRadioButtonAll="inline-block"
+                            selectedRadioButton="all"
+                            parentCallbackArticleType={ callbackArticleType } />
                         <TagInput
                             parentCallbackTags={ callbackTagInput } />
                         <Button
                             variant="contained"
-                            color="primary">Suchen</Button>
+                            color="primary"
+                            onClick={() => getArticleList() }>Suchen</Button>
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
