@@ -24,12 +24,13 @@ export async function getArticleCreatorNames(sortCriteria, currentPage) {
     return articleCreatorNames?.data;
 }
 
-export async function getArticlelist(sortCriteria, currentPage, titleFilter = "", articleTypeFilter = "") {
+export async function getArticlelist(sortCriteria, currentPage, titleFilter = "", articleTypeFilter = "", tagFilter = []) {
     const articlelist = await axios.get(`/getArticlelist/${sortCriteria}`, {
         params: {
             currentPage: currentPage,
             titleFilter: titleFilter,
-            articleTypeFilter: articleTypeFilter
+            articleTypeFilter: articleTypeFilter,
+            tagFilter: tagFilter
         }
     }).catch((error) => {
         console.error("Articlelist are not loaded", error);

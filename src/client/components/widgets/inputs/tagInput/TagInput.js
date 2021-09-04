@@ -28,6 +28,7 @@ function TagInput({ tagError, tagErrorText, parentCallbackTags }) {
 
     const deleteTag = indexToRemove => {
         setTags(tags.filter((_, index) => index !== indexToRemove));
+        parentCallbackTags(tags.filter((_, index) => index !== indexToRemove));
     }
 
     return (

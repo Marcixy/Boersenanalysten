@@ -163,13 +163,27 @@ router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
         });    
 });
 
-// Beitragsliste mit Daten werden nach einem Sortierkriterium geladen
+// Beitragsliste mit Daten werden nach einem Sortierkriterium und
+// nach den eingestellten Filtern geladen.
 router.get('/getArticlelist/:sortCriteria', (req, res) => {
-    console.log("req.query.titleFilter: " + req.query.titleFilter);
-    console.log("req.query.articleTypeFilter: " + req.query.articleTypeFilter);
-    // TODO hier weitermachen und nur bei Filter Beitragstyp Alle hinzufügen und danach Tagfilter implementieren!
-    if (req.query.articleTypeFilter === "all") {
-        Article.find({ }).find({ title: { $regex: req.query.titleFilter }})
+    let tagFilterArray = [];
+    if (req.query.tagFilter !== undefined) {
+        console.log("req.query.tagFilter: " + req.query.tagFilter);
+        req.query.tagFilter = req.query.tagFilter.toString();
+        let tagFilterArray = req.query.tagFilter.split(',');
+        console.log("tagFilterArray: " + tagFilterArray);
+    }
+    if (req.query.articleTypeFilter === "all" && req.query.tagFilter === undefined) {
+        Article.find({ title: { $regex: req.query.titleFilter }})
+        .sort({ [req.params.sortCriteria]: -1 })
+        .limit(10).skip((req.query.currentPage - 1) * 10)
+        .then((articleData) => {
+            res.json(articleData);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });
+    } else if (req.query.articleTypeFilter === "all") {
+        Article.find({ title: { $regex: req.query.titleFilter }, tags: req.query.tagFilter})
         .sort({ [req.params.sortCriteria]: -1 })
         .limit(10).skip((req.query.currentPage - 1) * 10)
         .then((articleData) => {
@@ -178,7 +192,7 @@ router.get('/getArticlelist/:sortCriteria', (req, res) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });
     } else {
-        Article.find({ }).find({ title: { $regex: req.query.titleFilter }, articleType: req.query.articleTypeFilter })
+        Article.find({ title: { $regex: req.query.titleFilter }, tags: req.query.tagFilter, articleType: req.query.articleTypeFilter })
         .sort({ [req.params.sortCriteria]: -1 })
         .limit(10).skip((req.query.currentPage - 1) * 10)
         .then((articleData) => {

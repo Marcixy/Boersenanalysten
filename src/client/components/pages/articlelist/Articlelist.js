@@ -34,8 +34,9 @@ import './Articlelist.css';
 function Articlelist() {
     const [titleFilter, setTitleFilter] = useState("");
     const [articleTypeFilter, setArticleTypeFilter] = useState("all");
-    const [sortCriteria, setSortCriteria] = useState("createdAt");
+    const [tagFilter, setTagFilter] = useState([]);
     const [tags, setTags] = useState([]);
+    const [sortCriteria, setSortCriteria] = useState("createdAt");
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
     const [paginationCount, setPaginationCount] = useState(0);
@@ -43,7 +44,7 @@ function Articlelist() {
 
     // Callbacks: Verbindung zu Child Komponenten um auf die Eingaben Zugriff zu bekommen.
     const callbackSortCriteria = (sortCriteria) => { setSortCriteria(sortCriteria); }
-    const callbackTagInput = (tagInput) => { setTags(tagInput); }
+    const callbackTagFilter = (tagFilter) => { setTagFilter(tagFilter); }
     const callbackArticleType = (articleType) => { setArticleTypeFilter(articleType); }
 
     useEffect(() => {
@@ -74,7 +75,8 @@ function Articlelist() {
 
     const getArticleList = (event, currentPage) => {
         setCurrentPage(currentPage);
-        getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter).then((articlelistResponse) => {
+        console.log("tagFilter: " + tagFilter);
+        getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((articlelistResponse) => {
             setArticleData(articlelistResponse);
             getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
                 setArticleCreatorNames(response);
@@ -117,7 +119,7 @@ function Articlelist() {
                             selectedRadioButton="all"
                             parentCallbackArticleType={ callbackArticleType } />
                         <TagInput
-                            parentCallbackTags={ callbackTagInput } />
+                            parentCallbackTags={ callbackTagFilter } />
                         <Button
                             variant="contained"
                             color="primary"
