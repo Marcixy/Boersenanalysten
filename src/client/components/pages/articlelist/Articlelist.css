@@ -20,11 +20,16 @@
 }
 
 .articlelist-filter {
+    box-shadow: 2px 2px 20px black;
     margin: 12px 0;
 }
 
 .articlelist-filter div {
-    background-color: #333333;
+    background-color: #212121;
+    color: white;
+}
+
+.articlelist-filter label {
     color: white;
 }
 

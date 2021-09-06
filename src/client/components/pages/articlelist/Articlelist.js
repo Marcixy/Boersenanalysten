@@ -75,7 +75,6 @@ function Articlelist() {
 
     const getArticleList = (event, currentPage) => {
         setCurrentPage(currentPage);
-        console.log("tagFilter: " + tagFilter);
         getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((articlelistResponse) => {
             setArticleData(articlelistResponse);
             getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
