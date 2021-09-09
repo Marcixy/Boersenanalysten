@@ -1,10 +1,4 @@
-import React, { useEffect } from 'react';
-
-// own-component imports
-import { getUserById } from '../../../utils/axios/user/UserFunctions';
-
-// resux-toolkit imports
-import { counterActions } from '../../../utils/redux/store/index';
+import React, { useState, useEffect } from 'react';
 
 // material-ui imports
 import {
@@ -14,47 +8,27 @@ import {
 
 // third-party imports
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import "./UserNavigationbar.css";
 
 function UserNavigationbar(props) {
-    const dispatch = useDispatch();
-    const counter = useSelector(state => state.counter);
-
-    const incrementHandler = () => {
-        dispatch(counterActions.increment());
-    }
-
-    const increaseHandler = () => {
-        dispatch(counterActions.increase(5));
-    }
-
-    const decrementHandler = () => {
-        dispatch(counterActions.decrement());
-    }
+    const [displaySettings, setDisplaySettings] = useState("none");
+    const userid = useSelector(state => state.user.userid);
 
     useEffect(() => {
-        getUserById(props.userid).then((userResponse) => {
-            const userData = userResponse[0];
-            if (userData._id === props.userid) {
-                // TODO
-            }
-        });
-    }, [])
+        userid === props.userid ? setDisplaySettings("inline-block") : setDisplaySettings("none");
+    }, [userid, props.userid])
 
     return (
         <div className="user-navigationbar">
-            <ButtonGroup variant="text" color="primary" >
+            <ButtonGroup variant="text" color="primary">
                 <Link to={{pathname: `/userprofile/${props.userid}`}}>
                     <Button>Profil</Button>
                 </Link>
-                <Link to={{pathname: `/profileSettings/${props.userid}`}}>
-                    <Button>Einstellungen { counter }</Button>
+                <Link to={{pathname: `/profileSettings/${props.userid}`}} style={{display: displaySettings}}>
+                    <Button >Einstellungen { userid } </Button>
                 </Link>
-                <Button onClick={incrementHandler}>+</Button>
-                <Button onClick={increaseHandler}>+ 5</Button>
-                <Button onClick={decrementHandler}>-</Button>
             </ButtonGroup>
         </div>
     )

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
 import firebaseConfig from '../../../server/firebase/Config';
 import { getUserByFirebaseid } from '../utils/axios/user/UserFunctions';
+import { userActions } from '../utils/redux/store';
 
 // material-ui imports
 import {
@@ -20,6 +21,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import firebase from 'firebase/app';
 
 import './Navigationbar.css';
@@ -29,6 +31,7 @@ function Navigationbar() {
     const [openLogoutDialog, setLogoutDialogOpen] = useState(false);
     const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
     const toHomepage = useHistory();
+    const dispatch = useDispatch();
 
     const handleOpenLogoutDialog = () => {
         setLogoutDialogOpen(true);
@@ -43,7 +46,13 @@ function Navigationbar() {
             if (user) {
                 getUserByFirebaseid().then((userResponse) => {
                     setUserData(userResponse[0]);
+                    console.log(userResponse[0]);
                     setUserIsLoggedIn(true);
+                    dispatch(userActions.setUserData({
+                        userid: userResponse[0]._id,
+                        email: userResponse[0].email,
+                        username: userResponse[0].username,
+                        shareCounter: userResponse[0].shareCounter }));
                 }).catch((error) => {
                     console.log(error);
                 });

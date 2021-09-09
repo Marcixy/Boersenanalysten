@@ -1,27 +1,21 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 
-const initialState = { counter: 0 };
+const initialUserState = { userid: "", email: "", username: "", shareCounter: "" };
 
-const counterSlice = createSlice({
-    name: 'counter',
-    initialState: initialState,
+const userSlice = createSlice({
+    name: 'user',
+    initialState: initialUserState,
     reducers: {
-        increment(state) {
-            state.counter++;
+        setUserData(state, action) {
+            state.user = action.payload;
         },
-        decrement(state) {
-            state.counter--;
-        },
-        increase(state, action) {
-            state.counter += action.payload;
-        }
     }
 });
 
 const store = configureStore({
-    reducer: counterSlice.reducer
+    reducer: userSlice.reducer
 });
 
-export const counterActions = counterSlice.actions;
+export const userActions = userSlice.actions;
 
 export default store;

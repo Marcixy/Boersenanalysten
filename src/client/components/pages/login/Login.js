@@ -55,7 +55,7 @@ function Login() {
                         setEmailError(true);
                         setEmailErrorText("Unbekannter Fehler beim Login ist aufgetreten.");
                 }
-            })
+            });
         }
     }
 
