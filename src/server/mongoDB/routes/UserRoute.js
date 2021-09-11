@@ -175,23 +175,27 @@ router.get('/getUserVotings', (req, res) => {
                 });
                 if (upVotingMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
                     for (let i = (req.query.currentPage - 1) * 10; i < upVotingLength; i++) {
-                        await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
-                            if (articleData[0] !== undefined) {
-                                articleDataArray.push(articleData[0]);
-                            } 
-                        }).catch((error) => {
-                            res.status(500).json({ msg: error });
-                        });
+                        if (userData[0].upvotings.length !== 0) {
+                            await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
+                                if (articleData[0] !== undefined) {
+                                    articleDataArray.push(articleData[0]);
+                                } 
+                            }).catch((error) => {
+                                res.status(500).json({ msg: error });
+                            });
+                        }
                     }
                 } else {
                     for (let i = (req.query.currentPage - 1) * 10; i < ((req.query.currentPage - 1) * 10) + 10; i++) {
-                        await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
-                            if (articleData[0] !== undefined) {
-                                articleDataArray.push(articleData[0]);
-                            } 
-                        }).catch((error) => {
-                            res.status(500).json({ msg: error });
-                        });
+                        if (userData[0].upvotings.length !== 0) {
+                            await Article.find({"_id": userData[0].upvotings[i].articleid}).then((articleData) => {
+                                if (articleData[0] !== undefined) {
+                                    articleDataArray.push(articleData[0]);
+                                } 
+                            }).catch((error) => {
+                                res.status(500).json({ msg: error });
+                            });
+                        }
                     }
                 }
             } else if (req.query.votingType === "Downvoting") {
@@ -203,26 +207,32 @@ router.get('/getUserVotings', (req, res) => {
                 });
                 if (downVotingMaxPagination == req.query.currentPage) {       // === funktioniert hier nicht!
                     for (let i = (req.query.currentPage - 1) * 10; i < downVotingLength; i++) {
-                        await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
-                            if (articleData[0] !== undefined) {
-                                articleDataArray.push(articleData[0]);
-                            } 
-                        }).catch((error) => {
-                            res.status(500).json({ msg: error });
-                        });
+                        if (userData[0].downvotings.length !== 0) {
+                            await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
+                                if (articleData[0] !== undefined) {
+                                    articleDataArray.push(articleData[0]);
+                                } 
+                            }).catch((error) => {
+                                res.status(500).json({ msg: error });
+                            });
+                        }
                     }
                 } else {
+                    console.log("req.query.currentPage: " + req.query.currentPage);
                     for (let i = (req.query.currentPage - 1) * 10; i < ((req.query.currentPage - 1) * 10) + 10; i++) {
-                        await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
-                            if (articleData[0] !== undefined) {
-                                articleDataArray.push(articleData[0]);
-                            } 
-                        }).catch((error) => {
-                            res.status(500).json({ msg: error });
-                        });
+                        if (userData[0].downvotings.length !== 0) {
+                            await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
+                                if (articleData[0] !== undefined) {
+                                    articleDataArray.push(articleData[0]);
+                                } 
+                            }).catch((error) => {
+                                res.status(500).json({ msg: error });
+                            });
+                        }
                     }
                 }
             }
+            console.log("articleDataArray: " + articleDataArray);
             res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });

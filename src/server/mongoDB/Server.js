@@ -6,7 +6,13 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const MONGODB_URL = "mongodb+srv://admin:O7dsTH6x6KOIdw1F@boersenanalystencluster.ie2ek.mongodb.net/boersenanalystenDB?retryWrites=true&w=majority";
+const db = "Test";
+let MONGODB_URL = "";
+if (db === "Test") {
+    MONGODB_URL = "mongodb+srv://admin:O7dsTH6x6KOIdw1F@boersenanalystencluster.ie2ek.mongodb.net/boersenanalystenDBTest?retryWrites=true&w=majority";
+} else if (db === "Produktiv") {
+    MONGODB_URL = "mongodb+srv://admin:O7dsTH6x6KOIdw1F@boersenanalystencluster.ie2ek.mongodb.net/boersenanalystenDBProduktiv?retryWrites=true&w=majority";
+}
 
 const userRoute = require('./routes/UserRoute');
 const articleRoute = require('./routes/ArticleRoute');
