@@ -110,15 +110,15 @@ router.post('/updateAnswerVoting/:articleid', (req, res) => {
         let arrayToUpdate = "";
         req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
         console.log("req.query.answerid: " + req.query.answerid);
-        for (let i = 1; i < 2; i++) {
+        for (let i = 0; i < 1; i++) {
             //arrayToUpdate = arrayToUpdate + "[i].answerids";
             console.log("i: " + i);
             console.log("req.params.articleid: " + req.params.articleid);
             console.log("req.query.voterid: " + req.query.voterid);
             console.log("req.query.answerid: " + req.query.answerid);
             var mongoose = require('mongoose');
-            // TODO hier weitermachen bei Stack Overflow nach dem Urlaub nachfragen, mit 1 statt $[i] funktioniert es, for Schleife ebenfalls beachten!
-            User.findOneAndUpdate({"firebaseid": req.query.voterid, "upvotings.$[i].articleid": req.params.articleid},
+            // TODO hier weitermachen bei Stack Overflow nach dem Urlaub nachfragen, mit 0 statt $[i] funktioniert es, for Schleife ebenfalls beachten!
+            User.findOneAndUpdate({"firebaseid": req.query.voterid},
             {
                 $addToSet: {
                     "upvotings.$[i].answerids": req.query.answerid

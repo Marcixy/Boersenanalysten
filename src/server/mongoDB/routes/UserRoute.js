@@ -218,7 +218,6 @@ router.get('/getUserVotings', (req, res) => {
                         }
                     }
                 } else {
-                    console.log("req.query.currentPage: " + req.query.currentPage);
                     for (let i = (req.query.currentPage - 1) * 10; i < ((req.query.currentPage - 1) * 10) + 10; i++) {
                         if (userData[0].downvotings.length !== 0) {
                             await Article.find({"_id": userData[0].downvotings[i].articleid}).then((articleData) => {
@@ -232,7 +231,6 @@ router.get('/getUserVotings', (req, res) => {
                     }
                 }
             }
-            console.log("articleDataArray: " + articleDataArray);
             res.json(articleDataArray);
         }).catch((error) => {
             res.status(500).json({ msg: error });
