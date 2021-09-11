@@ -46,9 +46,9 @@ function Navigationbar() {
             if (user) {
                 getUserByFirebaseid().then((userResponse) => {
                     setUserData(userResponse[0]);
-                    console.log(userResponse[0]);
                     setUserIsLoggedIn(true);
                     dispatch(userActions.setUserData({
+                        isLoggedIn: true,
                         userid: userResponse[0]._id,
                         email: userResponse[0].email,
                         username: userResponse[0].username,
@@ -65,6 +65,7 @@ function Navigationbar() {
 
     const signOut = () => {
         firebase.auth().signOut().then(function() {
+            dispatch(userActions.logout());
             toHomepage.push("/");
             setLogoutDialogOpen(false);
             console.log("Benutzer wurde erfolgreich ausgeloggt.");
