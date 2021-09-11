@@ -20,6 +20,7 @@ import {
 
 // third-party imports
 import { useParams } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import firebase from 'firebase/app';
 
 import './Article.css';
@@ -32,6 +33,8 @@ function Article() {
     const [userFirebaseid, setUserFirebaseid] = useState("");
     const [isArticleCreator, setIsArticleCreator] = useState(false);
     
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
     const { articleId } = useParams();
 
     useEffect(() => {
@@ -116,12 +119,15 @@ function Article() {
                 </div>
                 <h2>Antworten:</h2>
                 { displayAnswerData(answerData) }
-                <h3>Deine Antwort:</h3>
-                <TextEditor parentCallbackEditorContent={callbackEditorContent} />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => createNewAnswer()}>Antwort erstellen</Button>
+                { isLoggedIn === true &&
+                <div>
+                    <h3>Deine Antwort:</h3>
+                    <TextEditor parentCallbackEditorContent={callbackEditorContent} />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => createNewAnswer()}>Antwort erstellen</Button>
+                </div> }
             </div>
         </div>
     )

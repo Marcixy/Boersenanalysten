@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
 import firebaseConfig from '../../../server/firebase/Config';
 import { getUserByFirebaseid } from '../utils/axios/user/UserFunctions';
-import { userActions } from '../utils/redux/store';
+import { userActions } from '../utils/redux/store/userSlice';
 
 // material-ui imports
 import {
@@ -21,7 +21,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import firebase from 'firebase/app';
 
 import './Navigationbar.css';
@@ -29,7 +29,9 @@ import './Navigationbar.css';
 function Navigationbar() {
     const [userData, setUserData] = useState("");
     const [openLogoutDialog, setLogoutDialogOpen] = useState(false);
-    const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
     const toHomepage = useHistory();
     const dispatch = useDispatch();
 
@@ -46,7 +48,6 @@ function Navigationbar() {
             if (user) {
                 getUserByFirebaseid().then((userResponse) => {
                     setUserData(userResponse[0]);
-                    setUserIsLoggedIn(true);
                     dispatch(userActions.setUserData({
                         isLoggedIn: true,
                         userid: userResponse[0]._id,
@@ -56,8 +57,6 @@ function Navigationbar() {
                 }).catch((error) => {
                     console.log(error);
                 });
-            } else {
-                setUserIsLoggedIn(false);
             }
         });
         return () => unsubscribe();
@@ -75,7 +74,7 @@ function Navigationbar() {
     }
 
     let RightNavigationbar;
-    if (userIsLoggedIn === true) {
+    if (isLoggedIn === true) {
         RightNavigationbar = (
             <div className="user-navigationbar">
                 <div className="userinfo-navigationbar">

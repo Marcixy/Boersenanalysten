@@ -1,7 +1,5 @@
 import React from 'react';
 
-import store from '../../../utils/redux/store/index';
-
 // material-ui imports
 import {
     Button,
@@ -15,7 +13,7 @@ import { useSelector } from 'react-redux';
 import "./UserNavigationbar.css";
 
 function UserNavigationbar(props) {
-    const userid = useSelector((state) => state.user.userid);
+    const userid = useSelector(state => state.user.userid);
     
     return (
         <div className="user-navigationbar">

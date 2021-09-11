@@ -43,7 +43,7 @@ function Articlelist() {
     const [paginationCount, setPaginationCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 
     // Callbacks: Verbindung zu Child Komponenten um auf die Eingaben Zugriff zu bekommen.
     const callbackSortCriteria = (sortCriteria) => { setSortCriteria(sortCriteria); }
@@ -57,7 +57,6 @@ function Articlelist() {
         }).catch((error) => {
             console.error("Articlecount is not loaded", error);
         });
-        console.log("isLoggedIn: " + isLoggedIn);
     }, [sortCriteria])
 
     const displayArticleData = (articles) => {
@@ -92,7 +91,8 @@ function Articlelist() {
         <div className="articlelist-page">
             <div className="articlelist-header">
                 <h2>Beiträge</h2>
-                { isLoggedIn === true && <Link to="/createArticle">
+                { isLoggedIn === true &&
+                <Link to="/createArticle">
                     <Button
                         variant="contained"
                         color="primary">Beitrag erstellen</Button>

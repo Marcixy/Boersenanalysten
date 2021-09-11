@@ -15,6 +15,7 @@ import {
 
 // third-party imports
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import './Taglist.css';
 
@@ -22,6 +23,8 @@ function Taglist() {
     const [tagList, setTagList] = useState([]);
     const [paginationCount, setPaginationCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 
     useEffect(() => {
         getNewTagList(null, currentPage);
@@ -54,12 +57,13 @@ function Taglist() {
         <div className="taglist-page">
             <div className="taglist-header">
                 <h2>Tags</h2>
+                { isLoggedIn === true &&
                 <Link to="/createTag">
                     <Button variant="contained" color="primary">Tag erstellen</Button>
-                </Link>
+                </Link> }
             </div>
             <div className="taglist-section">
-                {displayTagList(tagList)}
+                { displayTagList(tagList) }
             </div>
             <Pagination
                 paginationCount={ paginationCount }
