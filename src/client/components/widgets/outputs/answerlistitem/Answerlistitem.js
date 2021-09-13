@@ -1,34 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-// own component imports
-import ArticleLink from '../articlelink/ArticleLink';
-import TagList from '..//taglist/Taglist';
+// own-component imports
+import Voting from '../../inputs/voting/Voting';
+
+// third-party imports
+import { Link } from 'react-router-dom';
 
 import './Answerlistitem.css';
 
 function Answerlistitem(props) {
-    const [formattedCreationDate, setFormattedCreationDate] = useState("");
-    
-    var options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-
-    useEffect(() => {
-        convertCreationDate();
-    }, [props.created])  // eslint-disable-line react-hooks/exhaustive-deps
-
-    const convertCreationDate = () => {
-        const creationDate = new Date(props.created);
-        setFormattedCreationDate(creationDate.toLocaleString("de-DE", options));
-    }
-
     return (
-        <div className="answer-list-item" key={props.index}>
-            <p>{props.voting}<br />Voting</p>
-            <div className="answer-list-item-right">
-                <ArticleLink id={props.id} title={props.title} articleType={props.articleType} />
-                <TagList tagList={props.tags} />
-                <div className="answer-list-item-creation-date">
-                    {formattedCreationDate}<br />
-                </div>
+        <div className="answer" key={props.index}>
+            <Voting
+                answerid={props.answerid}
+                articleid={props.articleid}
+                creatorid={props.creatorid}
+                updateVotingAxiosUrl="updateAnswerVoting"
+                getByIdAxiosUrl="getAnswerById"
+                voting={props.voting}
+                voterid={props.voterid} />
+            <div className="answer-content-right">
+                <p>{props.content}</p>
+                <p>{props.created}</p>
+                {/* TODO in eigene Komponente auslagern und auch in Articlelistitem aufrufen */}
+                <Link to={{pathname: `/userprofile/${props.creatorid}`}}>
+                    <span>{props.creator}</span>
+                </Link>
+                {props.creatorShareCounter}
             </div>
         </div>
     )

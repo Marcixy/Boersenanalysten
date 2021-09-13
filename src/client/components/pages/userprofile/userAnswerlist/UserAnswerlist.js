@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // own component imports
-import Answerlistitem from '../../../widgets/outputs/answerlistitem/Answerlistitem';
+import Useranswerlistitem from '../../../widgets/outputs/useranswerlistitem/Useranswerlistitem';
 import Pagination from '../../../widgets/outputs/pagination/Pagination';
 import {
     getUserAnswers,
@@ -42,7 +42,7 @@ function UserAnswerlist(props) {
 
     const displayArticleData = (articles) => {
         return articles.length !== 0 ? articles.map((article, index) => (
-            <Answerlistitem
+            <Useranswerlistitem
                 id={article._id}
                 index={index}
                 title={article.title}

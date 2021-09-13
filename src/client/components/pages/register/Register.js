@@ -6,8 +6,14 @@ import { registerUser } from '../../utils/axios/user/UserFunctions';
 // material-ui imports
 import {
     Button,
-    TextField
+    TextField,
+    IconButton,
+    InputAdornment
 } from '@material-ui/core';
+
+// material-ui icon imports
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
@@ -30,6 +36,7 @@ function Register() {
     const [emailError, setEmailError] = useState(false);
     const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const toArticlelist = useHistory();
 
@@ -102,6 +109,10 @@ function Register() {
         return true;
     }
 
+    const handleShowPasswordClick = () => {
+        setShowPassword(!showPassword);
+    }
+
     return (
         <div className="register-page">
             <div className="register-form">
@@ -122,12 +133,23 @@ function Register() {
                     onChange={(event) => setUsername(event.target.value)} />
                 <TextField
                     label="Passwort"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     error={passwordError}
                     helperText={passwordErrorText}
                     inputProps={{ maxLength: 40 }}
+                    InputProps={{ endAdornment:
+                        <InputAdornment position="end">
+                            <IconButton
+                                style={{color: "white"}}
+                                onClick={handleShowPasswordClick}
+                                edge="end">
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                    }}
                     onChange={(event) => setPassword(event.target.value)} />
                 <Button
+                    id="register-button"
                     variant="contained"
                     color="primary"
                     onClick={() => registerNewUser()}>Registrieren</Button>

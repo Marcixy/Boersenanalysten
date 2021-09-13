@@ -3,8 +3,14 @@ import React, { useState } from 'react';
 // material-ui imports
 import {
     Button,
-    TextField
+    TextField,
+    IconButton,
+    InputAdornment
 } from '@material-ui/core';
+
+// material-ui icon imports
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 // third-party imports
 import { Link, useHistory } from 'react-router-dom';
@@ -24,6 +30,7 @@ function Login() {
     // Error Farbe für Login
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const toArticlelist = useHistory();
 
@@ -81,6 +88,10 @@ function Login() {
         return true;
     }
 
+    const handleShowPasswordClick = () => {
+        setShowPassword(!showPassword);
+    }
+
     return (
         <div className="login-page">
             <div className="login-form">
@@ -95,15 +106,26 @@ function Login() {
                     autoFocus />
                 <TextField
                     label="Passwort"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     error={passwordError}
                     helperText={passwordErrorText}
                     inputProps={{ maxLength: 40 }}
+                    InputProps={{ endAdornment:
+                        <InputAdornment position="end">
+                            <IconButton
+                                style={{color: "white"}}
+                                onClick={handleShowPasswordClick}
+                                edge="end">
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                    }}
                     onChange={(event) => setPassword(event.target.value)} />
                 <Link to="/forgotPassword">
                     Passwort vergessen?
                 </Link>
                 <Button
+                    id="login-button"
                     variant="contained"
                     color="primary"
                     onClick={() => loginUser()}>Login</Button>

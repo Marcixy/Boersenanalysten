@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// own component imports
+import { isArticleUpvotedFromUser } from '../../../utils/axios/user/UserFunctions';
+
 // material-ui imports
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,14 +14,23 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 // third-party imports
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import './Voting.css';
 
 function Voting(props) {
     const [voting, setVoting] = useState(props.voting);
+    const [upvotedFromUser, setUpvotedFromUser] = useState(false);
+    const userid = useSelector(state => state.user.userid); 
 
     useEffect(() => {
         setVoting(props.voting);
+        async function getIsArticleUpvotedFromUser() {
+            const upvotedFromUserResponse = await isArticleUpvotedFromUser(userid, props.articleid);
+            setUpvotedFromUser(upvotedFromUserResponse);
+            console.log("isArticleUpvotedFromUser: " + upvotedFromUser);
+        }
+        getIsArticleUpvotedFromUser();
     }, [props.voting])
 
     const updateVoting = (voting, incValue) => {
@@ -59,7 +71,7 @@ function Voting(props) {
                 <IconButton onClick={() => updateVoting(1, 10)}>
                     <ArrowDropUpIcon 
                         iconStyle={{width: '56px', height: '56px'}}
-                        style={{width: '56px', height: '56px' }} />
+                        style={{width: '56px', height: '56px', color: upvotedFromUser ? '#F48225' : '#696F75' }} />
                 </IconButton>
             </Tooltip>
             <p>{voting}</p>

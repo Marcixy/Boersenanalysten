@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // own component imports
-import Answer from '../../widgets/outputs/answer/Answer';
+import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem';
 import ItemActions from '../../widgets/outputs/itemactions/ItemActions';
 import TagList from '../../widgets/outputs/taglist/Taglist';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
@@ -70,7 +70,7 @@ function Article() {
 
     const displayAnswerData = (answers) => {
         return answers.map((answer, index) => (
-            <Answer
+            <Answerlistitem
                 answerid={answer._id}
                 articleid={answer.articleid}
                 content={answer.content}

@@ -243,7 +243,6 @@ router.get('/getUserVotingCount', async (req, res) => {
     var userId = mongoose.Types.ObjectId(req.query._id);
     await User.findById(userId).populate(req.query.votingType).then((user) => {
         if (req.query.votingType === "upvotings") {
-            console.log("Upvotings: " + user.upvotings.length);
             res.json(user.upvotings.length);
         } else if (req.query.votingType === "downvotings") {
             res.json(user.downvotings.length);
@@ -279,6 +278,17 @@ router.get('/getUserUpvotings', async (req, res) => {
     });
     console.log("Array with Upvotings: " + arrayWithUpvotingArticleAndAnswerIds);
     res.json(arrayWithUpvotingArticleAndAnswerIds);
+});
+
+router.get('/isArticleUpvotedFromUser', async (req, res) => {
+    await User.findById(req.query.userid).then(userData => {
+        for (let i = 0; i < userData.upvotings.length; i++) {
+            if (userData.upvotings[i].articleid == req.query.articleid) {
+                res.json(true);
+            }
+        }
+        res.json(false);
+    });
 });
 
 module.exports = router;
