@@ -6,7 +6,6 @@ const Article = require('../models/Article');
 const ArticleReference = require('../models/ArticleReference');
 const User = require('../models/User');
 
-
 // =============== Routes ===================
 
 // =============== POST ===================
@@ -43,20 +42,19 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
     Article.updateOne({"_id": req.params.articleid},
     {
         $inc: { 
-            voting: req.query.voting,
+            voting: req.body.voting,
         },
     }).then(() => {
-        console.log("req.query.voterid: " + req.query.voterid);
-        User.findOne({"firebaseid": req.query.voterid}, function(error, userData) {
+        User.findOne({"firebaseid": req.body.voterid}, function(error, userData) {
             if (error) {
                 res.status(500).json({ msg: "Internal server error" + error });
             } else {
                 let isNewArticle = true;
                 let arrayToUpdate = "";
-                req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";    // === funktioniert hier nicht, deshalb ==
+                req.body.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";    // === funktioniert hier nicht, deshalb ==
                 const newArticleReference = ArticleReference({articleid: req.params.articleid, answerids: []})
                 if (eval('userData.' + arrayToUpdate + '.length') === 0) {
-                    User.updateOne({"firebaseid": req.query.voterid}, 
+                    User.updateOne({"firebaseid": req.body.voterid}, 
                         {
                             $addToSet: {
                                 [`${arrayToUpdate}`]: newArticleReference,
@@ -82,7 +80,7 @@ router.post('/updateArticleVoting/:articleid', (req, res) => {
                         } 
                     }
                     if (isNewArticle === true) {
-                        User.updateOne({"firebaseid": req.query.voterid}, 
+                        User.updateOne({"firebaseid": req.body.voterid}, 
                         {
                              $push: {
                                 [`${arrayToUpdate}`]: newArticleReference,

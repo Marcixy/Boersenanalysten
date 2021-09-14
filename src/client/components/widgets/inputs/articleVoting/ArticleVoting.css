@@ -1,0 +1,22 @@
+.article-voting {
+    display: inline-block;
+    text-align: center;
+}
+
+.article-voting p {
+    color: #aaaaaa;
+    font-size: 20px;
+    margin: 0;
+    justify-content: center;
+}
+
+.article-voting button {
+    background-color: transparent;
+    border: none;
+    color: #697075;
+    padding: 0;
+}
+
+.article-voting button:hover {
+    cursor: pointer;
+}

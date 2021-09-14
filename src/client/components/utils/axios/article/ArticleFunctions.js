@@ -60,3 +60,19 @@ export async function createArticle(title, content, tags, creatorId, articleType
     });
     return newArticle.data;
 }
+
+export async function updateArticleVoting(articleVoting, articleid, voterid) {
+    const articleVotingResponse = await axios({
+        url: `/updateArticleVoting/${articleid}`,
+        method: 'post',
+        data: {
+            voting: articleVoting,
+            voterid: voterid
+        }
+    }).catch((error) => {
+        console.error("Article Voting could not be updated", error);
+        alert("Beitrags Voting konnte nicht geupdatet werden. Bitte versuchen Sie es später erneut.");
+    });
+    console.log("articleVotingResponse: " + articleVotingResponse.data);
+    return articleVotingResponse.data;
+}

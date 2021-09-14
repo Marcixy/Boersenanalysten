@@ -5,7 +5,7 @@ import Answerlistitem from '../../widgets/outputs/answerlistitem/Answerlistitem'
 import ItemActions from '../../widgets/outputs/itemactions/ItemActions';
 import TagList from '../../widgets/outputs/taglist/Taglist';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
-import Voting from '../../widgets/inputs/voting/Voting';
+import ArticleVoting from '../../widgets/inputs/articleVoting/ArticleVoting';
 import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
 import { getArticleById } from '../../utils/axios/article/ArticleFunctions';
 import {
@@ -104,13 +104,18 @@ function Article() {
             <div className="article-page-content">
                 <h1>{articleData?.title}</h1>
                 <div className="article-content">
-                    <Voting
+                    <ArticleVoting
+                        articleid={articleData?._id}
+                        creatorid={articleData?.creator}
+                        articleVoting={articleData?.voting}
+                        voterid={userFirebaseid} />
+                    {/*<Voting
                         articleid={articleData?._id}
                         creatorid={articleData?.creator}
                         updateVotingAxiosUrl="updateArticleVoting"
                         getByIdAxiosUrl="getArticleById"
                         voting={articleData?.voting} 
-                        voterid={userFirebaseid} />
+                        voterid={userFirebaseid} />*/}
                     <div className="article-content-right">
                         <p>{articleData?.content}</p>
                         <TagList tagList={articleData?.tags} />
