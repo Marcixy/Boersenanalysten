@@ -73,6 +73,5 @@ export async function updateArticleVoting(articleVoting, articleid, voterid) {
         console.error("Article Voting could not be updated", error);
         alert("Beitrags Voting konnte nicht geupdatet werden. Bitte versuchen Sie es später erneut.");
     });
-    console.log("articleVotingResponse: " + articleVotingResponse.data);
     return articleVotingResponse.data;
 }

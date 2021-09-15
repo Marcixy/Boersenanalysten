@@ -101,19 +101,19 @@ router.post('/createAnswer/:articleid', (req, res) => {
 
 // Antwort wird up- und downgevotet
 router.post('/updateAnswerVoting/:articleid', (req, res) => {
-    Article.findOneAndUpdate({"_id": req.params.articleid, "answers._id": req.query.answerid},
+    Article.findOneAndUpdate({"_id": req.params.articleid, "answers._id": req.body.answerid},
     {
         $inc: {
-            "answers.$.voting": req.query.voting,
+            "answers.$.voting": req.body.voting,
         }
     }).then(() => {
         let arrayToUpdate = "";
         req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
         arrayToUpdate = arrayToUpdate + ".$[i].answerids";
-        User.findOneAndUpdate({"firebaseid": req.query.voterid},
+        User.findOneAndUpdate({"firebaseid": req.body.voterid},
         {
             $addToSet: {
-                [arrayToUpdate]: req.query.answerid
+                [arrayToUpdate]: req.body.answerid
             }
         },
         {
@@ -155,16 +155,16 @@ router.get('/getAnswerCreatorNames', (req, res) => {
 
 // Ein einzelne Antwort wird anhand der articleid und answerid geladen
 router.get('/getAnswerById', (req, res) => {
-    Article.find({"_id": req.query.articleid})
-        .then((articleData) => {
-            for (let i = 0; i < articleData[0].answers.length; i++) {
-                if (articleData[0].answers[i]._id.equals(req.query.answerid)) {
-                    res.json(articleData[0].answers[i]);
-                }
+    Article.find({"_id": req.query.articleid}).then((articleData) => {
+        for (let i = 0; i < articleData[0].answers.length; i++) {
+            if (articleData[0].answers[i]._id.equals(req.query.answerid)) {
+                console.log("articleData[0].answers[i]: " + articleData[0].answers[i]);
+                res.json(articleData[0].answers[i]);
             }
-        }).catch((error) => {
-            res.status(500).json({ msg: "Internal server error: " + error });
-        });
+        }
+    }).catch((error) => {
+        res.status(500).json({ msg: "Internal server error: " + error });
+    });
 });
 
 module.exports = router;

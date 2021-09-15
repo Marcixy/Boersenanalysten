@@ -1,0 +1,22 @@
+.answer-voting {
+    display: inline-block;
+    text-align: center;
+}
+
+.answer-voting p {
+    color: #aaaaaa;
+    font-size: 20px;
+    margin: 0;
+    justify-content: center;
+}
+
+.answer-voting button {
+    background-color: transparent;
+    border: none;
+    color: #697075;
+    padding: 0;
+}
+
+.answer-voting button:hover {
+    cursor: pointer;
+}

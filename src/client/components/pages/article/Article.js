@@ -109,13 +109,6 @@ function Article() {
                         creatorid={articleData?.creator}
                         articleVoting={articleData?.voting}
                         voterid={userFirebaseid} />
-                    {/*<Voting
-                        articleid={articleData?._id}
-                        creatorid={articleData?.creator}
-                        updateVotingAxiosUrl="updateArticleVoting"
-                        getByIdAxiosUrl="getArticleById"
-                        voting={articleData?.voting} 
-                        voterid={userFirebaseid} />*/}
                     <div className="article-content-right">
                         <p>{articleData?.content}</p>
                         <TagList tagList={articleData?.tags} />

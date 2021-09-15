@@ -291,4 +291,20 @@ router.get('/isArticleUpvotedFromUser', async (req, res) => {
     });
 });
 
+router.get('/isAnswerUpvotedFromUser', async (req, res) => {
+    await User.findById(req.query.userid).then(userData => {
+        for (let i = 0; i < userData.upvotings.length; i++) {
+            if (userData.upvotings[i].articleid == req.query.articleid) {
+                for (let j = 0; j < userData.upvotings[i].answerids.length; j++) {
+                    if (userData.upvotings[i].answerids[j] == req.query.answerid) {
+                        res.json(true);
+                    }
+                }
+                res.json(false);
+            }
+        }
+        res.json(false);
+    });
+});
+
 module.exports = router;
