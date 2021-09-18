@@ -17,14 +17,6 @@ function Answerlistitem(props) {
                 creatorid={props.creatorid}
                 answerVoting={props.voting}
                 voterid={props.voterid} />
-            {/*<Voting
-                answerid={props.answerid}
-                articleid={props.articleid}
-                creatorid={props.creatorid}
-                updateVotingAxiosUrl="updateAnswerVoting"
-                getByIdAxiosUrl="getAnswerById"
-                voting={props.voting}
-                voterid={props.voterid} />*/}
             <div className="answer-content-right">
                 <p>{props.content}</p>
                 <p>{props.created}</p>

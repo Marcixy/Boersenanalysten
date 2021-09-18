@@ -108,7 +108,7 @@ router.post('/updateAnswerVoting/:articleid', (req, res) => {
         }
     }).then(() => {
         let arrayToUpdate = "";
-        req.query.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
+        req.body.voting == 1 ? arrayToUpdate = "upvotings" : arrayToUpdate = "downvotings";
         arrayToUpdate = arrayToUpdate + ".$[i].answerids";
         User.findOneAndUpdate({"firebaseid": req.body.voterid},
         {

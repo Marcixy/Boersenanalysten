@@ -280,30 +280,45 @@ router.get('/getUserUpvotings', async (req, res) => {
     res.json(arrayWithUpvotingArticleAndAnswerIds);
 });
 
-router.get('/isArticleUpvotedFromUser', async (req, res) => {
+router.get('/isArticleVotedFromUser', async (req, res) => {
     await User.findById(req.query.userid).then(userData => {
         for (let i = 0; i < userData.upvotings.length; i++) {
-            if (userData.upvotings[i].articleid == req.query.articleid) {
-                res.json(true);
+            if (String(userData.upvotings[i].articleid) === req.query.articleid) {
+                res.json("upvoted");
             }
         }
-        res.json(false);
+        for (let i = 0; i < userData.downvotings.length; i++) {
+            if (String(userData.downvotings[i].articleid) === req.query.articleid) {
+                res.json("downvoted");
+            }
+        }
+        res.json("");
     });
 });
 
-router.get('/isAnswerUpvotedFromUser', async (req, res) => {
+router.get('/isAnswerVotedFromUser', async (req, res) => {
     await User.findById(req.query.userid).then(userData => {
         for (let i = 0; i < userData.upvotings.length; i++) {
-            if (userData.upvotings[i].articleid == req.query.articleid) {
+            if (String(userData.upvotings[i].articleid) === req.query.articleid) {
                 for (let j = 0; j < userData.upvotings[i].answerids.length; j++) {
-                    if (userData.upvotings[i].answerids[j] == req.query.answerid) {
-                        res.json(true);
+                    if (String(userData.upvotings[i].answerids[j]) === req.query.answerid) {
+                        res.json("upvoted");
                     }
                 }
-                res.json(false);
+                res.json("");
             }
         }
-        res.json(false);
+        for (let i = 0; i < userData.downvotings.length; i++) {
+            if (String(userData.downvotings[i].articleid) === req.query.articleid) {
+                for (let j = 0; j < userData.downvotings[i].answerids.length; j++) {
+                    if (String(userData.downvotings[i].answerids[j]) == req.query.answerid) {
+                        res.json("downvoted");
+                    }
+                }
+                res.json("");
+            }
+        }
+        res.json("");
     });
 });
 

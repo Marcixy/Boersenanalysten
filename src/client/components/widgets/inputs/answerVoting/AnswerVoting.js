@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // own component imports
-import { isAnswerUpvotedFromUser } from '../../../utils/axios/user/UserFunctions';
+import { isAnswerVotedFromUser } from '../../../utils/axios/user/UserFunctions';
 
 // material-ui imports
 import Tooltip from '@material-ui/core/Tooltip';
@@ -20,15 +20,14 @@ import './AnswerVoting.css';
 
 function AnswerVoting(props) {
     const [answerVoting, setAnswerVoting] = useState(props.answerVoting);
-    const [upvotedFromUser, setUpvotedFromUser] = useState(false);
+    const [isAnswerVoted, setIsAnswerVoted] = useState("");     // "upvoted", "downvoted" or ""
     const userid = useSelector(state => state.user.userid); 
 
     useEffect(() => {
         setAnswerVoting(props.answerVoting);
         async function getIsAnswerUpvotedFromUser() {
-            const upvotedFromUserResponse = await isAnswerUpvotedFromUser(userid, props.articleid);
-            setUpvotedFromUser(upvotedFromUserResponse);
-            console.log("isAnswerUpvotedFromUser: " + upvotedFromUser);
+            const votedFromUserResponse = await isAnswerVotedFromUser(userid, props.articleid, props.answerid);
+            setIsAnswerVoted(votedFromUserResponse);
         }
         getIsAnswerUpvotedFromUser();
     }, [props.answerVoting])
@@ -48,7 +47,7 @@ function AnswerVoting(props) {
                 <IconButton onClick={() => updateVoting(1, 10)}>
                     <ArrowDropUpIcon 
                         iconStyle={{width: '56px', height: '56px'}}
-                        style={{width: '56px', height: '56px', color: upvotedFromUser ? '#F48225' : '#696F75' }} />
+                        style={{width: '56px', height: '56px', color: isAnswerVoted === "upvoted" ? '#F48225' : '#696F75' }} />
                 </IconButton>
             </Tooltip>
             <p>{answerVoting}</p>
@@ -56,7 +55,7 @@ function AnswerVoting(props) {
                 <IconButton onClick={() => updateVoting(-1, -3)}>
                     <ArrowDropDownIcon
                         iconStyle={{width: '56px', height: '56px'}}
-                        style={{width: '56px', height: '56px' }} />
+                        style={{width: '56px', height: '56px', color: isAnswerVoted === "downvoted" ? '#F48225' : '#696F75' }} />
                 </IconButton>
             </Tooltip>
         </div>

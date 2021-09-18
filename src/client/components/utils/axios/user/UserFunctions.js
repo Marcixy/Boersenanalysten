@@ -112,8 +112,8 @@ export async function getUserUpvotings(userId, articleid) {
     return votings.data;
 }
 
-export async function isArticleUpvotedFromUser(userid, articleid) {
-    const isUpVotedFromUser = await axios.get(`/isArticleUpvotedFromUser`, {
+export async function isArticleVotedFromUser(userid, articleid) {
+    const isVotedFromUser = await axios.get(`/isArticleVotedFromUser`, {
         params: {
             userid: userid,
             articleid: articleid
@@ -121,20 +121,20 @@ export async function isArticleUpvotedFromUser(userid, articleid) {
     }).catch((error) => {
         console.error("Is Article upvoted from user could not be loaded.", error);
     });
-    return isUpVotedFromUser.data;
+    return isVotedFromUser.data;
 }
 
-export async function isAnswerUpvotedFromUser(userid, articleid, answerid) {
-    const isUpVotedFromUser = await axios.get(`/isAnswerUpvotedFromUser`, {
+export async function isAnswerVotedFromUser(userid, articleid, answerid) {
+    const isVotedFromUser = await axios.get(`/isAnswerVotedFromUser`, {
         params: {
             userid: userid,
             articleid: articleid,
             answerid: answerid
         }
     }).catch((error) => {
-        console.error("Is Answer upvoted from user could not be loaded.", error);
+        console.error("Is Answer voted from user could not be loaded.", error);
     });
-    return isUpVotedFromUser.data;
+    return isVotedFromUser.data;
 }
 
 export async function getUserVotingCount(userId, votingType) {
