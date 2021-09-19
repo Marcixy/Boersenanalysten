@@ -14,6 +14,8 @@ const User = require('../models/User');
 
 // Neue Antwort wird erstellt
 router.post('/createAnswer/:articleid', (req, res) => {
+    console.log("req.params.articleid: " + req.params.articleid);
+    console.log("answerData: " + req.body);
     const answerData = req.body;
     const newAnswer = Answer(answerData);
     // Neue Antwort für Beitrag erstellen

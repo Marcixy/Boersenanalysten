@@ -281,18 +281,20 @@ router.get('/getUserUpvotings', async (req, res) => {
 });
 
 router.get('/isArticleVotedFromUser', async (req, res) => {
+    console.log("req.query.userid: " + req.query.userid);
+    console.log("req.query.articleid: " + req.query.articleid);
     await User.findById(req.query.userid).then(userData => {
         for (let i = 0; i < userData.upvotings.length; i++) {
             if (String(userData.upvotings[i].articleid) === req.query.articleid) {
-                res.json("upvoted");
+                return res.status(200).json("upvoted");
             }
         }
         for (let i = 0; i < userData.downvotings.length; i++) {
             if (String(userData.downvotings[i].articleid) === req.query.articleid) {
-                res.json("downvoted");
+                return res.status(200).json("downvoted");
             }
         }
-        res.json("");
+        return res.status(204).json("");
     });
 });
 
@@ -302,23 +304,23 @@ router.get('/isAnswerVotedFromUser', async (req, res) => {
             if (String(userData.upvotings[i].articleid) === req.query.articleid) {
                 for (let j = 0; j < userData.upvotings[i].answerids.length; j++) {
                     if (String(userData.upvotings[i].answerids[j]) === req.query.answerid) {
-                        res.json("upvoted");
+                        return res.status(200).json("upvoted");
                     }
                 }
-                res.json("");
+                return res.status(204).json("");
             }
         }
         for (let i = 0; i < userData.downvotings.length; i++) {
             if (String(userData.downvotings[i].articleid) === req.query.articleid) {
                 for (let j = 0; j < userData.downvotings[i].answerids.length; j++) {
                     if (String(userData.downvotings[i].answerids[j]) == req.query.answerid) {
-                        res.json("downvoted");
+                        return res.status(200).json("downvoted");
                     }
                 }
-                res.json("");
+                return res.status(204).json("");
             }
         }
-        res.json("");
+        return res.status(204).json("");
     });
 });
 
