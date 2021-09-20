@@ -6,6 +6,7 @@ import SortingActions from '../../widgets/outputs/sortingactions/SortingActions'
 import Pagination from '../../widgets/outputs/pagination/Pagination';
 import ArticleTypeSelection from '../../widgets/inputs/articleTypeSelection/ArticleTypeSelection';
 import TagInput from '../../widgets/inputs/tagInput/TagInput';
+import Loading from '../../widgets/outputs/loading/Loading';
 import { 
     getArticleCount,
     getArticlelist,
@@ -73,7 +74,7 @@ function Articlelist() {
                 creator={articleCreatorNames[index]}
                 creatorId={article.creator}
                 created={article.createdAt} />
-        )) : <p>Noch keine Beiträge vorhanden.</p>;
+        )) : <Loading />
     }
 
     const getArticleList = (event, currentPage) => {

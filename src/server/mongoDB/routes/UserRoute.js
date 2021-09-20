@@ -281,12 +281,10 @@ router.get('/getUserUpvotings', async (req, res) => {
 });
 
 router.get('/isArticleVotedFromUser', async (req, res) => {
-    console.log("req.query.userid: " + req.query.userid);
-    console.log("req.query.articleid: " + req.query.articleid);
     await User.findById(req.query.userid).then(userData => {
         for (let i = 0; i < userData.upvotings.length; i++) {
             if (String(userData.upvotings[i].articleid) === req.query.articleid) {
-                return res.status(200).json("upvoted");
+                 return res.status(200).json("upvoted");
             }
         }
         for (let i = 0; i < userData.downvotings.length; i++) {

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import Articlelistitem from '../../../widgets/outputs/articlelistitem/Articlelistitem';
 import Pagination from '../../../widgets/outputs/pagination/Pagination';
+import Loading from '../../../widgets/outputs/loading/Loading';
 import {
     getUserArticles,
     getUserArticleCount
@@ -51,7 +52,7 @@ function UserArticlelist(props) {
                 views={article.views}
                 creatorId={article.creator}
                 created={article.createdAt} /> 
-        )) : <p>Noch keine Beiträge vorhanden.</p>;
+        )) : <Loading />
     }
 
     return (

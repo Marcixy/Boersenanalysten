@@ -6,6 +6,7 @@ import ItemActions from '../../widgets/outputs/itemactions/ItemActions';
 import TagList from '../../widgets/outputs/taglist/Taglist';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import ArticleVoting from '../../widgets/inputs/articleVoting/ArticleVoting';
+import Loading from '../../widgets/outputs/loading/Loading';
 import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
 import { getArticleById } from '../../utils/axios/article/ArticleFunctions';
 import {
@@ -14,9 +15,7 @@ import {
 } from '../../utils/axios/answer/AnswerFunctions';
 
 // material-ui imports
-import {
-    Button
-} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -34,6 +33,7 @@ function Article() {
     const [isArticleCreator, setIsArticleCreator] = useState(false);
     
     const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+    const userid = useSelector(state => state.user.userid);
 
     const { articleId } = useParams();
 
@@ -69,7 +69,7 @@ function Article() {
     }
 
     const displayAnswerData = (answers) => {
-        return answers.map((answer, index) => (
+        return answers.length !== 0 ? answers.map((answer, index) => (
             <Answerlistitem
                 answerid={answer._id}
                 articleid={answer.articleid}
@@ -79,7 +79,7 @@ function Article() {
                 creator={answerCreatorNames[index]}
                 creatorid={answer.creator}
                 voterid={userFirebaseid} />
-        ));
+        )) : <Loading timeout="1000" />
     }
 
     let articleActions;

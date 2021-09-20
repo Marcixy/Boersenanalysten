@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import Useranswerlistitem from '../../../widgets/outputs/useranswerlistitem/Useranswerlistitem';
 import Pagination from '../../../widgets/outputs/pagination/Pagination';
+import Loading from '../../../widgets/outputs/loading/Loading';
 import {
     getUserAnswers,
     getUserAnswerCount
@@ -51,7 +52,7 @@ function UserAnswerlist(props) {
                 voting={article.voting}
                 creatorId={article.creator}
                 created={article.createdAt} />
-        )) : <p>Noch keine Antworten vorhanden.</p>;
+        )) : <Loading />
     }
 
     return (

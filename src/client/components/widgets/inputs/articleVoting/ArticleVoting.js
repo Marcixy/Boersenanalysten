@@ -24,7 +24,7 @@ function ArticleVoting(props) {
     const [articleVoting, setArticleVoting] = useState(props.articleVoting);
     const [isArticleVoted, setIsArticleVoted] = useState("");   // "upvoted", "downvoted" or ""
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const userid = useSelector(state => state.user.userid); 
+    const userid = useSelector(state => state.user.userid);
 
     const showSnackbar = () => { setOpenSnackbar(true); };
     const handleClose = () => { setOpenSnackbar(false); };
@@ -32,9 +32,10 @@ function ArticleVoting(props) {
     useEffect(() => {
         setArticleVoting(props.articleVoting);
         async function getIsArticleUpvotedFromUser() {
-            console.log("userid: " + userid);
-            const votedFromUserResponse = await isArticleVotedFromUser(userid, props.articleid);
-            setIsArticleVoted(votedFromUserResponse);
+            if (userid !== "") {
+                const votedFromUserResponse = await isArticleVotedFromUser(userid, props.articleid);
+                setIsArticleVoted(votedFromUserResponse);
+            }
         }
         getIsArticleUpvotedFromUser();
     }, [props.articleVoting, props.articleid, userid])

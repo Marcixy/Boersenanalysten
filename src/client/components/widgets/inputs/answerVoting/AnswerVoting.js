@@ -32,11 +32,13 @@ function AnswerVoting(props) {
     useEffect(() => {
         setAnswerVoting(props.answerVoting);
         async function getIsAnswerUpvotedFromUser() {
-            const votedFromUserResponse = await isAnswerVotedFromUser(userid, props.articleid, props.answerid);
-            setIsAnswerVoted(votedFromUserResponse);
+            if (userid !== "") {
+                const votedFromUserResponse = await isAnswerVotedFromUser(userid, props.articleid, props.answerid);
+                setIsAnswerVoted(votedFromUserResponse);
+            }
         }
         getIsAnswerUpvotedFromUser();
-    }, [props.answerVoting])
+    }, [props.answerVoting, props.articleid, props.answerid, userid])
 
     const updateVoting = (answerVoting, incValue) => {
         if (userid === props.creatorid) {

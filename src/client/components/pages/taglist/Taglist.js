@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import Taglistitem from '../../widgets/outputs/taglistitem/Taglistitem';
 import Pagination from '../../widgets/outputs/pagination/Pagination';
+import Loading from '../../widgets/outputs/loading/Loading';
 import { 
     getTaglist,
     getTagCount
@@ -42,7 +43,7 @@ function Taglist() {
     }
 
     const displayTagList = (tags) => {
-        return tags.map((tag, index) => (
+        return tags?.length !== 0 ? tags?.map((tag, index) => (
             <Taglistitem 
                 id={tag._id}
                 index={index}
@@ -50,7 +51,7 @@ function Taglist() {
                 articleCounter={tag.articleCounter}
                 status={tag.status}
                 createdAt={tag.createdAt} />
-        ));
+        )) : <Loading />
     }
 
     return (

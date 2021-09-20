@@ -32,7 +32,8 @@ export async function createAnswer(articleId, content, creatorId) {
         method: 'post',
         data: {
             content: content,
-            creator: creatorId
+            creator: creatorId,
+            articleid: articleId
         }
     }).catch((error) => {
         console.error("Create Answer failed", error);

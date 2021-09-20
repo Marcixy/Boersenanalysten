@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // own component imports
 import Votinglistitem from '../../../widgets/outputs/votinglistitem/Votinglistitem';
 import Pagination from '../../../widgets/outputs/pagination/Pagination';
+import Loading from '../../../widgets/outputs/loading/Loading';
 import { 
     getUserVotings,
     getUserVotingCount
@@ -57,7 +58,7 @@ function UserVotinglist(props) {
                 title={article.title}
                 articleType={article.articleType}
                 upOrDownvoting={props.upOrDownvoting} />
-        )) : <p>Noch keine {props.upOrDownvoting}s vorhanden.</p>;
+        )) : <Loading />
     }
 
     return (
