@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 // own component imports
 import ChoiceDialog from '../widgets/dialogs/ChoiceDialog';
-import firebaseConfig from '../../../server/firebase/Config';
 import { getUserByFirebaseid } from '../utils/axios/user/UserFunctions';
 import { userActions } from '../utils/redux/store/userSlice';
+/* eslint-disable no-unused-vars */
+import firebaseConfig from '../../../server/firebase/Config';
+/* eslint-enable no-unused-vars */
 
 // material-ui imports
 import {
@@ -54,13 +56,11 @@ function Navigationbar() {
                         email: userResponse[0].email,
                         username: userResponse[0].username,
                         shareCounter: userResponse[0].shareCounter }));
-                }).catch((error) => {
-                    console.log(error);
                 });
             }
         });
         return () => unsubscribe();
-    }, [])
+    }, [dispatch])
 
     const signOut = () => {
         firebase.auth().signOut().then(function() {

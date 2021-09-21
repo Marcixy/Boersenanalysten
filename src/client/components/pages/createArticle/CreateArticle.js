@@ -51,7 +51,6 @@ function CreateArticle() {
             getUserByFirebaseid().then((userResponse) => {
                 const userData = userResponse[0];
                 createArticle(title, content, tags, userData._id, articleType).then((articleResponse) => {
-                    console.log("Article successfully created");
                     toArticle.push(`/article/${articleResponse._id}`);
                 });
             });
@@ -109,7 +108,7 @@ function CreateArticle() {
                     variant="outlined"
                     error={titleError}
                     helperText={titleErrorText}
-                    inputProps={{ maxLength: 100 }}
+                    inputProps={{ maxLength: 50 }}
                     onChange={(event) => setTitle(event.target.value)}
                     fullWidth
                     autoFocus />

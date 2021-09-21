@@ -19,7 +19,7 @@ export async function getUserByFirebaseid() {
             firebaseid: firebase.auth().currentUser.uid
         }
     }).catch((error) => {
-        console.error("User are not loaded with firebaseid", error);
+        console.error("User are not loaded with firebaseid. ", error);
         alert("Benutzerdaten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.");
     });
     return user.data;
@@ -164,6 +164,20 @@ export async function registerUser(email, username) {
     });
 }
 
+export async function updateEmail(userid, email) {
+    await axios({
+        url: '/updateEmail',
+        method: 'post',
+        data: {
+            userid: userid,
+            email: email
+        }
+    }).catch((error) => {
+        console.error("Update email failed. ", error);
+        alert("Email konnte nicht aktualisiert werden.");
+    });
+}
+
 export async function updateShareCounter(incValue, userid) {
     await axios({
         url: '/updateShareCounter',
@@ -173,7 +187,7 @@ export async function updateShareCounter(incValue, userid) {
             incValue: incValue,
         }
     }).catch((error) => {
-        console.error("update share counter failed", error);
+        console.error("Update share counter failed. ", error);
         alert("Aktienanteile konnten nicht aktualisiert werden.");
     });
 }

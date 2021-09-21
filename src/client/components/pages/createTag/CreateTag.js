@@ -29,8 +29,13 @@ function CreateTag() {
 
     const toTaglist = useHistory();
 
+    // Verbindung zu TextEditor Komponente um auf die eingegebene Tag Beschreibung Zugriff zu bekommen.
+    const callbackTagDescription = (tagDescription) => { setTagDescription(tagDescription); }
+
     const createNewTag = () => {
-        if (checkTag() === true) {
+        const isTagTitelValid = checkTagTitle();
+        const isTagDescriptionValid = checkTagDescription();
+        if (isTagTitelValid === true && isTagDescriptionValid === true) {
             getUserByFirebaseid().then((userResponse) => {
                 createTag(tagname, tagDescription, userResponse[0]._id).then(() => {
                     toTaglist.push('/taglist');
@@ -39,7 +44,7 @@ function CreateTag() {
         }
     }
 
-    const checkTag = () => {
+    const checkTagTitle = () => {
         if (tagname.length === 0) {
             setTagError(true);
             setTagErrorText("Bitte gib einen Tagnamen ein.");
@@ -50,10 +55,15 @@ function CreateTag() {
         return true;
     }
 
-    // Verbindung zu TextEditor Komponente um auf die eingegebene Tag Beschreibung 
-    // Zugriff zu bekommen.
-    const callbackTagDescription = (tagDescription) => {
-        setTagDescription(tagDescription);
+    const checkTagDescription = () => {
+        if (tagDescription.length === 0) {
+            setTagDescriptionError(true);
+            setTagDescriptionErrorText("Bitte gib eine Tag Beschreibung ein.");
+            return false;
+        }
+        setTagDescriptionError(false);
+        setTagDescriptionErrorText("");
+        return true;
     }
 
     return (

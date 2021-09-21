@@ -43,8 +43,6 @@ function Article() {
             setAnswerData(articleResponse[0].answers);
             getAnswerCreatorNames(articleResponse[0]._id).then((answerCreatorNameResponse) => {
                 setAnswerCreatorNames(answerCreatorNameResponse);
-            }).catch((error) => {
-                console.log(error);
             });
             firebase.auth().onAuthStateChanged(function(user) {
                 getUserByFirebaseid().then((userResponse) => {
@@ -54,22 +52,20 @@ function Article() {
                         setIsArticleCreator(false);
                     }
                     setUserFirebaseid(user.uid);
-                }).catch((error) => {
-                    console.log(error);
-                })
+                });
             })
         });
     }, [articleId])
 
     const createNewAnswer = () => {
-        getUserByFirebaseid().then((userResponse) => {
-            createAnswer(articleId, editorContent, userResponse[0]._id);
+        getUserByFirebaseid().then(() => {
+            createAnswer(articleId, editorContent, userid);
             window.location.reload();
         });
     }
 
     const displayAnswerData = (answers) => {
-        return answers.length !== 0 ? answers.map((answer, index) => (
+        return answers?.length !== 0 ? answers?.map((answer, index) => (
             <Answerlistitem
                 answerid={answer._id}
                 articleid={answer.articleid}

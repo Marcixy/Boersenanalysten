@@ -48,7 +48,7 @@ function App() {
       <Route exact path="/forgotPassword" component={ ForgotPassword } />
       <Route exact path="/portfolioHistory/:id" component={ PortfolioHistory } />
       <Route exact path="/profileSettings/:id" component={ ProfileSettings } />
-      <Route exact path="/emailSettings/:id" component={ EmailSettings } />
+      <Route exact path="/emailSettings/:userid" component={ EmailSettings } />
       <Route exact path="/passwordSettings/:id" component={ PasswordSettings } />
       <Route exact path="/deleteAccount/:id" component={ DeleteAccount } />
       <Route exact path="/taglist" component={ Taglist } />

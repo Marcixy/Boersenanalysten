@@ -32,7 +32,21 @@ router.post('/updateProfile', (req, res) => {
             aboutMe: userData.aboutMe
         }
     }).then((userData) => {
-        res.json(userData);
+        res.status(200).json(userData);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
+});
+
+// Email wird geupdatet
+router.post('/updateEmail', (req, res) => {
+    User.findOneAndUpdate({"_id": req.body.userid},
+    {
+        $set: {
+            email: req.body.email
+        }
+    }).then((userData) => {
+        res.status(200).json(userData);
     }).catch((error) => {
         res.status(500).json({ msg: error });
     });

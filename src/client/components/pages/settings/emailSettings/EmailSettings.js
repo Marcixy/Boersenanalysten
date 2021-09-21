@@ -3,13 +3,15 @@ import React, { useState, useEffect } from 'react';
 // own-component imports
 import SettingsMenu from '../../../widgets/outputs/settingsmenu/SettingsMenu';
 import UserNavigationbar from '../../../widgets/outputs/usernavigationbar/UserNavigationbar';
-import { getUserById } from '../../../utils/axios/user/UserFunctions';
+import { getUserById, updateEmail } from '../../../utils/axios/user/UserFunctions';
 
 // material-ui imports
 import {
     Button,
+    Snackbar,
     TextField
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -17,9 +19,8 @@ import firebase from 'firebase/app';
 
 import './EmailSettings.css';
 
-
 function EmailSettings() {
-    const { id } = useParams();
+    const { userid } = useParams();
 
     // Eingabefelder für E-Mail ändern
     const [email, setEmail] = useState("");
@@ -33,11 +34,15 @@ function EmailSettings() {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const showSnackbar = () => { setOpenSnackbar(true); };
+    const handleClose = () => { setOpenSnackbar(false); };
+
     useEffect(() => {
-        getUserById(id).then((userResponse) => {
+        getUserById(userid).then((userResponse) => {
             setEmail(userResponse[0].email);
         });
-    }, [])
+    }, [userid])
 
     const changeEmail = () => {
         const isEmailValid = checkEmail();
@@ -45,12 +50,13 @@ function EmailSettings() {
         if (isEmailValid === true && isPasswordValid === true) {
             reauthenticateUser(password).then(() => {
                 const user = firebase.auth().currentUser;
-                user.updateEmail(email).then(() => {
-                    alert("E-Mail wurde erfolgreich aktualisiert.");
-                    window.location.reload();
-                    console.log("E-Mail wurde erfolgreich aktualisiert.");
-                }).catch((error) => {
-                    console.log(error);
+                updateEmail(userid, email).then(() => {
+                    user.updateEmail(email).then(() => {
+                        showSnackbar();
+                        setTimeout(function() { window.location.reload(); }, 2000);
+                    }).catch((error) => {
+                        console.log(error);
+                    });
                 });
             }).catch((error) => {
                 console.log(error.code);
@@ -93,7 +99,7 @@ function EmailSettings() {
     const checkPassword = () => {
         if (password === "") {
             setPasswordError(true);
-            setPasswordErrorText("Bitte gib ein Passwort ein.");
+            setPasswordErrorText("Bitte gib dein Passwort ein.");
             return false;
         }
         setPasswordError(false);
@@ -103,8 +109,8 @@ function EmailSettings() {
 
     return (
         <div className="email-settings-page">
-            <UserNavigationbar userid={id} />
-            <SettingsMenu userid={id} />
+            <UserNavigationbar userid={userid} />
+            <SettingsMenu userid={userid} />
             <div className="password-settings-section">
                 <h2>E-Mail</h2>
                 <TextField
@@ -129,6 +135,15 @@ function EmailSettings() {
                     variant="contained"
                     color="primary"
                     onClick={() => changeEmail()}>Speichern</Button>
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={2000}
+                    onClose={handleClose}>
+                    <Alert 
+                        severity="success"
+                        onClose={() => handleClose()}
+                        style={{backgroundColor: '#4D9A51', color: 'white'}}>Email wurde erfolgreich aktualisiert.</Alert>
+                </Snackbar>
             </div>
         </div>
     )

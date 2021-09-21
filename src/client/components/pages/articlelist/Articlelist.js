@@ -37,7 +37,6 @@ function Articlelist() {
     const [titleFilter, setTitleFilter] = useState("");
     const [articleTypeFilter, setArticleTypeFilter] = useState("all");
     const [tagFilter, setTagFilter] = useState([]);
-    const [tags, setTags] = useState([]);
     const [sortCriteria, setSortCriteria] = useState("createdAt");
     const [articleData, setArticleData] = useState([]);
     const [articleCreatorNames, setArticleCreatorNames] = useState([]);
@@ -52,13 +51,20 @@ function Articlelist() {
     const callbackArticleType = (articleType) => { setArticleTypeFilter(articleType); }
 
     useEffect(() => {
+        const getArticleList = (event, currentPage) => {
+            setCurrentPage(currentPage);
+            getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((articlelistResponse) => {
+                setArticleData(articlelistResponse);
+                getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
+                    setArticleCreatorNames(response);
+                });
+            });
+        }
         getArticleList(null, currentPage);
         getArticleCount().then((articleCountResponse) => {
             setPaginationCount(Math.ceil(articleCountResponse / 10)); 
-        }).catch((error) => {
-            console.error("Articlecount is not loaded", error);
         });
-    }, [sortCriteria])
+    }, [sortCriteria, currentPage, articleTypeFilter, tagFilter, titleFilter])
 
     const displayArticleData = (articles) => {
         return articles?.length !== 0 ? articles?.map((article, index) => (
@@ -77,6 +83,7 @@ function Articlelist() {
         )) : <Loading />
     }
 
+    // TODO getArticleList nur 1x in Articlelist.js implementieren bisher braucht man diese Funktion hier noch für den Seitenwechsel
     const getArticleList = (event, currentPage) => {
         setCurrentPage(currentPage);
         getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((articlelistResponse) => {
@@ -124,10 +131,6 @@ function Articlelist() {
                             parentCallbackArticleType={ callbackArticleType } />
                         <TagInput
                             parentCallbackTags={ callbackTagFilter } />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => getArticleList() }>Suchen</Button>
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
