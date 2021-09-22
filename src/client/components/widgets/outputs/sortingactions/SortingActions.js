@@ -10,9 +10,7 @@ import './SortingActions.css';
 
 function SortingActions({ parentCallbackSortCriteria }) {
 
-    const setNewSortCriteria = (newSortCriteria) => {
-        parentCallbackSortCriteria(newSortCriteria);
-    }
+    const setNewSortCriteria = (newSortCriteria) => { parentCallbackSortCriteria(newSortCriteria); }
 
     return (
         <ButtonGroup variant="text" size="small" color="primary">

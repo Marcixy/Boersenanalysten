@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import TextEditor from '../../../widgets/inputs/textEditor/TextEditor';
 import SettingsMenu from '../../../widgets/outputs/settingsmenu/SettingsMenu';
 import UserNavigationbar from '../../../widgets/outputs/usernavigationbar/UserNavigationbar';
-import { getUserById } from '../../../utils/axios/user/UserFunctions';
+import { getUserById, updateProfile } from '../../../utils/axios/user/UserFunctions';
 
 // material-ui imports
 import {
@@ -14,7 +14,6 @@ import {
 
 // third-party imports
 import { useParams } from "react-router-dom";
-import axios from 'axios';
 
 import './ProfileSettings.css';
 
@@ -28,31 +27,21 @@ function ProfileSettings() {
     const [usernameError, setUsernameError] = useState(false);
     const [aboutMeError, setAboutMeError] = useState(false);
 
-    const { id } = useParams();
+    const { userid } = useParams();
 
     useEffect(() => {
-        getUserById(id).then((userResponse) => {
+        getUserById(userid).then((userResponse) => {
             setUsername(userResponse[0].username);
             setAboutMe(userResponse[0].aboutMe);
         });
-    }, [])
+    }, [userid])
 
-    const updateProfile = () => {
+    const changeProfile = () => {
         const isUsernameValid = checkUsername();
         const isAboutMeValid = checkAboutMe();
         if (isUsernameValid === true && isAboutMeValid === true) {
-            axios({
-                url: '/updateProfile',
-                method: 'post',
-                data: {
-                    id: id,
-                    username: username,
-                    aboutMe: aboutMe
-                }
-            }).then(() => {
+            updateProfile(userid, username, aboutMe).then(() => {
                 window.location.reload();
-            }).catch((error) => {
-                console.error("Update Userprofile was not successfully. " + error);
             });
         }
     }
@@ -91,8 +80,8 @@ function ProfileSettings() {
 
     return (
         <div className="profile-settings-page">
-            <UserNavigationbar userid={id} />
-            <SettingsMenu userid={id} />
+            <UserNavigationbar userid={userid} />
+            <SettingsMenu userid={userid} />
             <div className="profile-settings-section">
                 <h2>Profil</h2>
                 <TextField
@@ -112,7 +101,7 @@ function ProfileSettings() {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => updateProfile()}>Speichern</Button>
+                    onClick={() => changeProfile()}>Speichern</Button>
             </div>
         </div>
     )

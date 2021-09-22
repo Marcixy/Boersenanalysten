@@ -164,6 +164,21 @@ export async function registerUser(email, username) {
     });
 }
 
+export async function updateProfile(userid, username, aboutMe) {
+    await axios({
+        url: '/updateProfile',
+        method: 'post',
+        data: {
+            userid: userid,
+            username: username,
+            aboutMe: aboutMe
+        }
+    }).catch((error) => {
+        console.error("Update profile failed. ", error);
+        alert("Profil konnte nicht aktualisiert werden.");
+    });
+}
+
 export async function updateEmail(userid, email) {
     await axios({
         url: '/updateEmail',

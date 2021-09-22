@@ -23,13 +23,28 @@ router.post('/registerUser', (req, res) => {
 });
 
 // Benutzername und Beschreibung wird geupdatet
-router.post('/updateProfile', (req, res) => {
+/*router.post('/updateProfile', (req, res) => {
     const userData = req.body;
     User.findOneAndUpdate({"_id": userData.id},
     {
         $set: {
             username: userData.username,
             aboutMe: userData.aboutMe
+        }
+    }).then((userData) => {
+        res.status(200).json(userData);
+    }).catch((error) => {
+        res.status(500).json({ msg: error });
+    });
+});*/
+
+// Benutzername und Beschreibung wird geupdatet
+router.post('/updateProfile', (req, res) => {
+    User.findOneAndUpdate({"_id": req.body.userid},
+    {
+        $set: {
+            username: req.body.username,
+            aboutMe: req.body.aboutMe
         }
     }).then((userData) => {
         res.status(200).json(userData);

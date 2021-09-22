@@ -29,7 +29,7 @@ function Taglist() {
 
     useEffect(() => {
         getNewTagList(null, currentPage);
-    }, []);
+    }, [currentPage]);
 
     const getNewTagList = (event, currentPage) => {
         setCurrentPage(currentPage);
