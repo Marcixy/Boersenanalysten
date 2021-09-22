@@ -10,8 +10,7 @@ import {
     getUserById,
     getUserAnswerCount,
     getUserArticleCount,
-    getUserVotingCount,
-    getUserUpvotings
+    getUserVotingCount
  } from '../../utils/axios/user/UserFunctions';
 
 // material-ui imports
@@ -62,10 +61,6 @@ function Userprofile() {
         });
         getUserVotingCount(id, "downvotings").then((downVotingCountResponse) => {
             setDownVotingCount(downVotingCountResponse); 
-        });
-        // TODO hier weitermachen und entscheiden ob getUserUpvotings gelöscht werden kann oder doch noch gebraucht wird.
-        getUserUpvotings(id, "611ac9fd92b0bd2ef4a6e248").then((testResponse) => {
-            setTest(testResponse);
         });
     }, [])
 

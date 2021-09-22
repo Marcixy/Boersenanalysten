@@ -283,32 +283,6 @@ router.get('/getUserVotingCount', async (req, res) => {
     });
 });
 
-// TODO hier weitermachen! Ist noch nicht fertig implementiert
-router.get('/getUserUpvotings', async (req, res) => {
-    let arrayWithUpvotingArticleAndAnswerIds = [];
-    console.log("Userid: " + req.query._id);
-    console.log("Articleid: " + req.query.articleid);
-    await User.findById(req.query._id).then(async (userData) => {
-        for (let i = 0; i < userData.upvotings.length; i++) {
-            console.log("userData.upvotings[i].articleid: " + userData.upvotings[i].articleid);
-            console.log("req.query.articleid: " + req.query.articleid);
-            if (userData.upvotings[i].articleid == req.query.articleid) {
-                console.log("Test");
-                if (userData.upvotings[i].articlevote === true) {
-                    arrayWithUpvotingArticleAndAnswerIds.push(userData.upvotings[i].articleid);
-                }
-                console.log("userData.upvotings[i].answerids.length: " + userData.upvotings[i].answerids.length);
-                for (let j = 0; j < userData.upvotings[i].answerids.length; j++) {
-                    arrayWithUpvotingArticleAndAnswerIds.push(userData.upvotings[i].answerids[j]._id);
-                }
-                break;
-            }
-        }
-    });
-    console.log("Array with Upvotings: " + arrayWithUpvotingArticleAndAnswerIds);
-    res.json(arrayWithUpvotingArticleAndAnswerIds);
-});
-
 router.get('/isArticleVotedFromUser', async (req, res) => {
     await User.findById(req.query.userid).then(userData => {
         for (let i = 0; i < userData.upvotings.length; i++) {
