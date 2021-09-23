@@ -1,10 +1,10 @@
 import axios from 'axios';
 import firebase from 'firebase/app';
 
-export async function getUserById(userId) {
+export async function getUserById(userid) {
     const user = await axios.get('/getUserById', {
         params: {
-            _id: userId
+            _id: userid
         }
     }).catch((error) => {
         console.error("User are not loaded with id", error);
@@ -25,10 +25,10 @@ export async function getUserByFirebaseid() {
     return user.data;
 }
 
-export async function getUserPortfolioArticles(userId) {
+export async function getUserPortfolioArticles(userid) {
     const portfolioArticle = await axios.get(`/getUserPortfolioArticles`, {
         params: {
-            _id: userId
+            _id: userid
         }
     }).catch((error) => {
         console.error("Portfolio Article are not loaded", error);
@@ -37,10 +37,10 @@ export async function getUserPortfolioArticles(userId) {
     return portfolioArticle.data;
 }
 
-export async function getUserAnswers(userId, sortCriteria, currentPage) {
+export async function getUserAnswers(userid, sortCriteria, currentPage) {
     const answers = await axios.get(`/getUserAnswers/${sortCriteria}`, {
         params: {
-            _id: userId,
+            _id: userid,
             currentPage: currentPage
         }
     }).catch((error) => {
@@ -50,10 +50,10 @@ export async function getUserAnswers(userId, sortCriteria, currentPage) {
     return answers.data;
 }
 
-export async function getUserAnswerCount(userId) {
+export async function getUserAnswerCount(userid) {
     const userAnswerCount = await axios.get('/getUserAnswerCount', {
         params: {
-            _id: userId,
+            _id: userid,
         }
     }).catch((error) => {
         console.error("Answer Count are not loaded", error);
@@ -61,10 +61,10 @@ export async function getUserAnswerCount(userId) {
     return userAnswerCount.data;
 }
 
-export async function getUserArticles(userId, sortCriteria, currentPage) {
+export async function getUserArticles(userid, sortCriteria, currentPage) {
     const articles = await axios.get(`/getUserArticles/${sortCriteria}`, {
         params: {
-            _id: userId,
+            _id: userid,
             currentPage: currentPage
         }
     }).catch((error) => {
@@ -74,10 +74,10 @@ export async function getUserArticles(userId, sortCriteria, currentPage) {
     return articles.data;
 }
 
-export async function getUserArticleCount(userId) {
+export async function getUserArticleCount(userid) {
     const userArticleCount = await axios.get('/getUserArticleCount', {
         params: {
-            _id: userId,
+            _id: userid
         }
     }).catch((error) => {
         console.error("Article Count are not loaded", error);
@@ -85,10 +85,10 @@ export async function getUserArticleCount(userId) {
     return userArticleCount.data;
 }
 
-export async function getUserVotings(userId, currentPage, votingType) {
+export async function getUserVotings(userid, currentPage, votingType) {
     const votings = await axios.get(`/getUserVotings`, {
         params: {
-            _id: userId,
+            _id: userid,
             currentPage: currentPage,
             votingType: votingType
         }
@@ -99,11 +99,11 @@ export async function getUserVotings(userId, currentPage, votingType) {
     return votings.data;
 }
 
-export async function isArticleVotedFromUser(userId, articleId) {
+export async function isArticleVotedFromUser(userid, articleid) {
     const isVotedFromUser = await axios.get(`/isArticleVotedFromUser`, {
         params: {
-            userid: userId,
-            articleid: articleId
+            userid: userid,
+            articleid: articleid
         }
     }).catch((error) => {
         console.error("Is Article upvoted from user could not be loaded.", error);
@@ -124,10 +124,10 @@ export async function isAnswerVotedFromUser(userid, articleid, answerid) {
     return isVotedFromUser.data;
 }
 
-export async function getUserVotingCount(userId, votingType) {
+export async function getUserVotingCount(userid, votingType) {
     const userVotingCount = await axios.get('/getUserVotingCount', {
         params: {
-            _id: userId,
+            _id: userid,
             votingType: votingType
         }
     }).catch((error) => {

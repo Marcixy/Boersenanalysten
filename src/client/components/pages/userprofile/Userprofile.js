@@ -43,8 +43,6 @@ function Userprofile() {
     const [sortCriteria, setSortCriteria] = useState("createdAt");
     const { id } = useParams();
 
-    const [test, setTest] = useState([]);
-
     useEffect(() => {
         getUserById(id).then((userResponse) => {
             const userData = userResponse[0];
@@ -62,7 +60,7 @@ function Userprofile() {
         getUserVotingCount(id, "downvotings").then((downVotingCountResponse) => {
             setDownVotingCount(downVotingCountResponse); 
         });
-    }, [])
+    }, [id])
 
     const displayList = () => {
         switch (listType) {

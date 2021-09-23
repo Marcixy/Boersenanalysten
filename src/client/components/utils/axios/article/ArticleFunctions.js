@@ -39,8 +39,18 @@ export async function getArticlelist(sortCriteria, currentPage, titleFilter = ""
     return articlelist?.data;
 }
 
-export async function getArticleCount() {
-    return (await axios.get('/getArticleCount')).data;
+export async function getArticleCount(titleFilter = "", articleTypeFilter = "", tagFilter = []) {
+    const articleCount = await axios.get(`/getArticleCount`, {
+        params: {
+            titleFilter: titleFilter,
+            articleTypeFilter: articleTypeFilter,
+            tagFilter: tagFilter
+        }
+    }).catch((error) => {
+        console.error("Article count are not loaded", error);
+        alert("Beitragsanzahl konnte nicht geladen werden. Bitte versuchen Sie es später erneut.");
+    });
+    return articleCount?.data;
 }
 
 export async function createArticle(title, content, tags, creatorId, articleType) {

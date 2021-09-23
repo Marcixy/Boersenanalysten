@@ -161,47 +161,22 @@ router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
         });    
 });
 
-// Beitragsliste mit Daten werden nach einem Sortierkriterium und
-// nach den eingestellten Filtern geladen.
+// Beitragsliste mit Daten werden nach einem Sortierkriterium und nach den eingestellten Filtern geladen.
 router.get('/getArticlelist/:sortCriteria', (req, res) => {
-    let tagFilterArray = [];
-    if (req.query.tagFilter !== undefined) {
-        console.log("req.query.tagFilter: " + req.query.tagFilter);
-        req.query.tagFilter = req.query.tagFilter.toString();
-        let tagFilterArray = req.query.tagFilter.split(',');
-        console.log("tagFilterArray: " + tagFilterArray);
-    }
-    if (req.query.articleTypeFilter === "all" && req.query.tagFilter === undefined) {
-        Article.find({ title: { $regex: req.query.titleFilter }})
+    const titleFilterCondition = req.query.titleFilter !== '' ? { title: { $regex: req.query.titleFilter }} : {};
+    const tagFilterCondition  = req.query.tagFilter !== undefined ? { tags: req.query.tagFilter } : {};
+    const articleTypeFilterCondition  = req.query.articleTypeFilter !== 'all' ? { articleType: req.query.articleTypeFilter } : {};
+    Article.find({...titleFilterCondition, ...tagFilterCondition, ...articleTypeFilterCondition })
         .sort({ [req.params.sortCriteria]: -1 })
         .limit(10).skip((req.query.currentPage - 1) * 10)
         .then((articleData) => {
-            res.json(articleData);
+            res.status(200).json(articleData);
         }).catch((error) => {
             res.status(500).json({ msg: "Internal server error: " + error });
         });
-    } else if (req.query.articleTypeFilter === "all") {
-        Article.find({ title: { $regex: req.query.titleFilter }, tags: req.query.tagFilter})
-        .sort({ [req.params.sortCriteria]: -1 })
-        .limit(10).skip((req.query.currentPage - 1) * 10)
-        .then((articleData) => {
-            res.json(articleData);
-        }).catch((error) => {
-            res.status(500).json({ msg: "Internal server error: " + error });
-        });
-    } else {
-        Article.find({ title: { $regex: req.query.titleFilter }, tags: req.query.tagFilter, articleType: req.query.articleTypeFilter })
-        .sort({ [req.params.sortCriteria]: -1 })
-        .limit(10).skip((req.query.currentPage - 1) * 10)
-        .then((articleData) => {
-            res.json(articleData);
-        }).catch((error) => {
-            res.status(500).json({ msg: "Internal server error: " + error });
-        });
-    }
 });
 
-// Ein einzelner Beitrag wird anhand der _id geladen
+// Ein einzelner Beitrag wird anhand der _id geladen.
 router.get('/getArticleById', (req, res) => {
     Article.find({"_id": req.query.articleid}).then((articleData) => {
         res.json(articleData);
@@ -210,10 +185,14 @@ router.get('/getArticleById', (req, res) => {
     });
 });
 
-// Anzahl der Beiträge wird geladen
+// Anzahl der Beiträge wird geladen. Die eingestellten Filter werden dabei berücksichtigt um
+// die korrekte Seitenanzahl anzeigen lassen zu können.
 router.get('/getArticleCount', (req, res) => {
-    Article.countDocuments({ }).then((articleCount) => {
-        res.json(articleCount);
+    const titleFilterCondition = req.query.titleFilter !== '' ? { title: { $regex: req.query.titleFilter }} : {};
+    const tagFilterCondition  = req.query.tagFilter !== undefined ? { tags: req.query.tagFilter } : {};
+    const articleTypeFilterCondition  = req.query.articleTypeFilter !== 'all' ? { articleType: req.query.articleTypeFilter } : {};
+    Article.countDocuments({...titleFilterCondition, ...tagFilterCondition, ...articleTypeFilterCondition }).then((articleCount) => {
+        res.status(200).json(articleCount);
     }).catch((error) => {
         res.status(500).json({ msg: "Internal server error: " + error });
     });

@@ -5,10 +5,7 @@ import ArticleLink from '../articlelink/ArticleLink';
 import ArticleStatistics from '../articlestatistics/ArticleStatistics';
 
 // material-ui imports
-import {
-    Paper,
-    Typography
-} from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 // material-ui lab imports
 import TimelineItem from '@material-ui/lab/TimelineItem';

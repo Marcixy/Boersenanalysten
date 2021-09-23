@@ -23,6 +23,7 @@ function UserVotinglist(props) {
 
     useEffect(() => {
         getUserVotingList(page, page);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
 
     useEffect(() => {
@@ -37,6 +38,7 @@ function UserVotinglist(props) {
                 setPaginationCount(Math.ceil(votingCountResponse / 10)); 
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, props.upOrDownvoting])
 
     const getUserVotingList = (event, currentPage) => {
@@ -47,7 +49,6 @@ function UserVotinglist(props) {
         }).catch((error) => {
             console.error("Voting List are not loaded", error);
         });
-        window.scrollTo(0, 0);
     }
 
     const displayArticleData = (articles) => {

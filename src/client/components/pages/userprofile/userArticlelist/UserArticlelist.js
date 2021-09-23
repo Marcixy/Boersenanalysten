@@ -26,6 +26,7 @@ function UserArticlelist(props) {
         getUserArticleCount(id).then((articleCountResponse) => {
             setPaginationCount(Math.ceil(articleCountResponse / 10)); 
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, props.sortCriteria]) 
 
     const getUserArticleList = (event, currentPage) => {
@@ -36,7 +37,6 @@ function UserArticlelist(props) {
         }).catch((error) => {
             console.error("Article List are not loaded", error);
         });
-        window.scrollTo(0, 0);
     }
 
     const displayArticleData = (articles) => {

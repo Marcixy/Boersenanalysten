@@ -61,7 +61,7 @@ function Articlelist() {
             });
         }
         getArticleList(null, currentPage);
-        getArticleCount().then((articleCountResponse) => {
+        getArticleCount(titleFilter, articleTypeFilter, tagFilter).then((articleCountResponse) => {
             setPaginationCount(Math.ceil(articleCountResponse / 10)); 
         });
     }, [sortCriteria, currentPage, articleTypeFilter, tagFilter, titleFilter])

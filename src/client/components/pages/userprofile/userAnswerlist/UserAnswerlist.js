@@ -28,6 +28,7 @@ function UserAnswerlist(props) {
         }).catch((error) => {
             console.error("Answercount is not loaded", error);
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, page, props.sortCriteria])
 
     const getUserAnswerList = (event, currentPage) => {
@@ -38,7 +39,6 @@ function UserAnswerlist(props) {
         }).catch((error) => {
             console.error("Article List are not loaded", error);
         });
-        window.scrollTo(0, 0);
     }
 
     const displayArticleData = (articles) => {
