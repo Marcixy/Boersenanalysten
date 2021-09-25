@@ -45,6 +45,7 @@ function UserVotinglist(props) {
         setPage(currentPage);
         getUserVotings(id, currentPage, props.upOrDownvoting).then((votingResponse) => {
             const articlelist = votingResponse;
+            console.log(votingResponse.length);
             setArticlelist(articlelist);
         }).catch((error) => {
             console.error("Voting List are not loaded", error);

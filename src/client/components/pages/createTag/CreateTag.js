@@ -77,7 +77,7 @@ function CreateTag() {
                     variant="outlined"
                     error={tagError}
                     helperText={tagErrorText}
-                    inputProps={{ maxLength: 40 }}
+                    inputProps={{ maxLength: 30 }}
                     onChange={(event) => setTagname(event.target.value)}
                     fullWidth
                     autoFocus />

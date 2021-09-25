@@ -143,7 +143,7 @@ function Userprofile() {
                         <Button variant={selectedFilterButton === 3 ? "contained" : "outlined"} onClick={() => onFilterButtonClick(3)}>Down Votings</Button>
                     </ButtonGroup>
                 </div>
-                <SortingActions parentCallbackSortCriteria={callbackSortCriteria} />
+                { listType === "articles" ? <SortingActions parentCallbackSortCriteria={callbackSortCriteria} /> : null }
             </div>
             { displayList() }
         </div>

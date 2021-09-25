@@ -41,7 +41,7 @@ function TagInput({ tagError, tagErrorText, parentCallbackTags }) {
                     variant="outlined"
                     error={tagError}
                     helperText={tagErrorText}
-                    inputProps={{ maxLength: 40 }}
+                    inputProps={{ maxLength: 30 }}
                     InputProps={{ endAdornment: (
                         <InputAdornment>
                           <IconButton>

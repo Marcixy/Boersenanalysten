@@ -80,8 +80,7 @@ function EmailSettings() {
     // TODO in extra Klasse auslagern
     const reauthenticateUser = (password) => {
         let user = firebase.auth().currentUser;
-        let cred = firebase.auth.EmailAuthProvider.credential(
-            user.email, password);
+        let cred = firebase.auth.EmailAuthProvider.credential(user.email, password);
         return user.reauthenticateWithCredential(cred);
     }
 
@@ -119,7 +118,7 @@ function EmailSettings() {
                     error={emailError}
                     helperText={emailErrorText}
                     inputProps={{ maxLength: 50 }}
-                    style={{ width: '270px' }}
+                    style={{ marginTop: '24px', width: '270px' }}
                     placeholder={email}
                     onChange={(event) => setEmail(event.target.value)}
                     autoFocus />
@@ -129,11 +128,12 @@ function EmailSettings() {
                     error={passwordError}
                     helperText={passwordErrorText}
                     inputProps={{ maxLength: 40 }}
-                    style={{ width: '270px' }}
+                    style={{ marginTop: '24px', width: '270px' }}
                     onChange={(event) => setPassword(event.target.value)} />
                 <Button
                     variant="contained"
                     color="primary"
+                    style={{ marginTop: '24px' }}
                     onClick={() => changeEmail()}>Speichern</Button>
                 <Snackbar
                     open={openSnackbar}

@@ -7,8 +7,10 @@ import UserNavigationbar from '../../../widgets/outputs/usernavigationbar/UserNa
 // material-ui imports
 import {
     Button,
+    Snackbar,
     TextField
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -32,6 +34,10 @@ function PasswordSettings() {
     const [newPasswordError, setNewPasswordError] = useState(false);
     const [repeatedNewPasswordError, setRepeatedNewPasswordError] = useState(false);
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const showSnackbar = () => { setOpenSnackbar(true); };
+    const handleClose = () => { setOpenSnackbar(false); };
+
     const { id } = useParams();
 
     const changePassword = () => {
@@ -41,11 +47,9 @@ function PasswordSettings() {
         if (isOldPasswordValid === true && isNewPasswordValid === true && isRepeatedNewPasswordValid === true) {
             reauthenticateUser(oldPassword).then(() => {
                 const user = firebase.auth().currentUser;
-                // TODO async benötigt? Danach testen
                 user.updatePassword(newPassword).then(async () => {
-                    alert("Passwort wurde erfolgreich aktualisiert.");
-                    window.location.reload();
-                    console.log("Passwort wurde erfolgreich aktualisiert.");
+                    showSnackbar();
+                    setTimeout(function() { window.location.reload(); }, 2000);
                 }).catch((error) => {
                      console.log(error);
                 });
@@ -123,7 +127,7 @@ function PasswordSettings() {
                     error={oldPasswordError}
                     helperText={oldPasswordErrorText}
                     inputProps={{ maxLength: 40 }}
-                    style={{ width: '270px' }}
+                    style={{ marginTop: '24px', width: '270px' }}
                     onChange={(event) => setOldPassword(event.target.value)}
                     autoFocus />
                 <TextField
@@ -132,7 +136,7 @@ function PasswordSettings() {
                     error={newPasswordError}
                     helperText={newPasswordErrorText}
                     inputProps={{ maxLength: 40 }}
-                    style={{ width: '270px' }}
+                    style={{ marginTop: '24px', width: '270px' }}
                     onChange={(event) => setNewPassword(event.target.value)} />
                 <TextField
                     label="Neues Passwort wiederholen"
@@ -140,12 +144,22 @@ function PasswordSettings() {
                     error={repeatedNewPasswordError}
                     helperText={repeatedNewPasswordErrorText}
                     inputProps={{ maxLength: 40 }}
-                    style={{ width: '270px' }}
+                    style={{ marginTop: '24px', width: '270px' }}
                     onChange={(event) => setRepeatedNewPassword(event.target.value)} />
                 <Button
                     variant="contained"
                     color="primary"
+                    style={{ marginTop: '24px' }}
                     onClick={() => changePassword()}>Passwort ändern</Button>
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={2000}
+                    onClose={handleClose}>
+                    <Alert 
+                        severity="success"
+                        onClose={() => handleClose()}
+                        style={{backgroundColor: '#4D9A51', color: 'white'}}>Passwort wurde erfolgreich aktualisiert.</Alert>
+                </Snackbar>
             </div>
         </div>
     )

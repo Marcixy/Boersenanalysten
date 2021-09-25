@@ -88,9 +88,9 @@ function CreateArticle() {
             setTagError(true);
             setTagErrorText("Es muss mindestens ein Tag angegeben werden damit dein Beitrag besser gefunden werden kann.");
             return false;
-        } else if (tags.length > 10) {
+        } else if (tags.length > 8) {
             setTagError(true);
-            setTagErrorText("Es sind maximal 10 Tags erlaubt.");
+            setTagErrorText("Es sind maximal 8 Tags erlaubt.");
             return false;
         }
         setTagError(false);

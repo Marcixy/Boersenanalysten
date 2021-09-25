@@ -9,8 +9,10 @@ import { getUserById, updateProfile } from '../../../utils/axios/user/UserFuncti
 // material-ui imports
 import {
     Button,
+    Snackbar,
     TextField
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 // third-party imports
 import { useParams } from "react-router-dom";
@@ -27,6 +29,10 @@ function ProfileSettings() {
     const [usernameError, setUsernameError] = useState(false);
     const [aboutMeError, setAboutMeError] = useState(false);
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const showSnackbar = () => { setOpenSnackbar(true); };
+    const handleClose = () => { setOpenSnackbar(false); };
+
     const { userid } = useParams();
 
     useEffect(() => {
@@ -41,7 +47,8 @@ function ProfileSettings() {
         const isAboutMeValid = checkAboutMe();
         if (isUsernameValid === true && isAboutMeValid === true) {
             updateProfile(userid, username, aboutMe).then(() => {
-                window.location.reload();
+                showSnackbar();
+                setTimeout(function() { window.location.reload(); }, 2000);
             });
         }
     }
@@ -102,6 +109,15 @@ function ProfileSettings() {
                     variant="contained"
                     color="primary"
                     onClick={() => changeProfile()}>Speichern</Button>
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={2000}
+                    onClose={handleClose}>
+                    <Alert 
+                        severity="success"
+                        onClose={() => handleClose()}
+                        style={{backgroundColor: '#4D9A51', color: 'white'}}>Profil wurde erfolgreich aktualisiert.</Alert>
+                </Snackbar>
             </div>
         </div>
     )
