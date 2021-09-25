@@ -142,13 +142,11 @@ router.post('/deleteArticleAndUpdateUser/:articleid', (req, res) => {
 
 // =============== GET ===================
 
-// Ein einzelner Beitrag wird anhand der _id geladen.
+// Ein einzelner Beitrag mit 10 Antworten wird anhand der _id geladen.
 router.get('/getArticleById', (req, res) => {
-    console.log("req.query.currentPage: " + req.query.currentPage);
-    const current = req.query.currentPage;
-    // TODO hier weitermachen!
-    Article.find({"_id": req.query.articleid}, { "answers": { $slice: [0, 10]}}).then((articleData) => {
-        console.log("Article Data: " + articleData[0].answers);
+    const startAnswerElement = (req.query.currentPage - 1) * 10;
+    const endAnswerElement = ((req.query.currentPage - 1) * 10) + 10;
+    Article.find({"_id": req.query.articleid}, { "answers": { $slice: [startAnswerElement, endAnswerElement]}}).then((articleData) => {
         res.status(200).json(articleData);
     }).catch((error) => {
         res.status(500).json({ msg: "Internal server error: " + error });

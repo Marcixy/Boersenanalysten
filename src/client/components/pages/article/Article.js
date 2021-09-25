@@ -33,7 +33,7 @@ function Article() {
     const [userFirebaseid, setUserFirebaseid] = useState("");
     const [isArticleCreator, setIsArticleCreator] = useState(false);
     const [paginationCount, setPaginationCount] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     
     const isLoggedIn = useSelector(state => state.user.isLoggedIn);
     const userid = useSelector(state => state.user.userid);
@@ -42,9 +42,9 @@ function Article() {
 
     useEffect(() => {
         getArticleById(articleid, currentPage).then((articleResponse) => {
-            console.log("Article Response: " + articleResponse);
             setArticleData(articleResponse[0]);
             setAnswerData(articleResponse[0].answers);
+            setCurrentPage(currentPage);
             setPaginationCount(Math.ceil(articleResponse[0].answerCounter / 10)); 
             getAnswerCreatorNames(articleResponse[0]._id).then((answerCreatorNameResponse) => {
                 setAnswerCreatorNames(answerCreatorNameResponse);
@@ -60,7 +60,21 @@ function Article() {
                 });
             });
         });
-    }, [articleid])
+    }, [articleid, currentPage])
+
+    // TODO getAnswers nur 1x in Article.js implementieren bisher braucht man diese Funktion hier noch für den Seitenwechsel
+    const getAnswers = (event, currentPage) => {
+        setCurrentPage(currentPage);
+        getArticleById(articleid, currentPage).then((articleResponse) => {
+            setArticleData(articleResponse[0]);
+            setAnswerData(articleResponse[0].answers);
+            setPaginationCount(Math.ceil(articleResponse[0].answerCounter / 10)); 
+            getAnswerCreatorNames(articleResponse[0]._id).then((answerCreatorNameResponse) => {
+                setAnswerCreatorNames(answerCreatorNameResponse);
+            });
+        });
+        window.scrollTo(0, 0);
+    }
 
     const createNewAnswer = () => {
         getUserByFirebaseid().then(() => {
@@ -121,7 +135,7 @@ function Article() {
                 <Pagination
                     paginationCount={ paginationCount }
                     page={ currentPage }
-                    /*onChange={ }*/ />
+                    onChange={ getAnswers } />
                 { isLoggedIn === true &&
                 <div>
                     <h3>Deine Antwort:</h3>
