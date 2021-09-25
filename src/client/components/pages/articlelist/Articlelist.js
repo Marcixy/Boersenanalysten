@@ -55,7 +55,7 @@ function Articlelist() {
             setCurrentPage(currentPage);
             getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((articlelistResponse) => {
                 setArticleData(articlelistResponse);
-                getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
+                getArticleCreatorNames(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((response) => {
                     setArticleCreatorNames(response);
                 });
             });
@@ -88,7 +88,7 @@ function Articlelist() {
         setCurrentPage(currentPage);
         getArticlelist(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((articlelistResponse) => {
             setArticleData(articlelistResponse);
-            getArticleCreatorNames(sortCriteria, currentPage).then((response) => {
+            getArticleCreatorNames(sortCriteria, currentPage, titleFilter, articleTypeFilter, tagFilter).then((response) => {
                 setArticleCreatorNames(response);
             });
         });

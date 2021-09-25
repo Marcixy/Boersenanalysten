@@ -10,7 +10,7 @@ const User = require('../models/User');
 
 // =============== POST ===================
 
-// Neuer Beitrag wird erstellt
+// Neuer Beitrag wird erstellt.
 router.post('/createArticle', (req, res) => {
     const articleData = req.body;
     const newArticle = Article(articleData);
@@ -142,23 +142,17 @@ router.post('/deleteArticleAndUpdateUser/:articleid', (req, res) => {
 
 // =============== GET ===================
 
-// Der Erstellername eines Beitrags wird geladen
-router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
-    Article.find({ }).sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
-        .then(async (articleData) => {
-            var articleCreatorNames = [];
-            for (let i = 0; i < articleData.length; i++) {
-                await User.find({"_id": articleData[i].creator})
-                .then((userData) => {
-                    articleCreatorNames.push(userData[0].username);
-                }).catch((error) => {
-                    res.status(500).json({ msg: "Internal server error: " + error });
-                });
-            }
-            res.json(articleCreatorNames);
-        }).catch((error) => {
-            res.status(500).json({ msg: "Internal server error: " + error });
-        });    
+// Ein einzelner Beitrag wird anhand der _id geladen.
+router.get('/getArticleById', (req, res) => {
+    console.log("req.query.currentPage: " + req.query.currentPage);
+    const current = req.query.currentPage;
+    // TODO hier weitermachen!
+    Article.find({"_id": req.query.articleid}, { "answers": { $slice: [0, 10]}}).then((articleData) => {
+        console.log("Article Data: " + articleData[0].answers);
+        res.status(200).json(articleData);
+    }).catch((error) => {
+        res.status(500).json({ msg: "Internal server error: " + error });
+    });
 });
 
 // Beitragsliste mit Daten werden nach einem Sortierkriterium und nach den eingestellten Filtern geladen.
@@ -176,13 +170,27 @@ router.get('/getArticlelist/:sortCriteria', (req, res) => {
         });
 });
 
-// Ein einzelner Beitrag wird anhand der _id geladen.
-router.get('/getArticleById', (req, res) => {
-    Article.find({"_id": req.query.articleid}).then((articleData) => {
-        res.json(articleData);
-    }).catch((error) => {
-        res.status(500).json({ msg: "Internal server error: " + error });
-    });
+// Der Erstellername eines Beitrags wird nach dem Sortierkriterium und den eingestellten Filtern geladen.
+router.get('/getArticleCreatorNames/:sortCriteria', (req, res) => {
+    const titleFilterCondition = req.query.titleFilter !== '' ? { title: { $regex: req.query.titleFilter }} : {};
+    const tagFilterCondition  = req.query.tagFilter !== undefined ? { tags: req.query.tagFilter } : {};
+    const articleTypeFilterCondition  = req.query.articleTypeFilter !== 'all' ? { articleType: req.query.articleTypeFilter } : {};
+    Article.find({...titleFilterCondition, ...tagFilterCondition, ...articleTypeFilterCondition })
+        .sort({ [req.params.sortCriteria]: -1 }).limit(10).skip((req.query.currentPage - 1) * 10)
+        .then(async (articleData) => {
+            var articleCreatorNames = [];
+            for (let i = 0; i < articleData.length; i++) {
+                await User.find({"_id": articleData[i].creator})
+                .then((userData) => {
+                    articleCreatorNames.push(userData[0].username);
+                }).catch((error) => {
+                    res.status(500).json({ msg: "Internal server error: " + error });
+                });
+            }
+            res.status(200).json(articleCreatorNames);
+        }).catch((error) => {
+            res.status(500).json({ msg: "Internal server error: " + error });
+        });    
 });
 
 // Anzahl der Beiträge wird geladen. Die eingestellten Filter werden dabei berücksichtigt um

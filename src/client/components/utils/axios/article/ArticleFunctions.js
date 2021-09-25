@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export async function getArticleById(articleId) {
+export async function getArticleById(articleid, currentPage = 0) {
     const article = await axios.get(`/getArticleById`, {
         params: {
-            articleid: articleId
+            articleid: articleid,
+            currentPage: currentPage
         }
     }).catch((error) => {
         console.error("Articledata are not loaded", error);
@@ -12,10 +13,13 @@ export async function getArticleById(articleId) {
     return article?.data;
 }
 
-export async function getArticleCreatorNames(sortCriteria, currentPage) {
+export async function getArticleCreatorNames(sortCriteria, currentPage, titleFilter = "", articleTypeFilter = "", tagFilter = []) {
     const articleCreatorNames = await axios.get(`/getArticleCreatorNames/${sortCriteria}`, {
         params: {
-            currentPage: currentPage
+            currentPage: currentPage,
+            titleFilter: titleFilter,
+            articleTypeFilter: articleTypeFilter,
+            tagFilter: tagFilter
         }
     }).catch((error) => {
         console.error("Article Creator Names are not loaded", error);
@@ -53,7 +57,7 @@ export async function getArticleCount(titleFilter = "", articleTypeFilter = "", 
     return articleCount?.data;
 }
 
-export async function createArticle(title, content, tags, creatorId, articleType) {
+export async function createArticle(title, content, tags, creatorid, articleType) {
     const newArticle = await axios({
         url: '/createArticle',
         method: 'post',
@@ -61,7 +65,7 @@ export async function createArticle(title, content, tags, creatorId, articleType
             title: title,
             content: content,
             tags: tags,
-            creator: creatorId,
+            creator: creatorid,
             articleType: articleType
         }
     }).catch((error) => {

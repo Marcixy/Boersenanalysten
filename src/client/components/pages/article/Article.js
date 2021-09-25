@@ -7,6 +7,7 @@ import TagList from '../../widgets/outputs/taglist/Taglist';
 import TextEditor from '../../widgets/inputs/textEditor/TextEditor';
 import ArticleVoting from '../../widgets/inputs/articleVoting/ArticleVoting';
 import Loading from '../../widgets/outputs/loading/Loading';
+import Pagination from '../../widgets/outputs/pagination/Pagination';
 import { getUserByFirebaseid } from '../../utils/axios/user/UserFunctions';
 import { getArticleById } from '../../utils/axios/article/ArticleFunctions';
 import {
@@ -31,16 +32,20 @@ function Article() {
     const [editorContent, setEditorContent] = useState("");
     const [userFirebaseid, setUserFirebaseid] = useState("");
     const [isArticleCreator, setIsArticleCreator] = useState(false);
+    const [paginationCount, setPaginationCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     
     const isLoggedIn = useSelector(state => state.user.isLoggedIn);
     const userid = useSelector(state => state.user.userid);
 
-    const { articleId } = useParams();
+    const { articleid } = useParams();
 
     useEffect(() => {
-        getArticleById(articleId).then((articleResponse) => {
+        getArticleById(articleid, currentPage).then((articleResponse) => {
+            console.log("Article Response: " + articleResponse);
             setArticleData(articleResponse[0]);
             setAnswerData(articleResponse[0].answers);
+            setPaginationCount(Math.ceil(articleResponse[0].answerCounter / 10)); 
             getAnswerCreatorNames(articleResponse[0]._id).then((answerCreatorNameResponse) => {
                 setAnswerCreatorNames(answerCreatorNameResponse);
             });
@@ -53,13 +58,13 @@ function Article() {
                     }
                     setUserFirebaseid(user.uid);
                 });
-            })
+            });
         });
-    }, [articleId])
+    }, [articleid])
 
     const createNewAnswer = () => {
         getUserByFirebaseid().then(() => {
-            createAnswer(articleId, editorContent, userid);
+            createAnswer(articleid, editorContent, userid);
             window.location.reload();
         });
     }
@@ -113,6 +118,10 @@ function Article() {
                 </div>
                 <h2>Antworten:</h2>
                 { displayAnswerData(answerData) }
+                <Pagination
+                    paginationCount={ paginationCount }
+                    page={ currentPage }
+                    /*onChange={ }*/ />
                 { isLoggedIn === true &&
                 <div>
                     <h3>Deine Antwort:</h3>
