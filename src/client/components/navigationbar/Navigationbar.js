@@ -129,6 +129,9 @@ function Navigationbar() {
             </Link>
             <nav>
                 <ul>
+                    <Link to="/blog">
+                        <li>Blog</li>
+                    </Link>
                     <Link to="/articlelist">
                         <li>Beiträge</li>
                     </Link>

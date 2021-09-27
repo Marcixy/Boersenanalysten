@@ -23,6 +23,7 @@ function TextEditor({ editorText = "", isMenuebarVisible = true, title = "", con
     }, [editorText, isMenuebarVisible])
 
     const setEditorContent = () => {
+        console.log(document.getElementById('editor-content-id').innerHTML);
         parentCallbackEditorContent(document.getElementById('editor-content-id').innerHTML);
     }
 
