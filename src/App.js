@@ -2,6 +2,7 @@
 import Article from './client/components/pages/article/Article';
 import Articlelist from './client/components/pages/articlelist/Articlelist';
 import Blog from './client/components/pages/blog/Blog';
+import Blogarticle from './client/components/pages/blogarticle/Blogarticle';
 import CreateArticle from './client/components/pages/createArticle/CreateArticle';
 import Footer from './client/components/footer/Footer';
 import ForgotPassword from './client/components/pages/forgotPassword/ForgotPassword';
@@ -36,6 +37,7 @@ function App() {
       <Navigationbar />
       <Route exact path="/" component={ Homepage } />
       <Route exact path="/blog" component={ Blog } />
+      <Route exact path="/blogarticle" component={ Blogarticle } />
       <Route exact path="/login" component={ Login } />
       <Route exact path="/register" component={ Register } />
       <Route exact path="/userprofile/:id" component={ Userprofile } />

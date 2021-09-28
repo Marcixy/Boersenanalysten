@@ -1,0 +1,25 @@
+.blog-article-page {
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+    color: white;
+    min-height: 100vh;
+    margin: 80px auto;
+    padding: 0 48px;
+    width: 50%;
+}
+
+.blog-article-page h2 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.7em;
+}
+
+.blog-article-page h3 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.4em;
+    margin: 48px 0 12px 0;
+    text-align: center;
+}
+
+.blog-article-page p {
+    text-align: justify;
+}
