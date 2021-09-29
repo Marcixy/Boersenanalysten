@@ -3,7 +3,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 import './Blogarticle.css';
 
-function Blog() {
+function Blogarticle210928() {
     return (
         <div className="blog-article-page">
             <h2>Vermögensaufbau und Marathon - Gemeinsamkeiten und Unterschiede</h2>
@@ -65,4 +65,4 @@ function Blog() {
     )
 }
 
-export default Blog;
+export default Blogarticle210928;

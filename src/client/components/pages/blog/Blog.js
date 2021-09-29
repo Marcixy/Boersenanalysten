@@ -11,7 +11,12 @@ function Blog() {
                 blogarticlelink="/blogarticle210928"
                 blogtitle="Vermögensaufbau und Marathon - Gemeinsamkeiten und Unterschiede"
                 creationDate="28. September 2021"
-                estimatedReadTime="5 Min" /> 
+                estimatedReadTime="5 Min" />
+            <Bloglistitem 
+                blogarticlelink="/blogarticle210929"
+                blogtitle="MSCI World ETFs im Vergleich"
+                creationDate="29. September 2021"
+                estimatedReadTime="6 Min" /> 
         </div>
     )
 }

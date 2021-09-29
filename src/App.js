@@ -25,7 +25,8 @@ import CreateTag from './client/components/pages/createTag/CreateTag';
 import ScrollToTop from './client/components/utils/scrollToTop/ScrollToTop';
 
 // blog article imports
-import Blogarticle from './client/components/pages/blogarticle/Blogarticle210928';
+import Blogarticle210928 from './client/components/pages/blogarticle/Blogarticle210928';
+import Blogarticle210929 from './client/components/pages/blogarticle/Blogarticle210929';
 
 // third-party imports
 import { Route } from 'react-router-dom';
@@ -39,7 +40,8 @@ function App() {
       <Navigationbar />
       <Route exact path="/" component={ Homepage } />
       <Route exact path="/blog" component={ Blog } />
-      <Route exact path="/blogarticle210928" component={ Blogarticle } />
+      <Route exact path="/blogarticle210928" component={ Blogarticle210928 } />
+      <Route exact path="/blogarticle210929" component={ Blogarticle210929 } />
       <Route exact path="/login" component={ Login } />
       <Route exact path="/register" component={ Register } />
       <Route exact path="/userprofile/:id" component={ Userprofile } />
