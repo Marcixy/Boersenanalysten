@@ -12,7 +12,7 @@ function Blog() {
             <p>
             Nach monatelanger Vorbereitung war es endlich soweit. Ich stand beim Berlin Marathon 2019 an der Startlinie.
             In wenigen Sekunden sollte es losgehen. Der Startschuss fiel und tausende Läufer und Läuferinnen aus aller Welt
-            setzen sich in Bewegung. Mit dem ersten Schritt über die Startlinie fing es an... .
+            setzen sich in Bewegung. Auf diesen Wettkampf hatte ich mich etwa ein Jahr vorbereitet.
             </p>
             <p>
             Einige Monate zuvor zum Jahreswechsel 18/19 hatte ich meinen ersten monatlichen ETF Sparplan auf den MSCI World eingerichtet.

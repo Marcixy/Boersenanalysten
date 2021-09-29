@@ -2,7 +2,6 @@
 import Article from './client/components/pages/article/Article';
 import Articlelist from './client/components/pages/articlelist/Articlelist';
 import Blog from './client/components/pages/blog/Blog';
-import Blogarticle from './client/components/pages/blogarticle/Blogarticle';
 import CreateArticle from './client/components/pages/createArticle/CreateArticle';
 import Footer from './client/components/footer/Footer';
 import ForgotPassword from './client/components/pages/forgotPassword/ForgotPassword';
@@ -25,6 +24,9 @@ import Taglist from './client/components/pages/taglist/Taglist';
 import CreateTag from './client/components/pages/createTag/CreateTag';
 import ScrollToTop from './client/components/utils/scrollToTop/ScrollToTop';
 
+// blog article imports
+import Blogarticle from './client/components/pages/blogarticle/Blogarticle210928';
+
 // third-party imports
 import { Route } from 'react-router-dom';
 
@@ -37,7 +39,7 @@ function App() {
       <Navigationbar />
       <Route exact path="/" component={ Homepage } />
       <Route exact path="/blog" component={ Blog } />
-      <Route exact path="/blogarticle" component={ Blogarticle } />
+      <Route exact path="/blogarticle210928" component={ Blogarticle } />
       <Route exact path="/login" component={ Login } />
       <Route exact path="/register" component={ Register } />
       <Route exact path="/userprofile/:id" component={ Userprofile } />

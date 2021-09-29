@@ -8,31 +8,3 @@
     color: white;
     font-size: 32px;
 }
-
-.blog-page p {
-    color: white;
-}
-
-.blog-page a {
-    color: #3f51b5;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 18px;
-    text-decoration: none;
-}
-
-.blog-page a:hover {
-    color: #303F9F;
-}
-
-.blog-page-article-section {
-    border-bottom: 1px solid #333333;
-}
-
-.blog-page-article-section div {
-    margin-right: 12px;
-}
-
-.time-icon {
-    transform: scale(0.6);
-    vertical-align: -6px;
-}
